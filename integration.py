@@ -25,28 +25,38 @@ G.add_node("C3", pos=(300, 200), tp='CHG')
 G.add_node("Salão", pos=(500, 100), tp='S')         
 G.add_node("Lab Info", pos=(50, 100), tp='S')       
 G.add_node("Pastoral", pos=(550, 300), tp='S')      
-G.add_node("B1", pos=(450, 225), tp='S')            
+G.add_node("B1", pos=(550, 225), tp='S')            
 G.add_node("Secretaria", pos=(50, 300), tp='S')    
 G.add_node("C4", pos=(400, 100), tp='CHP')            
 G.add_node("C5", pos=(200, 100), tp='CHP')            
 
 # Adicionando arestas com diferentes pesos (baseados nos tamanhos dos corredores)
-G.add_edge("Portaria", "C0", weight=1) 
+G.add_edge("Portaria", "C0", weight=1)
+ 
 G.add_edge("C0", "C1D", weight=1)           
-G.add_edge("C0", "C1E", weight=1)           
+G.add_edge("C0", "C1E", weight=1)     
+      
 G.add_edge("C1D", "Escada D", weight=1)     
+G.add_edge("C1D", "C2D", weight=1)
+
 G.add_edge("C1E", "Escada E", weight=1)     
+G.add_edge("C1E", "C2E", weight=1)
+
+G.add_edge("C2D", "Pastoral", weight=1)     
+G.add_edge("C2D", "B1", weight=1) 
+G.add_edge("C2D", "C3", weight=1)      
+     
+G.add_edge("C2E", "Secretaria", weight=1)
+G.add_edge("C2E", "C3", weight=1)     
+   
+G.add_edge("C3", "C4", weight=2)            
+G.add_edge("C3", "C5", weight=2)  
+         
+G.add_edge("C4", "Salão", weight=1)         
+G.add_edge("C5", "Lab Info", weight=1)   
+  
 G.add_edge("Escada D", "C4", weight=3)     
 G.add_edge("Escada E", "C5", weight=3)     
-G.add_edge("C1D", "C2D", weight=1)
-G.add_edge("C1E", "C2E", weight=1)
-G.add_edge("C2D", "Pastoral", weight=1)     
-G.add_edge("C2D", "B1", weight=2)           
-G.add_edge("C2E", "Secretaria", weight=1)   
-G.add_edge("C3", "C4", weight=2)            
-G.add_edge("C3", "C5", weight=2)           
-G.add_edge("C4", "Salão", weight=1)         
-G.add_edge("C5", "Lab Info", weight=1)     
 
 # Função para encontrar a melhor rota usando Dijkstra
 def melhor_rota(grafo, origem, destino):
