@@ -6,15 +6,17 @@ import math
 G = nx.Graph()
 
 # Adicionando nós (posições representadas por coordenadas no plano 2D) (x,y)
-G.add_node("Port.", pos=(300, 550), tp='S')
+G.add_node("Port.", pos=(300, 500), tp='S')
 G.add_node("Past.", pos=(100, 400), tp='S')      
 G.add_node("Secret.", pos=(500, 350), tp='S')    
 G.add_node("B1", pos=(100, 300), tp='S') 
 G.add_node("B2", pos=(200, 200), tp='S') 
 G.add_node("Cant.", pos=(100, 200), tp='S') 
 G.add_node("Bibli.", pos=(450, 200), tp='S') 
-G.add_node("Mario Bonate", pos=(150, 150), tp='S') 
-G.add_node("Quadra", pos=(50, 250), tp='S') 
+G.add_node("Mario Bonate", pos=(150, 80), tp='S') 
+G.add_node("Quadra", pos=(50, 250), tp='S')
+G.add_node("Sala Prof.", pos=(300, 200), tp='S')  
+G.add_node("Estacionamento", pos=(250, 100), tp='S')  
      
 G.add_node("C0", pos=(300, 450), tp='C')
 G.add_node("C00", pos=(300, 350), tp='C')        
@@ -32,10 +34,13 @@ G.add_node("C3E", pos=(150, 250), tp='C')
 G.add_node("C5", pos=(450, 350), tp='C')  
 G.add_node("C6", pos=(375, 250), tp='C')   
 G.add_node("C7", pos=(150, 200), tp='C')   
+G.add_node("C8", pos=(150, 150), tp='C')   
+G.add_node("C9", pos=(150, 100), tp='C')   
           
 G.add_node("Escada D", pos=(500, 450), tp='E')      
 G.add_node("Escada E", pos=(100, 450), tp='E')   
-G.add_node("Escada J", pos=(375, 200), tp='E') 
+G.add_node("Escada J", pos=(375, 200), tp='E')
+G.add_node("Escada K", pos=(200, 150), tp='E')
     
 # Adicionando arestas com diferentes pesos (baseados nos tamanhos dos corredores)
 G.add_edge("Port.", "C0", weight=1)
@@ -88,7 +93,8 @@ G.add_edge("C4D", "Bibli.", weight=1)
 
 G.add_edge("C4", "C00", weight=1)  
 G.add_edge("C4", "C6", weight=1)  
-G.add_edge("C4", "C3E", weight=1)  
+G.add_edge("C4", "C3E", weight=1) 
+G.add_edge("C4", "Sala Prof.", weight=1) 
  
 G.add_edge("C5", "C00", weight=1)
 G.add_edge("C5", "C4D", weight=1)
@@ -102,9 +108,17 @@ G.add_edge("C6", "Escada J", weight=1)
 G.add_edge("C7", "C3E", weight=1)
 G.add_edge("C7", "B2", weight=1)
 G.add_edge("C7", "Cant.", weight=1)
-G.add_edge("C7", "Mario Bonate", weight=1)
+G.add_edge("C7", "C8", weight=1)
 
-G.add_edge("Mario Bonate", "C7", weight=1)
+G.add_edge("C8", "Escada K", weight=1)
+G.add_edge("C8", "C9", weight=1)
+G.add_edge("C8", "C7", weight=1)
+
+G.add_edge("C9", "Estacionamento", weight=1)
+G.add_edge("C9", "Mario Bonate", weight=1)
+G.add_edge("C9", "C8", weight=1)
+
+G.add_edge("Mario Bonate", "C9", weight=1)
 G.add_edge("Quadra", "C3E", weight=1)
 
 # Função para encontrar a melhor rota usando Dijkstra
@@ -134,7 +148,7 @@ def desenhar_botao(screen, texto, cor, rect):
 def tela_inicial(): # (x, y, largura, altura)
     screen.fill(BRANCO)
     desenhar_botao(screen, "Pastoral", PRETO, (100, 100, 150, 50))
-    desenhar_botao(screen, "B1", PRETO, (100, 200, 150, 50))
+    desenhar_botao(screen, "Estacionamento", PRETO, (100, 200, 150, 50))
     desenhar_botao(screen, "Secretaria", PRETO, (100, 300, 150, 50))
     desenhar_botao(screen, "Cantina", PRETO, (100, 400, 150, 50))
     desenhar_botao(screen, "Biblioteca", PRETO, (300, 100, 150, 50))
@@ -161,7 +175,7 @@ def desenhar_sala(pos, nome, tp):
     
     if(tipo == 'C'):
         pygame.draw.rect(screen, AZUL, (x - 15 // 2, y - 15 // 2, 15, 15))
-        screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
+        # screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
     elif(tipo == 'E'):
         pygame.draw.rect(screen, VERMELHO, (x - 20 // 2, y - 20 // 2, 20, 20))
         screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
@@ -249,7 +263,7 @@ while running:
                     rota = atualizar_rota(destino)
                     tela_atual = "mapa"
                 elif 100 <= pos[0] <= 250 and 200 <= pos[1] <= 250:
-                    destino = "B1"
+                    destino = "Estacionamento"
                     rota = atualizar_rota(destino)
                     tela_atual = "mapa"
                 elif 100 <= pos[0] <= 250 and 300 <= pos[1] <= 350:
