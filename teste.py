@@ -3,6 +3,7 @@ import pygame
 import math
 
 # Criando o grafo
+# Criando o grafo
 G = nx.Graph()
 
 # Adicionando nós (posições representadas por coordenadas no plano 2D) (x,y)
@@ -103,7 +104,6 @@ G.add_edge("C7", "Mario Bonate", weight=1)
 G.add_edge("Mario Bonate", "C7", weight=1)
 G.add_edge("Quadra", "C3E", weight=1)
 
-
 # Função para encontrar a melhor rota usando Dijkstra
 def melhor_rota(grafo, origem, destino):
     return nx.dijkstra_path(grafo, origem, destino, weight='weight')
@@ -116,40 +116,37 @@ def atualizar_rota(destino):
     try:
         rota = melhor_rota(G, origem, destino)
         print(f"Melhor rota de {origem} para {destino}: {rota}")
+        
         return rota
     except nx.NetworkXNoPath:
         print(f"Não há caminho de {origem} para {destino}.")
         return []
 
-# 2. Renderizar a Maquete em 2D
+# Função para desenhar os botões
+def desenhar_botao(screen, texto, cor, rect):
+    pygame.draw.rect(screen, cor, rect)
+    fonte = pygame.font.Font(None, 30)
+    texto_surface = fonte.render(texto, True, BRANCO)
+    screen.blit(texto_surface, (rect[0] + 10, rect[1] + 10))
 
-# Inicializando o PyGame
-pygame.init()
-display = (620, 600)
-screen = pygame.display.set_mode(display)
-pygame.display.set_caption("Mapa de Salas")
-
-# Cores
-BRANCO = (255, 255, 255)
-PRETO = (0, 0, 0)
-VERDE = (0, 255, 0)
-VERMELHO = (255, 0, 0)
-AZUL = (0,0,255)
-AMARELO = (255, 255, 0)
-MARROM = (139,69,19)
-ROXO = (75,0,130)
-PRATA = (192,192,192)
-
-# Input para definir o destino
-destino = "Port."  # Exemplo de destino inicial
-rota = atualizar_rota(destino)
+# Função para exibir a tela inicial
+def tela_inicial():
+    screen.fill(BRANCO)
+    desenhar_botao(screen, "Pastoral", PRETO, (100, 100, 150, 50))
+    desenhar_botao(screen, "B1", PRETO, (100, 200, 150, 50))
+    desenhar_botao(screen, "Secretaria", PRETO, (100, 300, 150, 50))
+    desenhar_botao(screen, "Cantina", PRETO, (100, 400, 150, 50))
+    desenhar_botao(screen, "Biblioteca", PRETO, (300, 100, 150, 50))
+    desenhar_botao(screen, "Quadra", PRETO, (300, 200, 150, 50))
+    desenhar_botao(screen, "Portaria", PRETO, (300, 300, 150, 50))
+    pygame.display.flip()
 
 # Função para desenhar as conexões (arestas) entre as salas e corredores
 def desenhar_conexoes():
     for edge in G.edges:
         inicio = G.nodes[edge[0]]['pos']
         fim = G.nodes[edge[1]]['pos']
-        pygame.draw.line(screen, PRETO, inicio, fim, 15)  # Linhas pretas para conectar as salas e corredores
+        pygame.draw.line(screen, PRETO, inicio, fim, 15) 
 
 # Função para desenhar a sala como um quadrado
 def desenhar_sala(pos, nome, tp):
@@ -161,7 +158,6 @@ def desenhar_sala(pos, nome, tp):
     
     if(tipo == 'C'):
         pygame.draw.rect(screen, AZUL, (x - 15 // 2, y - 15 // 2, 15, 15))
-        # screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
     elif(tipo == 'E'):
         pygame.draw.rect(screen, VERMELHO, (x - 20 // 2, y - 20 // 2, 20, 20))
         screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
@@ -175,13 +171,13 @@ def desenhar_seta(ponto_inicial, ponto_final):
     x2, y2 = ponto_final
     pygame.draw.line(screen, VERMELHO, (x1, y1), (x2, y2), 5)
     angulo = math.atan2(y2 - y1, x2 - x1)
-    tamanho_seta = 10
+    tamanho_seta = 15
     pygame.draw.polygon(screen, VERMELHO, [
         (x2, y2),
         (x2 - tamanho_seta * math.cos(angulo - math.pi / 6), y2 - tamanho_seta * math.sin(angulo - math.pi / 6)),
         (x2 - tamanho_seta * math.cos(angulo + math.pi / 6), y2 - tamanho_seta * math.sin(angulo + math.pi / 6))
     ])
-    
+
 # Função para desenhar a rota como uma linha vermelha
 def desenhar_rota(rota):
     for i in range(len(rota) - 1):
@@ -191,37 +187,85 @@ def desenhar_rota(rota):
     if len(rota) > 1:
         desenhar_seta(G.nodes[rota[-2]]['pos'], G.nodes[rota[-1]]['pos'])
 
+# Inicializando o PyGame
+pygame.init()
+display = (620, 600)
+screen = pygame.display.set_mode(display)
+pygame.display.set_caption("Mapa de Salas")
+
+# Cores
+BRANCO = (255, 255, 255)
+PRETO = (0, 0, 0)
+VERMELHO = (255, 0, 0)
+AZUL = (0, 0, 255)
+VERDE = (0, 255, 0)
+
+# Estados
+tela_atual = "inicial"  # Controla qual tela está sendo exibida
+rota = []  # Inicialmente, não há rota definida
+
 # Loop principal
 running = True
 while running:
-    screen.fill(BRANCO)
+    if tela_atual == "inicial":
+        tela_inicial()
+    else:
+        screen.fill(BRANCO)
+        # Desenhar as conexões entre salas e corredores
+        desenhar_conexoes()
+    
+        # Desenhar as salas
+        for sala, dados in G.nodes(data=True):
+            desenhar_sala(dados['pos'], sala, dados['tp'])
+        
+        # Desenhar a rota
+        if rota:
+            desenhar_rota(rota)
+        
+        desenhar_botao(screen, "Voltar", PRETO, (10, 10, 100, 40))
+    
+    pygame.display.flip()
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:
-                destino = "Past."
-            elif event.key == pygame.K_2:
-                destino = "B1"
-            elif event.key == pygame.K_3:
-                destino = "Secret."
-            elif event.key == pygame.K_4:
-                destino = "Cant."
-            elif event.key == pygame.K_5:
-                destino = "Port."
-            rota = atualizar_rota(destino)
-    
-    # Desenhar as conexões entre salas e corredores
-    desenhar_conexoes()
-    
-    # Desenhar as salas e corredores
-    for node in G.nodes:
-        desenhar_sala(G.nodes[node]['pos'], node, G.nodes[node]['tp'])
-    
-    # Desenhar a rota
-    desenhar_rota(rota)
-    
-    pygame.display.flip()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
+            
+            if tela_atual == "inicial":
+                # Verifica em qual botão o clique ocorreu
+                if 100 <= pos[0] <= 250 and 100 <= pos[1] <= 150:
+                    destino = "Pastoral"
+                    rota = atualizar_rota(destino)
+                    tela_atual = "mapa"
+                elif 100 <= pos[0] <= 250 and 200 <= pos[1] <= 250:
+                    destino = "B1"
+                    rota = atualizar_rota(destino)
+                    tela_atual = "mapa"
+                elif 100 <= pos[0] <= 250 and 300 <= pos[1] <= 350:
+                    destino = "Secretaria"
+                    rota = atualizar_rota(destino)
+                    tela_atual = "mapa"
+                elif 100 <= pos[0] <= 250 and 400 <= pos[1] <= 450:
+                    destino = "Cantina"
+                    rota = atualizar_rota(destino)
+                    tela_atual = "mapa"
+                elif 300 <= pos[0] <= 450 and 100 <= pos[1] <= 150:
+                    destino = "Biblioteca"
+                    rota = atualizar_rota(destino)
+                    tela_atual = "mapa"
+                elif 300 <= pos[0] <= 450 and 200 <= pos[1] <= 250:
+                    destino = "Quadra"
+                    rota = atualizar_rota(destino)
+                    tela_atual = "mapa"
+                elif 300 <= pos[0] <= 450 and 300 <= pos[1] <= 350:
+                    destino = "Portaria"
+                    rota = atualizar_rota(destino)
+                    tela_atual = "mapa"
+            elif tela_atual == "mapa":
+                # Verifica se o clique foi no botão de voltar
+                if 10 <= pos[0] <= 110 and 10 <= pos[1] <= 50:
+                    tela_atual = "inicial"
+                    rota = []  # Limpa a rota ao voltar para a tela inicial
 
 pygame.quit()
