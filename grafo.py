@@ -7,9 +7,9 @@ G = nx.Graph()
 
 # Adicionando nós (posições representadas por coordenadas no plano 2D) (x,y)
 G.add_node("Port.", pos=(300, 550), tp='S')
-G.add_node("Past.", pos=(500, 400), tp='S')      
-G.add_node("Secret.", pos=(100, 350), tp='S')    
-G.add_node("B1", pos=(500, 300), tp='S') 
+G.add_node("Past.", pos=(100, 400), tp='S')      
+G.add_node("Secret.", pos=(500, 350), tp='S')    
+G.add_node("B1", pos=(100, 300), tp='S') 
 G.add_node("B2", pos=(200, 200), tp='S') 
 G.add_node("Cant.", pos=(100, 200), tp='S') 
 G.add_node("Bibli.", pos=(450, 200), tp='S') 
@@ -21,8 +21,8 @@ G.add_node("C00", pos=(300, 350), tp='C')
 G.add_node("C4", pos=(300, 250), tp='C')
 
 G.add_node("C1D", pos=(450, 450), tp='C')           
-G.add_node("C2D", pos=(450, 400), tp='C')           
-G.add_node("C3D", pos=(450, 300), tp='C') 
+G.add_node("C2D", pos=(150, 400), tp='C')           
+G.add_node("C3D", pos=(150, 300), tp='C') 
 G.add_node("C4D", pos=(450, 250), tp='C') 
 
 G.add_node("C1E", pos=(150, 450), tp='C')          
@@ -46,6 +46,7 @@ G.add_edge("C0", "C00", weight=1)
 
 G.add_edge("C00", "C0", weight=1)                
 G.add_edge("C00", "C5", weight=1)                
+G.add_edge("C00", "C1E", weight=1)                
 G.add_edge("C00", "C2E", weight=1)                
 G.add_edge("C00", "C3E", weight=1)                
 G.add_edge("C00", "C1D", weight=1)                
@@ -53,43 +54,46 @@ G.add_edge("C00", "C4D", weight=1)
 G.add_edge("C00", "C4", weight=1)                
       
 G.add_edge("C1D", "Escada D", weight=1)     
-G.add_edge("C1D", "C2D", weight=1)
+G.add_edge("C1D", "C5", weight=1)
+G.add_edge("C1D", "C0", weight=1)
 G.add_edge("C1D", "C00", weight=1)
 
 G.add_edge("C1E", "Escada E", weight=1)     
-G.add_edge("C1E", "C2E", weight=1)
+G.add_edge("C1E", "C2D", weight=1)
+G.add_edge("C1E", "C00", weight=1)
 G.add_edge("C1E", "C00", weight=1)
 
 G.add_edge("C2D", "Past.", weight=1)     
-G.add_edge("C2D", "C5", weight=1)  
-G.add_edge("C2D", "C1D", weight=1)  
+G.add_edge("C2D", "C2E", weight=1)  
+G.add_edge("C2D", "C1E", weight=1)  
      
-G.add_edge("C2E", "Secret.", weight=1)
-G.add_edge("C2E", "C3E", weight=1)   
+G.add_edge("C2E", "C3D", weight=1)
+G.add_edge("C2E", "C2D", weight=1)   
 G.add_edge("C2E", "C00", weight=1)   
   
 G.add_edge("C3E", "C4", weight=1)
 G.add_edge("C3E", "C00", weight=1)
-G.add_edge("C3E", "C2E", weight=1)
+G.add_edge("C3E", "C3D", weight=1)
 G.add_edge("C3E", "C7", weight=1)
 G.add_edge("C3E", "Quadra", weight=1)
 
 G.add_edge("C3D", "B1", weight=1) 
-G.add_edge("C3D", "C4D", weight=1)
-G.add_edge("C3D", "C5", weight=1)
+G.add_edge("C3D", "C2E", weight=1)
+G.add_edge("C3D", "C3E", weight=1)
 
 G.add_edge("C4D", "C6", weight=1)
 G.add_edge("C4D", "C00", weight=1)
-G.add_edge("C4D", "C3D", weight=1)
+G.add_edge("C4D", "C5", weight=1)
 G.add_edge("C4D", "Bibli.", weight=1)
 
 G.add_edge("C4", "C00", weight=1)  
-G.add_edge("C4", "C4D", weight=1)  
+G.add_edge("C4", "C6", weight=1)  
 G.add_edge("C4", "C3E", weight=1)  
  
 G.add_edge("C5", "C00", weight=1)
-G.add_edge("C5", "C2D", weight=1)
-G.add_edge("C5", "C3D", weight=1)
+G.add_edge("C5", "C4D", weight=1)
+G.add_edge("C5", "C1D", weight=1)
+G.add_edge("C5", "Secret.", weight=1)
 
 G.add_edge("C6", "C4D", weight=1)
 G.add_edge("C6", "C4", weight=1)
@@ -102,18 +106,6 @@ G.add_edge("C7", "Mario Bonate", weight=1)
 
 G.add_edge("Mario Bonate", "C7", weight=1)
 G.add_edge("Quadra", "C3E", weight=1)
-
-# Planta Segundo Andar
-G2 = nx.Graph()
-
-# Adicione nós e arestas para o segundo andar
-G2.add_node("Sala 201", pos=(300, 100), tp='S')
-G2.add_node("Sala 202", pos=(500, 100), tp='S')
-G2.add_node("Escada D", pos=(300, 500), tp='E')
-
-G2.add_edge("Escada D", "Sala 201", weight=1)
-G2.add_edge("Escada D", "Sala 202", weight=1)
-
 
 # Função para encontrar a melhor rota usando Dijkstra
 def melhor_rota(grafo, origem, destino):
@@ -128,11 +120,6 @@ def atualizar_rota(destino):
         rota = melhor_rota(G, origem, destino)
         print(f"Melhor rota de {origem} para {destino}: {rota}")
         
-        # Verifique se o próximo nó é uma escada
-        if len(rota) > 1 and G.nodes[rota[1]]['tp'] == 'E':
-            print("Entrando na escada, mudando para o andar superior.")
-            rota = melhor_rota(G2, "Escada D", destino)
-        
         return rota
     except nx.NetworkXNoPath:
         print(f"Não há caminho de {origem} para {destino}.")
@@ -144,7 +131,7 @@ def desenhar_botao(screen, texto, cor, rect):
     texto_surface = fonte.render(texto, True, BRANCO)
     screen.blit(texto_surface, (rect[0] + 10, rect[1] + 10))
     
-def tela_inicial():
+def tela_inicial(): # (x, y, largura, altura)
     screen.fill(BRANCO)
     desenhar_botao(screen, "Pastoral", PRETO, (100, 100, 150, 50))
     desenhar_botao(screen, "B1", PRETO, (100, 200, 150, 50))
@@ -153,6 +140,8 @@ def tela_inicial():
     desenhar_botao(screen, "Biblioteca", PRETO, (300, 100, 150, 50))
     desenhar_botao(screen, "Quadra", PRETO, (300, 200, 150, 50))
     desenhar_botao(screen, "Mario Bonate", PRETO, (300, 300, 150, 50))
+    desenhar_botao(screen, "Mapa", PRETO, (300, 400, 150, 50))
+    
     pygame.display.flip()
 
 # Função para desenhar as conexões (arestas) entre as salas e corredores
@@ -168,11 +157,11 @@ def desenhar_sala(pos, nome, tp):
     tipo = tp
     
     fonte = pygame.font.Font(None, 22)
-    texto = fonte.render(nome, True, PRETO)
+    texto = fonte.render(nome, True, AZUL)
     
     if(tipo == 'C'):
         pygame.draw.rect(screen, AZUL, (x - 15 // 2, y - 15 // 2, 15, 15))
-        # screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
+        screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
     elif(tipo == 'E'):
         pygame.draw.rect(screen, VERMELHO, (x - 20 // 2, y - 20 // 2, 20, 20))
         screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
@@ -281,6 +270,10 @@ while running:
                     tela_atual = "mapa"
                 elif 300 <= pos[0] <= 450 and 300 <= pos[1] <= 350:
                     destino = "Mario Bonate"
+                    rota = atualizar_rota(destino)
+                    tela_atual = "mapa"
+                elif 300 <= pos[0] <= 450 and 400 <= pos[1] <= 450:
+                    destino = "Port."
                     rota = atualizar_rota(destino)
                     tela_atual = "mapa"
             elif tela_atual == "mapa":
