@@ -1,5 +1,6 @@
 import networkx as nx
 import pygame
+import math
 
 # Criando o grafo
 G = nx.Graph()
@@ -159,8 +160,8 @@ def desenhar_sala(pos, nome, tp):
     texto = fonte.render(nome, True, PRETO)
     
     if(tipo == 'C'):
-        pygame.draw.rect(screen, PRETO, (x - 15 // 2, y - 15 // 2, 15, 15))
-        screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
+        pygame.draw.rect(screen, AZUL, (x - 15 // 2, y - 15 // 2, 15, 15))
+        # screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
     elif(tipo == 'E'):
         pygame.draw.rect(screen, VERMELHO, (x - 20 // 2, y - 20 // 2, 20, 20))
         screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
@@ -168,12 +169,27 @@ def desenhar_sala(pos, nome, tp):
         pygame.draw.rect(screen, VERDE, (x - 20 // 2, y - 20 // 2, 20, 20))
         screen.blit(texto, (x - 20 // 2, y - 20 // 2 - 20))
 
+# Função para desenhar a seta na ponta da rota
+def desenhar_seta(ponto_inicial, ponto_final):
+    x1, y1 = ponto_inicial
+    x2, y2 = ponto_final
+    pygame.draw.line(screen, VERMELHO, (x1, y1), (x2, y2), 5)
+    angulo = math.atan2(y2 - y1, x2 - x1)
+    tamanho_seta = 10
+    pygame.draw.polygon(screen, VERMELHO, [
+        (x2, y2),
+        (x2 - tamanho_seta * math.cos(angulo - math.pi / 6), y2 - tamanho_seta * math.sin(angulo - math.pi / 6)),
+        (x2 - tamanho_seta * math.cos(angulo + math.pi / 6), y2 - tamanho_seta * math.sin(angulo + math.pi / 6))
+    ])
+    
 # Função para desenhar a rota como uma linha vermelha
 def desenhar_rota(rota):
     for i in range(len(rota) - 1):
         inicio = G.nodes[rota[i]]['pos']
         fim = G.nodes[rota[i + 1]]['pos']
         pygame.draw.line(screen, VERMELHO, inicio, fim, 5)
+    if len(rota) > 1:
+        desenhar_seta(G.nodes[rota[-2]]['pos'], G.nodes[rota[-1]]['pos'])
 
 # Loop principal
 running = True
@@ -190,7 +206,9 @@ while running:
                 destino = "B1"
             elif event.key == pygame.K_3:
                 destino = "Secret."
-            elif event.key == pygame.K_6:
+            elif event.key == pygame.K_4:
+                destino = "Cant."
+            elif event.key == pygame.K_5:
                 destino = "Port."
             rota = atualizar_rota(destino)
     
