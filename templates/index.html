@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Rotas</title>
+</head>
+<body>
+    <h1>Selecione o Destino</h1>
+    <div id="botoesDestino">
+        <button onclick="verRota('Portaria')">Mapa</button>
+        <button onclick="verRota('TI')">TI</button>
+        <button onclick="verRota('Sala Estágio')">Sala Estágio</button>
+        <button onclick="verRota('Ref./Cantina')">Ref./Cantina</button>
+        <button onclick="verRota('Lab. Info. Geral')">Lab. Info. Geral</button>
+    </div>
+
+    <script>
+        function verRota(destino) {
+            const formData = new FormData();
+            formData.append('destino', destino);
+            fetch('/rota', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Armazenar a rota e as arestas no localStorage
+                localStorage.setItem('rota', JSON.stringify(data.rota));
+                localStorage.setItem('arestas', JSON.stringify(data.arestas)); // Armazenar arestas
+                localStorage.setItem('destino', destino);
+                // Redirecionar para a página de rota
+                window.location.href = '/rota';
+            });
+        }
+    </script>
+</body>
+</html>
