@@ -40,6 +40,7 @@
 
 <body>
     <h1>Rota para <span id="destinoDisplay"></span></h1>
+    <div id="caminhoDisplay"></div>
     <div id="mapaContainer">
         <canvas id="mapaCanvas" width="800" height="600"></canvas>
     </div>
@@ -55,53 +56,58 @@
             const canvas = document.getElementById('mapaCanvas');
             const ctx = canvas.getContext('2d');
 
+            // Exibir o caminho completo
+            const caminhoDisplay = document.getElementById('caminhoDisplay');
+            caminhoDisplay.textContent = "Caminho: " + rota.join(' -> ');
+
             // Definindo as posições das salas
             const positions = {
                 "Portaria": [400, 550],
                 "C0": [400, 500],
-                "TI": [100, 100],
-                "Xerox": [200, 200],
-                "C1": [300, 200],
-                "Lab. Info. Geral": [400, 200],
-                "Escada A": [500, 200],
+                "TI": [400, 450],
+                "Xerox": [400, 400],
+                "C1": [400, 350],
+                "Lab. Info. Geral": [400, 300],
+                "Escada A": [400, 250],
                 "C2": [300, 300],
-                "C3": [400, 300],
+                "C3": [550, 300],
                 "C4": [500, 300],
                 "C5": [600, 300],
                 "C6": [700, 300],
-                "C7": [800, 300],
-                "C8": [900, 300],
-                "C9": [1000, 300],
+                "C7": [200, 300],
+                "C8": [350, 300],
+                "C9": [150, 300],
                 "Ref./Cantina": [500, 400],
                 "C10": [600, 400],
                 "C11": [700, 400],
-                "C12": [800, 400],
-                "C13": [900, 400],
-                "Biblioteca": [1000, 400],
+                "C12": [100, 400],
+                "C13": [50, 400],
+                "Biblioteca": [150, 450],
                 "C14": [600, 500],
                 "C15": [700, 500],
-                "C16": [800, 500],
-                "C17": [900, 500],
-                "C18": [1000, 500],
-                "C19": [1100, 500],
-                "C20": [1200, 500],
-                "C21": [600, 600],
-                "C22": [700, 600],
-                "C23": [800, 600],
-                "C24": [900, 600],
-                "C25": [1000, 600],
-                "Estacionamento": [1100, 600],
-                "Prédio M.B.": [1200, 600],
-                "WC/Vest. M": [800, 700],
-                "WC/Vest. F": [900, 700],
-                "Sala Prof. 1": [700, 700],
-                "Sala Prof. 2": [800, 700],
-                "Sala Estágio": [100, 500]
+                "C16": [100, 250],
+                "C17": [150, 250],
+                "C18": [200, 250],
+                "C19": [250, 250],
+                "C20": [300, 250],
+                "C21": [500, 100],
+                "C22": [550, 100],
+                "C23": [650, 100],
+                "C24": [450, 100],
+                "C25": [350, 100],
+                "Estacionamento": [250, 100],
+                "Prédio M.B.": [350, 150],
+                "WC/Vest. M": [200, 150],
+                "WC/Vest. F": [100, 100],
+                "Sala Prof. 1": [150, 150],
+                "Sala Prof. 2": [100, 150],
+                "Sala Estágio": [550, 150],
+                "Centro": [750, 50]
             };
 
             // Desenhando as arestas
             ctx.strokeStyle = 'black';
-            ctx.lineWidth = 15;
+            ctx.lineWidth = 1;
             arestas.forEach(([u, v, weight]) => {
                 if (positions[u] && positions[v]) {
                     const [x1, y1] = positions[u];
@@ -136,7 +142,7 @@
                 ctx.fillStyle = 'black';
                 ctx.font = '12px Arial';
                 ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom'; // Texto alinhado no meio do retângulo
+                ctx.textBaseline = 'bottom'; // Texto alinhado em cima do retângulo
                 ctx.fillText(key, centerX, y); // Texto posicionado em cima da sala
                 ctx.fillStyle = 'lightgrey'; // Reset color for next rectangle
                 // }
@@ -148,33 +154,35 @@
             ctx.beginPath();
 
             if (rota.length > 0) {
-                // Começa na primeira sala da rota
                 const start = positions[rota[0]];
-                const startX = start[0] + 10; // Centro do retângulo
-                const startY = start[1] + 10; // Centro do retângulo
-                ctx.moveTo(startX, startY);
+                ctx.moveTo(start[0] + 10, start[1] + 10);
 
-                // Desenha o caminho
                 rota.forEach(sala => {
                     const [x, y] = positions[sala];
-                    const xCenter = x + 10; // Centro do retângulo
-                    const yCenter = y + 10; // Centro do retângulo
-                    ctx.lineTo(xCenter, yCenter);
+                    ctx.lineTo(x + 10, y + 10);
                 });
 
                 ctx.stroke();
 
                 // Adiciona a seta no destino final
                 const [endX, endY] = positions[rota[rota.length - 1]];
-
-                const arrowSize = 25;
-                const angle = Math.atan2(endY - (rota.length > 1 ? positions[rota[rota.length - 2]][1] : endY), endX - (rota.length > 1 ? positions[rota[rota.length - 2]][0] : endX));
+                const arrowSize = 20;
+                const angle = Math.atan2(
+                    endY - positions[rota[rota.length - 2]][1],
+                    endX - positions[rota[rota.length - 2]][0]
+                );
 
                 ctx.fillStyle = 'red';
                 ctx.beginPath();
-                ctx.moveTo(endX + 20, endY + 20);
-                ctx.lineTo(endX + 20 - arrowSize * Math.cos(angle - Math.PI / 6), endY + 20 - arrowSize * Math.sin(angle - Math.PI / 6));
-                ctx.lineTo(endX + 20 - arrowSize * Math.cos(angle + Math.PI / 6), endY + 20 - arrowSize * Math.sin(angle + Math.PI / 6));
+                ctx.moveTo(endX + 10, endY + 10);
+                ctx.lineTo(
+                    endX + 10 - arrowSize * Math.cos(angle - Math.PI / 6),
+                    endY + 10 - arrowSize * Math.sin(angle - Math.PI / 6)
+                );
+                ctx.lineTo(
+                    endX + 10 - arrowSize * Math.cos(angle + Math.PI / 6),
+                    endY + 10 - arrowSize * Math.sin(angle + Math.PI / 6)
+                );
                 ctx.closePath();
                 ctx.fill();
             }
