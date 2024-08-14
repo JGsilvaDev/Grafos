@@ -127,7 +127,7 @@ G.add_edge("C23", "C22", weight=4)
 G.add_edge("C23", "C24", weight=5)
 
 G.add_edge("C24", "Sala Arquivo", weight=1)
-G.add_edge("C24", "Elavador", weight=1)
+G.add_edge("C24", "Elevador", weight=1)
 G.add_edge("C24", "C23", weight=5)
 
 G.add_edge("C25", "C22", weight=12)

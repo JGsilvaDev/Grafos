@@ -1,20 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa de Rotas</title>
-</head>
-<body>
-    <h1>Selecione o Destino</h1>
-    <div id="botoesDestino">
-        <button onclick="verRota('Portaria')">Mapa</button>
-        <button onclick="verRota('TI')">TI</button>
-        <button onclick="verRota('Sala Estágio')">Sala Estágio</button>
-        <button onclick="verRota('Ref./Cantina')">Ref./Cantina</button>
-        <button onclick="verRota('Lab. Info. Geral')">Lab. Info. Geral</button>
-    </div>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        h1 {
+            font-size: 48px;
+        }
 
+        .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .botao {
+            width: 346px;
+            height: 108px;
+            border-radius: 15px;
+            font-size: 36px;
+            font-weight: 600;
+            padding: 0 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .icon {
+            font-size: 36px;
+        }
+
+        #botoesDestino {
+            display: flex;
+            gap: 30px;
+
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Buscar Sala</h1>
+        </div>
+
+        <div id="container_predios">
+            <div id="predio_principal">
+                <h1>Prédio Principal</h1>
+                <div id="botoesDestino">
+                    <button onclick="verRota('TI')" class="botao">TI<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('Xerox')" class="botao">Xerox<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('Capela')" class="botao">Capela<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('Pastoral')" class="botao">Pastoral<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('Diretoria')" class="botao">Diretoria<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('Lab. AutoCad')" class="botao">Lab. AutoCad<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('Sala Prof. 1')" class="botao">Sala Prof. 1<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('Sala Prof. 2')" class="botao">Sala Prof. 2<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('WC/Vest. M')" class="botao">WC/Vest. M<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('WC/Vest. F')" class="botao">WC/Vest. F<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                    <button onclick="verRota('Ref./Cantina')" class="botao">Ref./Cantina<span
+                            class="material-symbols-outlined icon">pin_drop</span></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <script>
         function verRota(destino) {
             const formData = new FormData();
@@ -23,16 +91,17 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                // Armazenar a rota e as arestas no localStorage
-                localStorage.setItem('rota', JSON.stringify(data.rota));
-                localStorage.setItem('arestas', JSON.stringify(data.arestas)); // Armazenar arestas
-                localStorage.setItem('destino', destino);
-                // Redirecionar para a página de rota
-                window.location.href = '/rota';
-            });
+                .then(response => response.json())
+                .then(data => {
+                    // Armazenar a rota e as arestas no localStorage
+                    localStorage.setItem('rota', JSON.stringify(data.rota));
+                    localStorage.setItem('arestas', JSON.stringify(data.arestas)); // Armazenar arestas
+                    localStorage.setItem('destino', destino);
+                    // Redirecionar para a página de rota
+                    window.location.href = '/rota';
+                });
         }
     </script>
 </body>
+
 </html>
