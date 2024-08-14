@@ -11,7 +11,7 @@ G.add_edge("Portaria", "C0", weight=6)
 
 G.add_edge("C0", "TI", weight=11)
 G.add_edge("C0", "Centro", weight=32)
-G.add_edge("C0", "Sala Estágio", weight=28)
+G.add_edge("C0", "C20", weight=28)
 
 G.add_edge("TI", "C0", weight=11)
 G.add_edge("TI", "Xerox", weight=11)
@@ -66,7 +66,7 @@ G.add_edge("Ref./Cantina", "Centro", weight=10)
 
 G.add_edge("C10", "Ref./Cantina", weight=10)
 G.add_edge("C10", "C21", weight=7)
-G.add_edge("C10", "C11", weight=14)
+G.add_edge("C10", "C11", weight=10)
 
 G.add_edge("C11", "WC Familia", weight=1)
 G.add_edge("C11", "C10", weight=14)

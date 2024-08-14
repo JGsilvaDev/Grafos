@@ -64,45 +64,63 @@
             const positions = {
                 "Portaria": [400, 550],
                 "C0": [400, 500],
-                "TI": [400, 450],
-                "Xerox": [400, 400],
-                "C1": [400, 350],
-                "Lab. Info. Geral": [400, 300],
-                "Escada A": [400, 250],
-                "C2": [300, 300],
-                "C3": [550, 300],
-                "C4": [500, 300],
-                "C5": [600, 300],
-                "C6": [700, 300],
-                "C7": [200, 300],
-                "C8": [350, 300],
-                "C9": [150, 300],
-                "Ref./Cantina": [500, 400],
-                "C10": [600, 400],
-                "C11": [700, 400],
-                "C12": [100, 400],
-                "C13": [50, 400],
-                "Biblioteca": [150, 450],
-                "C14": [600, 500],
-                "C15": [700, 500],
-                "C16": [100, 250],
-                "C17": [150, 250],
-                "C18": [200, 250],
-                "C19": [250, 250],
-                "C20": [300, 250],
-                "C21": [500, 100],
-                "C22": [550, 100],
-                "C23": [650, 100],
-                "C24": [450, 100],
-                "C25": [350, 100],
-                "Estacionamento": [250, 100],
-                "Prédio M.B.": [350, 150],
-                "WC/Vest. M": [200, 150],
-                "WC/Vest. F": [100, 100],
-                "Sala Prof. 1": [150, 150],
-                "Sala Prof. 2": [100, 150],
+                "TI": [283, 500],
+                "Xerox": [166, 500],
+                "C1": [100, 500],
+                "Lab. Info. Geral": [100, 550],
+                "Escada A": [50, 500],
+                "Escada B": [643, 100],
+                "Escada C": [750, 220],
+                "Escada D": [750, 500],
+                "Escada F": [245, 40],
+                "Elevador": [275, 40],
+                "C2": [100, 465],
+                "C3": [100, 409],
+                "C4": [100, 353],
+                "C5": [100, 325],
+                "C6": [100, 298],
+                "C7": [100, 271],
+                "C8": [100, 222],
+                "C9": [100, 173],
+                "Ref./Cantina": [100, 150],
+                "C10": [205, 150],
+                "C11": [310, 150],
+                "C12": [400, 150],
+                "C13": [643, 150],
+                "Biblioteca": [700, 150],
+                "C14": [700, 185],
+                "C15": [700, 220],
+                "C16": [700, 325],
+                "C17": [700, 409],
+                "C18": [700, 465],
+                "C19": [700, 500],
+                "C20": [650, 500],
+                "C21": [205, 119],
+                "C22": [205, 71],
+                "C23": [245, 71],
+                "C24": [275, 71],
+                "C25": [205, 20],
+                "Estacionamento": [500, 20],
+                "Prédio M.B.": [130, 20],
+                "WC/Vest. M": [50, 222],
+                "WC/Vest. F": [50, 173],
+                "WC Familia": [310, 100],
+                "WC Cantina": [255, 119],
+                "Sala Prof.": [400, 100],
+                "Sala Prof. 1": [50, 298],
+                "Sala Prof. 2": [50, 271],
                 "Sala Estágio": [550, 150],
-                "Centro": [750, 50]
+                "Centro": [400, 325],
+                "Sala Estágio": [650, 550],
+                "Pastoral": [50, 465],
+                "Diretoria": [50, 409],
+                "Lab. AutoCad": [50, 353],
+                "Social": [750, 465],
+                "Secretaria": [750, 409],
+                "Coordenação": [750, 325],
+                "Cant. Leitura": [750, 185],
+                "Quadra": [20, 150],
+                "Sala Arquivo": [310, 71],
             };
 
             // Desenhando as arestas
@@ -126,26 +144,26 @@
 
             Object.keys(positions).forEach(key => {
                 // Verificar se a sala não é C + número
-                // if (!/^C\d+$/.test(key)) {
-                const [x, y] = positions[key];
-                const width = 20;
-                const height = 20;
-                const centerX = x + width / 2;
-                const centerY = y + height / 2;
+                if (!/^C\d+$/.test(key)) {
+                    const [x, y] = positions[key];
+                    const width = 20;
+                    const height = 20;
+                    const centerX = x + width / 2;
+                    const centerY = y + height / 2;
 
-                ctx.beginPath();
-                ctx.rect(x, y, width, height);
-                ctx.fill();
-                ctx.stroke();
+                    ctx.beginPath();
+                    ctx.rect(x, y, width, height);
+                    ctx.fill();
+                    ctx.stroke();
 
-                // Ajusta o texto para ficar em cima da sala
-                ctx.fillStyle = 'black';
-                ctx.font = '12px Arial';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom'; // Texto alinhado em cima do retângulo
-                ctx.fillText(key, centerX, y); // Texto posicionado em cima da sala
-                ctx.fillStyle = 'lightgrey'; // Reset color for next rectangle
-                // }
+                    // Ajusta o texto para ficar em cima da sala
+                    ctx.fillStyle = 'black';
+                    ctx.font = '12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom'; // Texto alinhado em cima do retângulo
+                    ctx.fillText(key, centerX, y); // Texto posicionado em cima da sala
+                    ctx.fillStyle = 'lightgrey'; // Reset color for next rectangle
+                }
             });
 
             // Desenhando a rota com uma linha vermelha
