@@ -56,9 +56,37 @@
             const canvas = document.getElementById('mapaCanvas');
             const ctx = canvas.getContext('2d');
 
-            // Exibir o caminho completo
-            // const caminhoDisplay = document.getElementById('caminhoDisplay');
-            // caminhoDisplay.textContent = "Caminho: " + rota.join(' -> ');
+            // Variáveis para panning
+            let isPanning = false;
+            let startX = 0;
+            let startY = 0;
+            let offsetX = 0;
+            let offsetY = 0;
+
+            // Evento para iniciar o panning
+            canvas.addEventListener('mousedown', (e) => {
+                isPanning = true;
+                startX = e.clientX - offsetX;
+                startY = e.clientY - offsetY;
+            });
+
+            // Evento para parar o panning
+            canvas.addEventListener('mouseup', () => {
+                isPanning = false;
+            });
+
+            canvas.addEventListener('mouseout', () => {
+                isPanning = false;
+            });
+
+            // Evento para mover o canvas durante o panning
+            canvas.addEventListener('mousemove', (e) => {
+                if (isPanning) {
+                    offsetX = e.clientX - startX;
+                    offsetY = e.clientY - startY;
+                    draw();
+                }
+            });
 
             // Definindo as posições das salas
             const positions = {
@@ -125,87 +153,98 @@
                 "Corredor S.J.": [20, 325],
             };
 
-            // Desenhando as arestas
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = 1;
-            arestas.forEach(([u, v, weight]) => {
-                if (positions[u] && positions[v]) {
-                    const [x1, y1] = positions[u];
-                    const [x2, y2] = positions[v];
-                    ctx.beginPath();
-                    ctx.moveTo(x1 + 10, y1 + 10);
-                    ctx.lineTo(x2 + 10, y2 + 10);
-                    ctx.stroke();
-                }
-            });
+            // Função para desenhar o mapa
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
 
-            // Desenhando as salas
-            ctx.fillStyle = 'lightgrey';
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = 2;
+                // Aplica o deslocamento
+                ctx.save();
+                ctx.translate(offsetX, offsetY);
 
-            Object.keys(positions).forEach(key => {
-                // Verificar se a sala não é C + número
-                if (!/^C\d+$/.test(key)) {
-                    const [x, y] = positions[key];
-                    const width = 20;
-                    const height = 20;
-                    const centerX = x + width / 2;
-                    const centerY = y + height / 2;
-
-                    ctx.beginPath();
-                    ctx.rect(x, y, width, height);
-                    ctx.fill();
-                    ctx.stroke();
-
-                    // Ajusta o texto para ficar em cima da sala
-                    ctx.fillStyle = 'black';
-                    ctx.font = '12px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'bottom'; // Texto alinhado em cima do retângulo
-                    ctx.fillText(key, centerX, y); // Texto posicionado em cima da sala
-                    ctx.fillStyle = 'lightgrey'; // Reset color for next rectangle
-                }
-            });
-
-            // Desenhando a rota com uma linha vermelha
-            ctx.strokeStyle = 'red';
-            ctx.lineWidth = 5;
-            ctx.beginPath();
-
-            if (rota.length > 0) {
-                const start = positions[rota[0]];
-                ctx.moveTo(start[0] + 10, start[1] + 10);
-
-                rota.forEach(sala => {
-                    const [x, y] = positions[sala];
-                    ctx.lineTo(x + 10, y + 10);
+                // Desenhar as arestas
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 1;
+                arestas.forEach(([u, v, weight]) => {
+                    if (positions[u] && positions[v]) {
+                        const [x1, y1] = positions[u];
+                        const [x2, y2] = positions[v];
+                        ctx.beginPath();
+                        ctx.moveTo(x1 + 10, y1 + 10);
+                        ctx.lineTo(x2 + 10, y2 + 10);
+                        ctx.stroke();
+                    }
                 });
 
-                ctx.stroke();
+                // Desenhar as salas
+                ctx.fillStyle = 'lightgrey';
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 2;
 
-                // Adiciona a seta no destino final
-                const [endX, endY] = positions[rota[rota.length - 1]];
-                const arrowSize = 20;
-                const angle = Math.atan2(
-                    endY - positions[rota[rota.length - 2]][1],
-                    endX - positions[rota[rota.length - 2]][0]
-                );
+                Object.keys(positions).forEach(key => {
+                    if (!/^C\d+$/.test(key)) {
+                        const [x, y] = positions[key];
+                        const width = 20;
+                        const height = 20;
+                        const centerX = x + width / 2;
+                        const centerY = y + height / 2;
 
-                ctx.fillStyle = 'red';
+                        ctx.beginPath();
+                        ctx.rect(x, y, width, height);
+                        ctx.fill();
+                        ctx.stroke();
+
+                        ctx.fillStyle = 'black';
+                        ctx.font = '12px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom'; // Texto alinhado em cima do retângulo
+                        ctx.fillText(key, centerX, y); // Texto posicionado em cima da sala
+                        ctx.fillStyle = 'lightgrey'; // Reset color for next rectangle
+                    }
+                });
+
+                // Desenha a rota com uma linha vermelha
+                ctx.strokeStyle = 'red';
+                ctx.lineWidth = 5;
                 ctx.beginPath();
-                ctx.moveTo(endX + 10, endY + 10);
-                ctx.lineTo(
-                    endX + 10 - arrowSize * Math.cos(angle - Math.PI / 6),
-                    endY + 10 - arrowSize * Math.sin(angle - Math.PI / 6)
-                );
-                ctx.lineTo(
-                    endX + 10 - arrowSize * Math.cos(angle + Math.PI / 6),
-                    endY + 10 - arrowSize * Math.sin(angle + Math.PI / 6)
-                );
-                ctx.closePath();
-                ctx.fill();
+
+                if (rota.length > 0) {
+                    const start = positions[rota[0]];
+                    ctx.moveTo(start[0] + 10, start[1] + 10);
+
+                    rota.forEach(sala => {
+                        const [x, y] = positions[sala];
+                        ctx.lineTo(x + 10, y + 10);
+                    });
+
+                    ctx.stroke();
+
+                    const [endX, endY] = positions[rota[rota.length - 1]];
+                    const arrowSize = 20;
+                    const angle = Math.atan2(
+                        endY - positions[rota[rota.length - 2]][1],
+                        endX - positions[rota[rota.length - 2]][0]
+                    );
+
+                    ctx.fillStyle = 'red';
+                    ctx.beginPath();
+                    ctx.moveTo(endX + 10, endY + 10);
+                    ctx.lineTo(
+                        endX + 10 - arrowSize * Math.cos(angle - Math.PI / 6),
+                        endY + 10 - arrowSize * Math.sin(angle - Math.PI / 6)
+                    );
+                    ctx.lineTo(
+                        endX + 10 - arrowSize * Math.cos(angle + Math.PI / 6),
+                        endY + 10 - arrowSize * Math.sin(angle + Math.PI / 6)
+                    );
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                ctx.restore(); // Restaura o estado do canvas
             }
+
+            // Chama a função draw para desenhar o mapa
+            draw();
         });
     </script>
 </body>
