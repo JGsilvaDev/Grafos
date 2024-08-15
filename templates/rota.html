@@ -40,7 +40,6 @@
 
 <body>
     <h1>Rota para <span id="destinoDisplay"></span></h1>
-    <div id="caminhoDisplay"></div>
     <div id="mapaContainer">
         <canvas id="mapaCanvas" width="800" height="600"></canvas>
     </div>
@@ -110,69 +109,77 @@
             });
 
             // Definindo as posições das salas
-            const positions = {
+            const positionsTerreo = {
                 "Portaria": [400, 550],
                 "C0": [400, 500],
-                "TI": [283, 500],
-                "Xerox": [166, 500],
-                "C1": [100, 500],
-                "Lab. Info. Geral": [100, 550],
-                "Escada A": [50, 500],
-                "Escada B": [643, 100],
-                "Escada C": [750, 220],
-                "Escada D": [750, 500],
-                "Escada F": [245, 40],
-                "Elevador": [275, 40],
-                "C2": [100, 465],
-                "C3": [100, 409],
-                "C4": [100, 353],
-                "C5": [100, 325],
-                "C6": [100, 298],
-                "C7": [100, 271],
-                "C8": [100, 222],
-                "C9": [100, 173],
-                "Ref./Cantina": [100, 150],
-                "C10": [205, 150],
-                "C11": [310, 150],
+                "TI": [333, 500],
+                "Xerox": [216, 500],
+                "Lab. Info. Geral": [150, 550],
+                "Escada A": [100, 500],
+                "Escada B": [593, 100],
+                "Escada C": [700, 220],
+                "Escada D": [700, 500],
+                "Escada F": [295, 40],
+                "Elevador": [325, 40],
+                "C1": [150, 500],
+                "C2": [150, 465],
+                "C3": [150, 409],
+                "C4": [150, 353],
+                "C5": [150, 325],
+                "C6": [150, 298],
+                "C7": [150, 271],
+                "C8": [150, 222],
+                "C9": [150, 173],
+                "Ref./Cantina": [150, 150],
+                "C10": [255, 150],
+                "C11": [360, 150],
                 "C12": [400, 150],
-                "C13": [643, 150],
-                "Biblioteca": [700, 150],
-                "C14": [700, 185],
-                "C15": [700, 220],
-                "C16": [700, 325],
-                "C17": [700, 409],
-                "C18": [700, 465],
-                "C19": [700, 500],
-                "C20": [650, 500],
-                "C21": [205, 119],
-                "C22": [205, 71],
-                "C23": [245, 71],
-                "C24": [275, 71],
-                "C25": [205, 20],
-                "Estacionamento": [500, 20],
-                "Prédio M.B.": [130, 20],
-                "WC/Vest. M": [50, 222],
-                "WC/Vest. F": [50, 173],
-                "WC Familia": [310, 100],
-                "WC Cantina": [255, 119],
-                "Sala Prof.": [400, 100],
-                "Sala Prof. 1": [50, 298],
-                "Sala Prof. 2": [50, 271],
-                "Sala Estágio": [550, 150],
+                "C13": [593, 150],
+                "Biblioteca": [650, 150],
+                "C14": [650, 185],
+                "C15": [650, 220],
+                "C16": [650, 325],
+                "C17": [650, 409],
+                "C18": [650, 465],
+                "C19": [650, 500],
+                "C20": [600, 500],
+                "C21": [255, 119],
+                "C22": [255, 71],
+                "C23": [295, 71],
+                "C24": [325, 71],
+                "C25": [255, 10],
+                "Estacionamento": [500, 10],
+                "Prédio M.B.": [130, 10],
+                "WC/Vest. M": [100, 222],
+                "WC/Vest. F": [100, 173],
+                "WC Familia": [360, 119],
+                "WC Cantina": [305, 119],
+                "Sala Prof.": [400, 119],
+                "Sala Prof. 1": [100, 298],
+                "Sala Prof. 2": [100, 271],
                 "Centro": [400, 325],
-                "Sala Estágio": [650, 550],
-                "Pastoral": [50, 465],
-                "Diretoria": [50, 409],
-                "Lab. AutoCad": [50, 353],
-                "Social": [750, 465],
-                "Secretaria": [750, 409],
-                "Coordenação": [750, 325],
-                "Cant. Leitura": [750, 185],
-                "Quadra": [20, 150],
-                "Sala Arquivo": [310, 71],
-                "Capela": [50, 550],
-                "Corredor S.J.": [20, 325],
+                "Sala Estágio": [600, 550],
+                "Pastoral": [100, 465],
+                "Diretoria": [100, 409],
+                "Lab. AutoCad": [100, 353],
+                "Social": [700, 465],
+                "Secretaria": [700, 409],
+                "Coordenação": [700, 325],
+                "Cant. Leitura": [700, 185],
+                "Quadra": [70, 150],
+                "Sala Arquivo": [360, 71],
+                "Capela": [100, 550],
+                "Corredor S.J.": [70, 325],
             };
+
+            const positionsFirst = {
+                "Escada A": [100, 500],
+                "Escada B": [593, 100],
+                "Escada C": [700, 220],
+                "Escada D": [700, 500],
+                "Escada F": [295, 40],
+                "Elevador": [325, 40],
+            }
 
             // Função para desenhar o mapa
             function draw() {
@@ -186,9 +193,9 @@
                 ctx.strokeStyle = 'black';
                 ctx.lineWidth = 1;
                 arestas.forEach(([u, v, weight]) => {
-                    if (positions[u] && positions[v]) {
-                        const [x1, y1] = positions[u];
-                        const [x2, y2] = positions[v];
+                    if (positionsTerreo[u] && positionsTerreo[v]) {
+                        const [x1, y1] = positionsTerreo[u];
+                        const [x2, y2] = positionsTerreo[v];
                         ctx.beginPath();
                         ctx.moveTo(x1 + 10, y1 + 10);
                         ctx.lineTo(x2 + 10, y2 + 10);
@@ -201,26 +208,51 @@
                 ctx.strokeStyle = 'black';
                 ctx.lineWidth = 2;
 
-                Object.keys(positions).forEach(key => {
-                    if (!/^C\d+$/.test(key)) {
-                        const [x, y] = positions[key];
-                        const width = 20;
-                        const height = 20;
-                        const centerX = x + width / 2;
-                        const centerY = y + height / 2;
+                Object.keys(positionsTerreo).forEach(key => {
+                    const [x, y] = positionsTerreo[key];
+                    const width = 20;
+                    const height = 20;
+                    const centerX = x + width / 2;
+                    const centerY = y + height / 2;
 
-                        ctx.beginPath();
-                        ctx.rect(x, y, width, height);
-                        ctx.fill();
-                        ctx.stroke();
+                    // Verificar se é uma escada e mudar a cor para verde se estiver na rota
+                    if (rota.includes(key) && key.startsWith('Escada')) {
+                        ctx.fillStyle = 'green';
 
-                        ctx.fillStyle = 'black';
-                        ctx.font = '12px Arial';
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'bottom'; // Texto alinhado em cima do retângulo
-                        ctx.fillText(key, centerX, y); // Texto posicionado em cima da sala
-                        ctx.fillStyle = 'lightgrey'; // Reset color for next rectangle
+                        // Tornar a escada clicável apenas se estiver na rota
+                        canvas.addEventListener('click', function clickHandler(event) {
+                            const rect = canvas.getBoundingClientRect();
+                            const clickX = event.clientX - rect.left;
+                            const clickY = event.clientY - rect.top;
+
+                            if (
+                                clickX >= x + offsetX &&
+                                clickX <= x + offsetX + width &&
+                                clickY >= y + offsetY &&
+                                clickY <= y + offsetY + height
+                            ) {
+                                alert(`Você clicou na ${key}`);
+                                // Remove o listener de clique para evitar múltiplas execuções
+                                canvas.removeEventListener('click', clickHandler);
+                            }
+                        });
+
+                    } else {
+                        ctx.fillStyle = 'lightgrey';
                     }
+
+                    ctx.beginPath();
+                    ctx.rect(x, y, width, height);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = 'black';
+                    ctx.font = '12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(key, centerX, y);
+                    ctx.fillStyle = 'lightgrey';
+                
                 });
 
                 // Desenha a rota com uma linha vermelha
@@ -229,21 +261,21 @@
                 ctx.beginPath();
 
                 if (rota.length > 0) {
-                    const start = positions[rota[0]];
+                    const start = positionsTerreo[rota[0]];
                     ctx.moveTo(start[0] + 10, start[1] + 10);
 
                     rota.forEach(sala => {
-                        const [x, y] = positions[sala];
+                        const [x, y] = positionsTerreo[sala];
                         ctx.lineTo(x + 10, y + 10);
                     });
 
                     ctx.stroke();
 
-                    const [endX, endY] = positions[rota[rota.length - 1]];
+                    const [endX, endY] = positionsTerreo[rota[rota.length - 1]];
                     const arrowSize = 20;
                     const angle = Math.atan2(
-                        endY - positions[rota[rota.length - 2]][1],
-                        endX - positions[rota[rota.length - 2]][0]
+                        endY - positionsTerreo[rota[rota.length - 2]][1],
+                        endX - positionsTerreo[rota[rota.length - 2]][0]
                     );
 
                     ctx.fillStyle = 'red';
@@ -263,7 +295,6 @@
 
                 ctx.restore(); // Restaura o estado do canvas
             }
-
             // Chama a função draw para desenhar o mapa
             draw();
         });

@@ -165,4 +165,5 @@ def rota_page():
     return render_template('rota.html')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.171.194')
+    app.run(debug=True)
+    # host='192.168.171.194'
