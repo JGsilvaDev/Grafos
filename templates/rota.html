@@ -88,6 +88,27 @@
                 }
             });
 
+            // Eventos de toque para panning em dispositivos móveis
+            canvas.addEventListener('touchstart', function (e) {
+                isDragging = true;
+                const touch = e.touches[0];
+                dragStartX = touch.clientX - offsetX;
+                dragStartY = touch.clientY - offsetY;
+            });
+
+            canvas.addEventListener('touchmove', function (e) {
+                if (isDragging) {
+                    const touch = e.touches[0];
+                    offsetX = touch.clientX - dragStartX;
+                    offsetY = touch.clientY - dragStartY;
+                    draw();
+                }
+            });
+
+            canvas.addEventListener('touchend', function () {
+                isDragging = false;
+            });
+
             // Definindo as posições das salas
             const positions = {
                 "Portaria": [400, 550],
