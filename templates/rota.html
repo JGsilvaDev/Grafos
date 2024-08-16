@@ -87,8 +87,15 @@
                 }
             }
 
+            if (verifica == 0){
+                verifica = andar.length;
+            }
+
             const rota = rotaCompleta.slice(0, verifica);
             const rotaPrimeiroAndar = rotaCompleta.slice(verifica - 1);
+
+            console.log(rotaCompleta, verifica);
+            
 
             const canvas = document.getElementById('mapaCanvas');
             const ctx = canvas.getContext('2d');
@@ -305,13 +312,13 @@
                     ctx.fillStyle = 'lightgrey';
 
                 });
-
+            
                 // Desenha a rota com uma linha vermelha
-                ctx.strokeStyle = 'red';
-                ctx.lineWidth = 5;
-                ctx.beginPath();
-
                 if (rota.length > 0) {
+                    ctx.strokeStyle = 'red';
+                    ctx.lineWidth = 5;
+                    ctx.beginPath();
+
                     const start = positionsTerreo[rota[0]];
                     ctx.moveTo(start[0] + 10, start[1] + 10);
 
@@ -323,7 +330,7 @@
                     ctx.stroke();
 
                     const [endX, endY] = positionsTerreo[rota[rota.length - 1]];
-                    const arrowSize = 20;
+                    const arrowSize = 10;
                     const angle = Math.atan2(
                         endY - positionsTerreo[rota[rota.length - 2]][1],
                         endX - positionsTerreo[rota[rota.length - 2]][0]
@@ -346,6 +353,7 @@
 
                 ctx.restore(); // Restaura o estado do canvas
             }
+
 
             // Chama a função draw para desenhar o mapa
             draw();
