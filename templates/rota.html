@@ -77,6 +77,8 @@
             const zoomOutButton = document.getElementById('zoomOutButton');
             let verifica = 0;
             let scale = 1;
+            let currentFloor = 'Terreo'; // Piso inicial
+            let rota = []
 
             document.getElementById('destinoDisplay').textContent = destino;
 
@@ -91,11 +93,7 @@
                 verifica = andar.length;
             }
 
-            const rota = rotaCompleta.slice(0, verifica);
-            const rotaPrimeiroAndar = rotaCompleta.slice(verifica - 1);
-
-            console.log(rotaCompleta, verifica);
-            
+            console.log(rota);
 
             const canvas = document.getElementById('mapaCanvas');
             const ctx = canvas.getContext('2d');
@@ -164,82 +162,90 @@
                 draw();
             });
 
-            // Definindo as posições das salas
-            const positionsTerreo = {
-                "Portaria": [400, 550],
-                "C0": [400, 500],
-                "TI": [333, 500],
-                "Xerox": [216, 500],
-                "Lab. Info. Geral": [150, 550],
-                "Escada A": [100, 500],
-                "Escada B": [593, 100],
-                "Escada C": [700, 220],
-                "Escada D": [700, 500],
-                "Escada F": [295, 40],
-                "Elevador": [325, 40],
-                "C1": [150, 500],
-                "C2": [150, 465],
-                "C3": [150, 409],
-                "C4": [150, 353],
-                "C5": [150, 325],
-                "C6": [150, 298],
-                "C7": [150, 271],
-                "C8": [150, 222],
-                "C9": [150, 173],
-                "Ref./Cantina": [150, 150],
-                "C10": [255, 150],
-                "C11": [360, 150],
-                "C12": [400, 150],
-                "C13": [593, 150],
-                "Biblioteca": [650, 150],
-                "C14": [650, 185],
-                "C15": [650, 220],
-                "C16": [650, 325],
-                "C17": [650, 409],
-                "C18": [650, 465],
-                "C19": [650, 500],
-                "C20": [600, 500],
-                "C21": [255, 119],
-                "C22": [255, 71],
-                "C23": [295, 71],
-                "C24": [325, 71],
-                "C25": [255, 10],
-                "Estacionamento": [500, 10],
-                "Prédio M.B.": [130, 10],
-                "WC/Vest. M": [100, 222],
-                "WC/Vest. F": [100, 173],
-                "WC Familia": [360, 119],
-                "WC Cantina": [305, 119],
-                "Sala Prof.": [400, 119],
-                "Sala Prof. 1": [100, 298],
-                "Sala Prof. 2": [100, 271],
-                "Centro": [400, 325],
-                "Sala Estágio": [600, 550],
-                "Pastoral": [100, 465],
-                "Diretoria": [100, 409],
-                "Lab. AutoCad": [100, 353],
-                "Social": [700, 465],
-                "Secretaria": [700, 409],
-                "Coordenação": [700, 325],
-                "Cant. Leitura": [700, 185],
-                "Quadra": [70, 150],
-                "Sala Arquivo": [360, 71],
-                "Capela": [100, 550],
-                "Corredor S.J.": [70, 325],
+            // Definindo as posições das salas para diferentes andares
+            const positions = {
+                "Terreo": {
+                    "Portaria": [400, 550],
+                    "C0": [400, 500],
+                    "TI": [333, 500],
+                    "Xerox": [216, 500],
+                    "Lab. Info. Geral": [150, 550],
+                    "Escada A": [100, 500],
+                    "Escada B": [593, 100],
+                    "Escada C": [700, 220],
+                    "Escada D": [700, 500],
+                    "Escada F": [295, 40],
+                    "Elevador": [325, 40],
+                    "C1": [150, 500],
+                    "C2": [150, 465],
+                    "C3": [150, 409],
+                    "C4": [150, 353],
+                    "C5": [150, 325],
+                    "C6": [150, 298],
+                    "C7": [150, 271],
+                    "C8": [150, 222],
+                    "C9": [150, 173],
+                    "Ref./Cantina": [150, 150],
+                    "C10": [255, 150],
+                    "C11": [360, 150],
+                    "C12": [400, 150],
+                    "C13": [593, 150],
+                    "Biblioteca": [650, 150],
+                    "C14": [650, 185],
+                    "C15": [650, 220],
+                    "C16": [650, 325],
+                    "C17": [650, 409],
+                    "C18": [650, 465],
+                    "C19": [650, 500],
+                    "C20": [600, 500],
+                    "C21": [255, 119],
+                    "C22": [255, 71],
+                    "C23": [295, 71],
+                    "C24": [325, 71],
+                    "C25": [255, 10],
+                    "Estacionamento": [500, 10],
+                    "Prédio M.B.": [130, 10],
+                    "WC/Vest. M": [100, 222],
+                    "WC/Vest. F": [100, 173],
+                    "WC Familia": [360, 119],
+                    "WC Cantina": [305, 119],
+                    "Sala Prof.": [400, 119],
+                    "Sala Prof. 1": [100, 298],
+                    "Sala Prof. 2": [100, 271],
+                    "Centro": [400, 325],
+                    "Sala Estágio": [600, 550],
+                    "Pastoral": [100, 465],
+                    "Diretoria": [100, 409],
+                    "Lab. AutoCad": [100, 353],
+                    "Social": [700, 465],
+                    "Secretaria": [700, 409],
+                    "Coordenação": [700, 325],
+                    "Cant. Leitura": [700, 185],
+                    "Quadra": [70, 150],
+                    "Sala Arquivo": [360, 71],
+                    "Capela": [100, 550],
+                    "Corredor S.J.": [70, 325],
+                },
+                "Primeiro": {
+                    "Escada A": [100, 500],
+                    "Escada B": [593, 100],
+                    "Escada C": [700, 220],
+                    "Escada D": [700, 500],
+                    "Escada F": [295, 40],
+                    "Elevador": [325, 40],
+                    "C26": [50, 500],
+                    "Sala 201": [100, 400],
+                }
             };
-
-            const positionsFirst = {
-                "Escada A": [100, 500],
-                "Escada B": [593, 100],
-                "Escada C": [700, 220],
-                "Escada D": [700, 500],
-                "Escada F": [295, 40],
-                "Elevador": [325, 40],
-                "Sala A": [100, 500],
-            }
 
             // Função para desenhar o mapa
             function draw() {
+                if(currentFloor == 'Terreo'){
+                    rota = rotaCompleta.slice(0, verifica);
+                }else{
+                    rota = rotaCompleta.slice(verifica - 1);
+                }
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
 
                 // Aplica o deslocamento
@@ -251,9 +257,9 @@
                 ctx.strokeStyle = 'black';
                 ctx.lineWidth = 1;
                 arestas.forEach(([u, v, weight]) => {
-                    if (positionsTerreo[u] && positionsTerreo[v]) {
-                        const [x1, y1] = positionsTerreo[u];
-                        const [x2, y2] = positionsTerreo[v];
+                    if (positions[currentFloor][u] && positions[currentFloor][v]) {
+                        const [x1, y1] = positions[currentFloor][u];
+                        const [x2, y2] = positions[currentFloor][v];
                         ctx.beginPath();
                         ctx.moveTo(x1 + 10, y1 + 10);
                         ctx.lineTo(x2 + 10, y2 + 10);
@@ -266,8 +272,8 @@
                 ctx.strokeStyle = 'black';
                 ctx.lineWidth = 2;
 
-                Object.keys(positionsTerreo).forEach(key => {
-                    const [x, y] = positionsTerreo[key];
+                Object.keys(positions[currentFloor]).forEach(key => {
+                    const [x, y] = positions[currentFloor][key];
                     const width = 20;
                     const height = 20;
                     const centerX = x + width / 2;
@@ -289,7 +295,8 @@
                                 clickY >= y + offsetY &&
                                 clickY <= y + offsetY + height
                             ) {
-                                alert(`Você clicou na ${key}`);
+                                currentFloor = 'Primeiro'; // Altere para o andar desejado
+                                draw();
                                 // Remove o listener de clique para evitar múltiplas execuções
                                 canvas.removeEventListener('click', clickHandler);
                             }
@@ -319,43 +326,48 @@
                     ctx.lineWidth = 5;
                     ctx.beginPath();
 
-                    const start = positionsTerreo[rota[0]];
+                    const start = positions[currentFloor][rota[0]];
+
+                    console.log(start);
+
                     ctx.moveTo(start[0] + 10, start[1] + 10);
 
-                    rota.forEach(sala => {
-                        const [x, y] = positionsTerreo[sala];
-                        ctx.lineTo(x + 10, y + 10);
+                    rota.slice(1).forEach(room => {
+                        const point = positions[currentFloor][room];
+                        ctx.lineTo(point[0] + 10, point[1] +10);
                     });
 
                     ctx.stroke();
 
-                    const [endX, endY] = positionsTerreo[rota[rota.length - 1]];
-                    const arrowSize = 10;
-                    const angle = Math.atan2(
-                        endY - positionsTerreo[rota[rota.length - 2]][1],
-                        endX - positionsTerreo[rota[rota.length - 2]][0]
-                    );
-
-                    ctx.fillStyle = 'red';
-                    ctx.beginPath();
-                    ctx.moveTo(endX + 10, endY + 10);
-                    ctx.lineTo(
-                        endX + 10 - arrowSize * Math.cos(angle - Math.PI / 6),
-                        endY + 10 - arrowSize * Math.sin(angle - Math.PI / 6)
-                    );
-                    ctx.lineTo(
-                        endX + 10 - arrowSize * Math.cos(angle + Math.PI / 6),
-                        endY + 10 - arrowSize * Math.sin(angle + Math.PI / 6)
-                    );
-                    ctx.closePath();
-                    ctx.fill();
+                    // Desenha a seta na ponta da rota
+                    const [endX, endY] = positions[currentFloor][rota[rota.length - 1]];
+                    const [startX, startY] = positions[currentFloor][rota[rota.length - 2]];
+                    drawArrow(ctx, startX + 10, startY + 10, endX + 10, endY + 10);
+                    
                 }
 
-                ctx.restore(); // Restaura o estado do canvas
+                ctx.restore();
+            }
+
+            function drawArrow(ctx, startX, startY, endX, endY, arrowSize = 20) {
+                const angle = Math.atan2(endY - startY, endX - startX);
+                
+                ctx.fillStyle = 'red';
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(
+                    endX - arrowSize * Math.cos(angle - Math.PI / 6),
+                    endY - arrowSize * Math.sin(angle - Math.PI / 6)
+                );
+                ctx.lineTo(
+                    endX - arrowSize * Math.cos(angle + Math.PI / 6),
+                    endY - arrowSize * Math.sin(angle + Math.PI / 6)
+                );
+                ctx.closePath();
+                ctx.fill();
             }
 
 
-            // Chama a função draw para desenhar o mapa
             draw();
         });
     </script>
