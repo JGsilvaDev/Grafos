@@ -35,6 +35,24 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        #zoomButtons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        #zoomButtons button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -42,6 +60,10 @@
     <h1>Rota para <span id="destinoDisplay"></span></h1>
     <div id="mapaContainer">
         <canvas id="mapaCanvas" width="800" height="600"></canvas>
+        <div id="zoomButtons">
+            <button id="zoomInButton">+</button>
+            <button id="zoomOutButton">-</button>
+        </div>
     </div>
     <button onclick="window.location.href='/'">Voltar</button>
 
@@ -51,11 +73,15 @@
             const arestas = JSON.parse(localStorage.getItem('arestas')) || [];
             const andar = JSON.parse(localStorage.getItem('andares')) || [];
             const destino = localStorage.getItem('destino');
+            const zoomInButton = document.getElementById('zoomInButton');
+            const zoomOutButton = document.getElementById('zoomOutButton');
             let verifica = 0;
+            let scale = 1;
+
             document.getElementById('destinoDisplay').textContent = destino;
 
             for (let i = 1; i < andar.length; i++) {
-                if (andar[i] !== andar[i - 1]) { 
+                if (andar[i] !== andar[i - 1]) {
                     verifica = i
                     break;
                 }
@@ -118,6 +144,17 @@
 
             canvas.addEventListener('touchend', function () {
                 isDragging = false;
+            });
+
+            // Eventos de zoom
+            zoomInButton.addEventListener('click', function () {
+                scale *= 1.2; // Aumenta a escala
+                draw();
+            });
+
+            zoomOutButton.addEventListener('click', function () {
+                scale /= 1.2; // Diminui a escala
+                draw();
             });
 
             // Definindo as posições das salas
@@ -201,6 +238,7 @@
                 // Aplica o deslocamento
                 ctx.save();
                 ctx.translate(offsetX, offsetY);
+                ctx.scale(scale, scale);
 
                 // Desenhar as arestas
                 ctx.strokeStyle = 'black';
@@ -265,7 +303,7 @@
                     ctx.textBaseline = 'bottom';
                     ctx.fillText(key, centerX, y);
                     ctx.fillStyle = 'lightgrey';
-                
+
                 });
 
                 // Desenha a rota com uma linha vermelha
@@ -308,6 +346,7 @@
 
                 ctx.restore(); // Restaura o estado do canvas
             }
+
             // Chama a função draw para desenhar o mapa
             draw();
         });
