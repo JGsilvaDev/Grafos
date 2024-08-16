@@ -104,7 +104,7 @@
                             class="material-symbols-outlined icon">pin_drop</span></button>
                     <button onclick="verRota('Estacionamento')" class="botao">Estacionamento<span
                             class="material-symbols-outlined icon">pin_drop</span></button>
-                    <button onclick="verRota('Escada D')" class="botao">Escada D<span
+                    <button onclick="verRota('Sala 201')" class="botao">Sala 201<span
                             class="material-symbols-outlined icon">pin_drop</span></button>
                 </div>
             </div>
@@ -124,6 +124,7 @@
                     // Armazenar a rota e as arestas no localStorage
                     localStorage.setItem('rota', JSON.stringify(data.rota));
                     localStorage.setItem('arestas', JSON.stringify(data.arestas)); // Armazenar arestas
+                    localStorage.setItem('andares', JSON.stringify(data.andares));
                     localStorage.setItem('destino', destino);
                     // Redirecionar para a página de rota
                     window.location.href = '/rota';

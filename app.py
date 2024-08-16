@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify 
 import networkx as nx
 
 app = Flask(__name__)
@@ -143,6 +143,76 @@ G.add_edge("Centro", "Biblioteca", weight=44)
 G.add_edge("Centro", "Coordenação", weight=25)
 G.add_edge("Centro", "C19", weight=44)
 
+G.add_edge("Escada A", "Sala 201", weight=1)
+
+andar_info = {
+    "Portaria": "1",
+    "C0": "1",
+    "TI": "1",
+    "Centro": "1",
+    "C20": "1",
+    "Xerox": "1",
+    "C1": "1",
+    "Lab. Info. Geral": "1",
+    "Escada A": "1",  # Conecta ao segundo andar
+    "Capela": "1",
+    "C2": "1",
+    "Pastoral": "1",
+    "C3": "1",
+    "Diretoria": "1",
+    "C4": "1",
+    "Lab. AutoCad": "1",
+    "C5": "1",
+    "Corredor S.J.": "1",
+    "C6": "1",
+    "Sala Prof. 1": "1",
+    "C7": "1",
+    "Sala Prof. 2": "1",
+    "C8": "1",
+    "WC/Vest. M": "1",
+    "C9": "1",
+    "WC/Vest. F": "1",
+    "Ref./Cantina": "1",
+    "C10": "1",
+    "C11": "1",
+    "WC Familia": "1",
+    "C12": "1",
+    "Sala Prof.": "1",
+    "C13": "1",
+    "Escada B": "1",  # Conecta ao segundo andar
+    "Biblioteca": "1",
+    "C14": "1",
+    "Cant. Leitura": "1",
+    "C15": "1",
+    "Escada C": "1",  # Conecta ao segundo andar
+    "C16": "1",
+    "Coordenação": "1",
+    "C17": "1",
+    "Secretaria": "1",
+    "C18": "1",
+    "Social": "1",
+    "C19": "1",
+    "Sala Estágio": "1",
+    "C21": "1",
+    "C22": "1",
+    "C23": "1",
+    "C24": "1",
+    "Elevador": "1",  # Conecta ao segundo andar
+    "C25": "1",
+    "Estacionamento": "1",
+    "Prédio M.B.": "1",
+
+    # Segundo andar (exemplos)
+    "Sala 201": "2",
+    "Sala 202": "2",
+    "Sala 203": "2",
+    "C26": "2",
+    "C27": "2",
+}
+
+# Adicionando essa informação ao grafo
+nx.set_node_attributes(G, andar_info, 'andar')
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -153,11 +223,15 @@ def rota():
     try:
         # Calculando o caminho mais curto a partir da entrada
         caminho = nx.dijkstra_path(G, source='Portaria', target=destino, weight='weight')
+        
+        # Obter as informações de andar para cada nó no caminho
+        andares = [G.nodes[n]['andar'] for n in caminho]
+        
         # Obtendo as arestas para desenhar no canvas
         arestas = [(u, v, data['weight']) for u, v, data in G.edges(data=True)]
-        return jsonify({'rota': caminho, 'arestas': arestas})
+        return jsonify({'rota': caminho, 'andares': andares, 'arestas': arestas})
     except nx.NetworkXNoPath:
-        return jsonify({'rota': [], 'arestas': []})
+        return jsonify({'rota': [], 'andares': [], 'arestas': []})
 
 
 @app.route('/rota', methods=['GET'])

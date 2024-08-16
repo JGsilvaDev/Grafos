@@ -47,10 +47,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const rota = JSON.parse(localStorage.getItem('rota')) || [];
+            const rotaCompleta = JSON.parse(localStorage.getItem('rota')) || [];
             const arestas = JSON.parse(localStorage.getItem('arestas')) || [];
+            const andar = JSON.parse(localStorage.getItem('andares')) || [];
             const destino = localStorage.getItem('destino');
+            let verifica = 0;
             document.getElementById('destinoDisplay').textContent = destino;
+
+            for (let i = 1; i < andar.length; i++) {
+                if (andar[i] !== andar[i - 1]) { 
+                    verifica = i
+                    break;
+                }
+            }
+
+            const rota = rotaCompleta.slice(0, verifica);
+            const rotaPrimeiroAndar = rotaCompleta.slice(verifica - 1);
 
             const canvas = document.getElementById('mapaCanvas');
             const ctx = canvas.getContext('2d');
@@ -179,6 +191,7 @@
                 "Escada D": [700, 500],
                 "Escada F": [295, 40],
                 "Elevador": [325, 40],
+                "Sala A": [100, 500],
             }
 
             // Função para desenhar o mapa
