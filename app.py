@@ -146,6 +146,9 @@ G.add_edge("Centro", "C19", weight=44)
 G.add_edge("Escada A", "C26", weight=1)
 G.add_edge("C26", "Sala 201", weight=1)
 
+G.add_edge("C26", "Escada A", weight=1)
+
+
 G.add_edge("Escada F", "C28", weight=1)
 G.add_edge("C28", "Sala 301", weight=1)
 

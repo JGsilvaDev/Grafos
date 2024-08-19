@@ -68,6 +68,19 @@
     <button onclick="window.location.href='/'">Voltar</button>
 
     <script>
+
+        function verificaAndar(andar){
+            if(andar == 0){
+                valor = 'Terreo';
+            }else if(andar == 1){
+                valor = 'Primeiro';
+            }else{
+                valor = 'Segundo';
+            }
+
+            return valor;
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const rotaCompleta = JSON.parse(localStorage.getItem('rota')) || [];
             const arestas = JSON.parse(localStorage.getItem('arestas')) || [];
@@ -77,10 +90,12 @@
             const zoomOutButton = document.getElementById('zoomOutButton');
             let verifica = 0;
             let scale = 1;
-            let currentFloor = 'Terreo'; // Piso inicial
+            let currentFloor = '';
             let rota = [];
             let validaAndar = 0;
-
+            let desceu = 0; 
+            let teste = 0;
+    
             document.getElementById('destinoDisplay').textContent = destino;
 
             const canvas = document.getElementById('mapaCanvas');
@@ -232,6 +247,7 @@
                 }
             };
 
+            
             // Função para desenhar o mapa
             function draw() {
                 let verifica = andar.length; // Inicializa verifica com o valor padrão (comprimento do array)
@@ -243,19 +259,56 @@
                     }
                 }
 
-                // Exibe os resultados para depuração
-                console.log('Valor de verifica após o loop:', verifica);
-                console.log('Valor em andar[verifica]:', andar[verifica]);
-                console.log('Valor em andar[2]:', andar[2]);
-
                 let destinoFinal = andar.length - 1
 
+                // Não sei oq foi feito aqui mas funciona
                 if (currentFloor == 'Terreo') {
-                    rota = rotaCompleta.slice(0, verifica);
+                    if(desceu == 0){
+                        rota = rotaCompleta.slice(0, verifica + 1 );
+                        currentFloor = verificaAndar(andar[0]);
+                        desceu = 1;
+                        
+                    }else{
+                        if(teste == 1){
+                            rota = rotaCompleta.slice(verifica - 1);
+                        }else{
+                            rota = rotaCompleta.slice(verifica);
 
+                        }
+
+                        desceu = 0;
+                        
+                    }
+                    
                 } else {
-                    rota = rotaCompleta.slice(verifica - 1);
+                    if(andar[0] != 0){
+                        if(desceu == 0){
+                            rota = rotaCompleta.slice(0, verifica + 1); 
+                            currentFloor = verificaAndar(andar[0]);
+
+                            desceu = 1;
+                            teste = 0;
+
+                        }else{
+                            rota = rotaCompleta.slice(0, verifica);
+                            desceu = 0;  
+                        }
+                    }else{
+                        if(desceu == 0){
+                            rota = rotaCompleta.slice(0, verifica);
+                            currentFloor = verificaAndar(andar[0]);
+
+                            desceu = 1;
+
+                        }else{
+                            rota = rotaCompleta.slice(verifica - 1);
+                            desceu = 0;
+
+                        }
+
+                    }
                 }
+
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
 
