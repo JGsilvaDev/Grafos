@@ -230,7 +230,7 @@ def rota():
     destino = request.form.get('destino')
     try:
         # Calculando o caminho mais curto a partir da entrada
-        caminho = nx.dijkstra_path(G, source='Portaria', target=destino, weight='weight')
+        caminho = nx.dijkstra_path(G, source='Sala 301', target=destino, weight='weight')
         
         # Obter as informações de andar para cada nó no caminho
         andares = [G.nodes[n].get('andar', 'andar padrão') for n in caminho]

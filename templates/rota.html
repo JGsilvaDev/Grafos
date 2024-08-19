@@ -234,25 +234,29 @@
 
             // Função para desenhar o mapa
             function draw() {
+                let verifica = andar.length; // Inicializa verifica com o valor padrão (comprimento do array)
+
                 for (let i = 1; i < andar.length; i++) {
                     if (andar[i] !== andar[i - 1]) {
-                        verifica = i
+                        verifica = i; // Atualiza verifica quando encontrar uma diferença
                         break;
                     }
                 }
 
-                if (verifica == 0) {
-                    verifica = andar.length;
-                }
+                // Exibe os resultados para depuração
+                console.log('Valor de verifica após o loop:', verifica);
+                console.log('Valor em andar[verifica]:', andar[verifica]);
+                console.log('Valor em andar[2]:', andar[2]);
 
-                let destinoFinal = andar.length - 1 
+                let destinoFinal = andar.length - 1
 
                 if (currentFloor == 'Terreo') {
                     rota = rotaCompleta.slice(0, verifica);
+
                 } else {
                     rota = rotaCompleta.slice(verifica - 1);
                 }
-                
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
 
                 // Aplica o deslocamento
@@ -302,30 +306,30 @@
                                 clickY >= y + offsetY &&
                                 clickY <= y + offsetY + height
                             ) {
-                                
+
                                 if (andar[destinoFinal] == 0) {
                                     currentFloor = 'Terreo'
 
                                 } else if (andar[destinoFinal] == 1) {
-                                    if(validaAndar == 0){
+                                    if (validaAndar == 0) {
                                         currentFloor = 'Primeiro';
                                         validaAndar = 1;
-                                    }else{
+                                    } else {
                                         currentFloor = 'Terreo';
                                         validaAndar = 0;
                                     }
 
                                 } else {
-                                    if(validaAndar == 0){
+                                    if (validaAndar == 0) {
                                         currentFloor = 'Segundo';
                                         validaAndar = 1;
-                                    }else{
+                                    } else {
                                         currentFloor = 'Terreo'
                                         validaAndar = 0;
                                     }
 
                                 }
-                                
+
                                 draw();
                                 // Remove o listener de clique para evitar múltiplas execuções
                                 canvas.removeEventListener('click', clickHandler);
@@ -357,9 +361,9 @@
                     ctx.beginPath();
 
                     const start = positions[currentFloor][rota[0]];
-                    
+
                     ctx.moveTo(start[0] + 10, start[1] + 10);
-                    
+
                     rota.slice(1).forEach(room => {
                         const point = positions[currentFloor][room];
                         ctx.lineTo(point[0] + 10, point[1] + 10);
