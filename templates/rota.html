@@ -78,22 +78,10 @@
             let verifica = 0;
             let scale = 1;
             let currentFloor = 'Terreo'; // Piso inicial
-            let rota = []
+            let rota = [];
+            let validaAndar = 0;
 
             document.getElementById('destinoDisplay').textContent = destino;
-
-            for (let i = 1; i < andar.length; i++) {
-                if (andar[i] !== andar[i - 1]) {
-                    verifica = i
-                    break;
-                }
-            }
-
-            if (verifica == 0){
-                verifica = andar.length;
-            }
-
-            console.log(rota);
 
             const canvas = document.getElementById('mapaCanvas');
             const ctx = canvas.getContext('2d');
@@ -235,17 +223,36 @@
                     "Elevador": [325, 40],
                     "C26": [50, 500],
                     "Sala 201": [100, 400],
+                },
+                "Segundo": {
+                    "Escada F": [295, 40],
+                    "Elevador": [325, 40],
+                    "C28": [50, 500],
+                    "Sala 301": [100, 400],
                 }
             };
 
             // Função para desenhar o mapa
             function draw() {
-                if(currentFloor == 'Terreo'){
-                    rota = rotaCompleta.slice(0, verifica);
-                }else{
-                    rota = rotaCompleta.slice(verifica - 1);
+                for (let i = 1; i < andar.length; i++) {
+                    if (andar[i] !== andar[i - 1]) {
+                        verifica = i
+                        break;
+                    }
                 }
 
+                if (verifica == 0) {
+                    verifica = andar.length;
+                }
+
+                let destinoFinal = andar.length - 1 
+
+                if (currentFloor == 'Terreo') {
+                    rota = rotaCompleta.slice(0, verifica);
+                } else {
+                    rota = rotaCompleta.slice(verifica - 1);
+                }
+                
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
 
                 // Aplica o deslocamento
@@ -295,7 +302,30 @@
                                 clickY >= y + offsetY &&
                                 clickY <= y + offsetY + height
                             ) {
-                                currentFloor = 'Primeiro'; // Altere para o andar desejado
+                                
+                                if (andar[destinoFinal] == 0) {
+                                    currentFloor = 'Terreo'
+
+                                } else if (andar[destinoFinal] == 1) {
+                                    if(validaAndar == 0){
+                                        currentFloor = 'Primeiro';
+                                        validaAndar = 1;
+                                    }else{
+                                        currentFloor = 'Terreo';
+                                        validaAndar = 0;
+                                    }
+
+                                } else {
+                                    if(validaAndar == 0){
+                                        currentFloor = 'Segundo';
+                                        validaAndar = 1;
+                                    }else{
+                                        currentFloor = 'Terreo'
+                                        validaAndar = 0;
+                                    }
+
+                                }
+                                
                                 draw();
                                 // Remove o listener de clique para evitar múltiplas execuções
                                 canvas.removeEventListener('click', clickHandler);
@@ -319,7 +349,7 @@
                     ctx.fillStyle = 'lightgrey';
 
                 });
-            
+
                 // Desenha a rota com uma linha vermelha
                 if (rota.length > 0) {
                     ctx.strokeStyle = 'red';
@@ -327,14 +357,12 @@
                     ctx.beginPath();
 
                     const start = positions[currentFloor][rota[0]];
-
-                    console.log(start);
-
+                    
                     ctx.moveTo(start[0] + 10, start[1] + 10);
-
+                    
                     rota.slice(1).forEach(room => {
                         const point = positions[currentFloor][room];
-                        ctx.lineTo(point[0] + 10, point[1] +10);
+                        ctx.lineTo(point[0] + 10, point[1] + 10);
                     });
 
                     ctx.stroke();
@@ -343,7 +371,7 @@
                     const [endX, endY] = positions[currentFloor][rota[rota.length - 1]];
                     const [startX, startY] = positions[currentFloor][rota[rota.length - 2]];
                     drawArrow(ctx, startX + 10, startY + 10, endX + 10, endY + 10);
-                    
+
                 }
 
                 ctx.restore();
@@ -351,7 +379,7 @@
 
             function drawArrow(ctx, startX, startY, endX, endY, arrowSize = 20) {
                 const angle = Math.atan2(endY - startY, endX - startX);
-                
+
                 ctx.fillStyle = 'red';
                 ctx.beginPath();
                 ctx.moveTo(endX, endY);

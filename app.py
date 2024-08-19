@@ -146,73 +146,80 @@ G.add_edge("Centro", "C19", weight=44)
 G.add_edge("Escada A", "C26", weight=1)
 G.add_edge("C26", "Sala 201", weight=1)
 
-andar_info = {
-    "Portaria": "1",
-    "C0": "1",
-    "TI": "1",
-    "Centro": "1",
-    "C20": "1",
-    "Xerox": "1",
-    "C1": "1",
-    "Lab. Info. Geral": "1",
-    "Escada A": "1",  # Conecta ao segundo andar
-    "Capela": "1",
-    "C2": "1",
-    "Pastoral": "1",
-    "C3": "1",
-    "Diretoria": "1",
-    "C4": "1",
-    "Lab. AutoCad": "1",
-    "C5": "1",
-    "Corredor S.J.": "1",
-    "C6": "1",
-    "Sala Prof. 1": "1",
-    "C7": "1",
-    "Sala Prof. 2": "1",
-    "C8": "1",
-    "WC/Vest. M": "1",
-    "C9": "1",
-    "WC/Vest. F": "1",
-    "Ref./Cantina": "1",
-    "C10": "1",
-    "C11": "1",
-    "WC Familia": "1",
-    "C12": "1",
-    "Sala Prof.": "1",
-    "C13": "1",
-    "Escada B": "1",  # Conecta ao segundo andar
-    "Biblioteca": "1",
-    "C14": "1",
-    "Cant. Leitura": "1",
-    "C15": "1",
-    "Escada C": "1",  # Conecta ao segundo andar
-    "C16": "1",
-    "Coordenação": "1",
-    "C17": "1",
-    "Secretaria": "1",
-    "C18": "1",
-    "Social": "1",
-    "C19": "1",
-    "Sala Estágio": "1",
-    "C21": "1",
-    "C22": "1",
-    "C23": "1",
-    "C24": "1",
-    "Elevador": "1",  # Conecta ao segundo andar
-    "C25": "1",
-    "Estacionamento": "1",
-    "Prédio M.B.": "1",
+G.add_edge("Escada F", "C28", weight=1)
+G.add_edge("C28", "Sala 301", weight=1)
 
-    # Segundo andar (exemplos)
-    "Sala 201": "2",
-    "Sala 202": "2",
-    "Sala 203": "2",
-    "C26": "2",
-    "C27": "2",
+andar_info = {
+    # Terreo
+    "Portaria": "0",
+    "C0": "0",
+    "TI": "0",
+    "Centro": "0",
+    "C20": "0",
+    "Xerox": "0",
+    "C1": "0",
+    "Lab. Info. Geral": "0",
+    "Escada A": "0",  
+    "Capela": "0",
+    "C2": "0",
+    "Pastoral": "0",
+    "C3": "0",
+    "Diretoria": "0",
+    "C4": "0",
+    "Lab. AutoCad": "0",
+    "C5": "0",
+    "Corredor S.J.": "0",
+    "C6": "0",
+    "Sala Prof. 1": "0",
+    "C7": "0",
+    "Sala Prof. 2": "0",
+    "C8": "0",
+    "WC/Vest. M": "0",
+    "C9": "0",
+    "WC/Vest. F": "0",
+    "Ref./Cantina": "0",
+    "C10": "0",
+    "C11": "0",
+    "WC Familia": "0",
+    "C12": "0",
+    "Sala Prof.": "0",
+    "C13": "0",
+    "Escada B": "0",  
+    "Biblioteca": "0",
+    "C14": "0",
+    "Cant. Leitura": "0",
+    "C15": "0",
+    "Escada C": "0",  
+    "C16": "0",
+    "Coordenação": "0",
+    "C17": "0",
+    "Secretaria": "0",
+    "C18": "0",
+    "Social": "0",
+    "C19": "0",
+    "Sala Estágio": "0",
+    "C21": "0",
+    "C22": "0",
+    "C23": "0",
+    "C24": "0",
+    "Elevador": "0",
+    "C25": "0",
+    "Estacionamento": "0",
+    "Prédio M.B.": "0",
+    "Escada F": "0",
+
+    # Primeiro andar
+    "Sala 201": "1",
+    "C26": "1",
+    
+    # Segundo andar 
+    "Sala 301": "2",
+    "C28": "2",
 }
 
-# Adicionando essa informação ao grafo
-nx.set_node_attributes(G, andar_info, 'andar')
+# Associar a informação dos andares aos nós
+for node, andar in andar_info.items():
+    G.nodes[node]['andar'] = andar
 
 @app.route('/')
 def index():
@@ -226,7 +233,7 @@ def rota():
         caminho = nx.dijkstra_path(G, source='Portaria', target=destino, weight='weight')
         
         # Obter as informações de andar para cada nó no caminho
-        andares = [G.nodes[n]['andar'] for n in caminho]
+        andares = [G.nodes[n].get('andar', 'andar padrão') for n in caminho]
         
         # Obtendo as arestas para desenhar no canvas
         arestas = [(u, v, data['weight']) for u, v, data in G.edges(data=True)]
