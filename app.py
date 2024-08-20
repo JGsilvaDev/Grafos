@@ -132,7 +132,53 @@ G.add_edge("C24", "C23", weight=5)
 
 G.add_edge("C25", "C22", weight=12)
 G.add_edge("C25", "Estacionamento", weight=1)
-G.add_edge("C25", "Prédio M.B.", weight=1)
+G.add_edge("C25", "Entrada Prédio M.B.", weight=1)
+
+G.add_edge("Estacionamento", "Lab. Civil", weight=10)
+G.add_edge("Estacionamento", "C105", weight=10)
+G.add_edge("Estacionamento", "C25", weight=10)
+
+G.add_edge("Entrada Prédio M.B.", "C101", weight=13)
+
+G.add_edge("C101", "Entrada Prédio M.B.", weight=13)
+G.add_edge("C101", "Lab. Mec./Projeto", weight=5)
+G.add_edge("C101", "Saida Prédio M.B.", weight=10)
+G.add_edge("C101", "C102", weight=8)
+
+G.add_edge("Lab. Mec./Projeto", "C101", weight=5)
+
+G.add_edge("Saida Prédio M.B.", "C101", weight=10)
+
+G.add_edge("C102", "C101", weight=8)
+G.add_edge("C102", "Escada M.B.", weight=5)
+G.add_edge("C102", "C103", weight=4)
+
+G.add_edge("Escada M.B.", "C102", weight=5)
+
+G.add_edge("C103", "C102", weight=4)
+G.add_edge("C103", "Elevador M.B.", weight=5)
+G.add_edge("C103", "Lab. Mecanica", weight=5)
+G.add_edge("C103", "C104", weight=13)
+
+G.add_edge("Elevador M.B.", "C103", weight=5)
+
+G.add_edge("C104", "C103", weight=13)
+G.add_edge("C104", "Banheiros", weight=5)
+G.add_edge("C104", "Oficina/Aero Unisal", weight=8)
+
+G.add_edge("Oficina/Aero Unisal", "C104", weight=8)
+
+G.add_edge("Banheiros", "C104", weight=5)
+
+G.add_edge("Saida Prédio M.B.", "C105", weight=5)
+G.add_edge("C105", "Lab. Civil", weight=49)
+G.add_edge("C105", "Estacionamento", weight=10)
+
+G.add_edge("Lab. Civil", "C106", weight=12)
+G.add_edge("Lab. Civil", "Estacionamento", weight=10)
+G.add_edge("C106", "Lab. Mecanica", weight=40)
+
+G.add_edge("Lab. Mecanica", "103", weight=5)
 
 G.add_edge("Centro", "C0", weight=32)
 G.add_edge("Centro", "C1", weight=44)
@@ -144,10 +190,9 @@ G.add_edge("Centro", "Coordenação", weight=25)
 G.add_edge("Centro", "C19", weight=44)
 
 G.add_edge("Escada A", "C26", weight=1)
+
 G.add_edge("C26", "Sala 201", weight=1)
-
 G.add_edge("C26", "Escada A", weight=1)
-
 
 G.add_edge("Escada F", "C28", weight=1)
 G.add_edge("C28", "Sala 301", weight=1)
@@ -208,9 +253,8 @@ andar_info = {
     "Elevador": "0",
     "C25": "0",
     "Estacionamento": "0",
-    "Prédio M.B.": "0",
     "Escada F": "0",
-
+    
     # Primeiro andar
     "Sala 201": "1",
     "C26": "1",
@@ -218,6 +262,25 @@ andar_info = {
     # Segundo andar 
     "Sala 301": "2",
     "C28": "2",
+    
+    # Prédio M.B.
+    "Entrada Prédio M.B.": "0",
+    "C101": "0",
+    "C102": "0",
+    "C103": "0",
+    "C104": "0",
+    "C105": "0",
+    "C106": "0",
+    "Saida Prédio M.B.": "0",
+    "Lab. Mec./Projeto": "0",
+    "Escada M.B.": "0",
+    "Elevador M.B.": "0",
+    "Oficina/Aero Unisal": "0",
+    "Banheiros": "0",
+    "Lab. Mecanica": "0",
+    "Lab. Civil": "0",
+
+    
 }
 
 # Associar a informação dos andares aos nós
@@ -233,7 +296,7 @@ def rota():
     destino = request.form.get('destino')
     try:
         # Calculando o caminho mais curto a partir da entrada
-        caminho = nx.dijkstra_path(G, source='Sala 301', target=destino, weight='weight')
+        caminho = nx.dijkstra_path(G, source='Portaria', target=destino, weight='weight')
         
         # Obter as informações de andar para cada nó no caminho
         andares = [G.nodes[n].get('andar', 'andar padrão') for n in caminho]
