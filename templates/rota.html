@@ -69,12 +69,12 @@
 
     <script>
 
-        function verificaAndar(andar){
-            if(andar == 0){
+        function verificaAndar(andar) {
+            if (andar == 0) {
                 valor = 'Terreo';
-            }else if(andar == 1){
+            } else if (andar == 1) {
                 valor = 'Primeiro';
-            }else{
+            } else {
                 valor = 'Segundo';
             }
 
@@ -93,9 +93,9 @@
             let currentFloor = '';
             let rota = [];
             let validaAndar = 0;
-            let desceu = 0; 
-            let teste = 0;
-    
+            let subiu = 0;
+            let mb = 0;
+
             document.getElementById('destinoDisplay').textContent = destino;
 
             const canvas = document.getElementById('mapaCanvas');
@@ -109,7 +109,7 @@
             let offsetY = 0;
 
             // Evento para iniciar o panning
-            canvas.addEventListener('mousedown', (e) => {
+            /*canvas.addEventListener('mousedown', (e) => {
                 isPanning = true;
                 startX = e.clientX - offsetX;
                 startY = e.clientY - offsetY;
@@ -163,7 +163,7 @@
             zoomOutButton.addEventListener('click', function () {
                 scale /= 1.2; // Diminui a escala
                 draw();
-            });
+            });*/
 
             // Definindo as posições das salas para diferentes andares
             const positions = {
@@ -226,23 +226,8 @@
                     "Sala Arquivo": [360, 71],
                     "Capela": [100, 550],
                     "Corredor S.J.": [70, 325],
-                    "Estacionamento": [500, -100],
+                    "Estacionamento": [500, 10],
                     "Entrada Prédio M.B.": [130, 10],
-                    "Oficina/Aero Unisal": [130, -210],
-                    "C101": [130, -40],
-                    "Lab. Mec./Projeto": [80, -40],
-                    "Saida Prédio M.B.": [200, -40],
-                    "C102": [130, -75],
-                    "Escada M.B.": [160, -75],
-                    "C103": [130, -100],
-                    "Lab. Mecanica": [80, -100],
-                    "Elevador M.B.": [160, -100],
-                    "C104": [130, -160],
-                    "Banheiros": [160, -160],
-                    "C105": [255, -40],
-                    "Lab. Civil": [255, -300],
-                    "C106": [80, -300],
-
                 },
                 "Primeiro": {
                     "Escada A": [100, 500],
@@ -259,10 +244,33 @@
                     "Elevador": [325, 40],
                     "C28": [50, 500],
                     "Sala 301": [100, 400],
+                },
+                "MB": {
+                    "Entrada Prédio M.B.": [400, 500],
+                    "Oficina/Aero Unisal": [400, 200],
+                    "C101": [400, 410],
+                    "Lab. Mec./Projeto": [330, 410],
+                    "Saida Prédio M.B.": [480, 410],
+                    "C102": [400, 375],
+                    "Escada M.B.": [480, 375],
+                    "C103": [400, 340],
+                    "Lab. Mecanica": [330, 340],
+                    "Elevador M.B.": [480, 340],
+                    "C104": [400, 285],
+                    "Banheiros": [480, 285],
+                    "C105": [560, 410],
+                    "Lab. Civil": [560, 100],
+                    "C106": [330, 100],
+                    "Estacionamento": [630, 285],
+                },
+                "MB1": {
+                    "Escada M.B.": [480, 340],
+                    "C107": [400, 340],
+                    "MB09": [400, 250],
                 }
             };
 
-            
+
             // Função para desenhar o mapa
             function draw() {
                 let verifica = andar.length; // Inicializa verifica com o valor padrão (comprimento do array)
@@ -276,53 +284,73 @@
 
                 let destinoFinal = andar.length - 1
 
-                // Não sei oq foi feito aqui mas funciona
-                if (currentFloor == 'Terreo') {
-                    if(desceu == 0){
-                        rota = rotaCompleta.slice(0, verifica + 1 );
-                        currentFloor = verificaAndar(andar[0]);
-                        desceu = 1;
-                        
-                    }else{
-                        if(teste == 1){
-                            rota = rotaCompleta.slice(verifica - 1);
-                        }else{
-                            rota = rotaCompleta.slice(verifica);
+                let changePositions = []
 
-                        }
-
-                        desceu = 0;
-                        
-                    }
-                    
-                } else {
-                    if(andar[0] != 0){
-                        if(desceu == 0){
-                            rota = rotaCompleta.slice(0, verifica + 1); 
-                            currentFloor = verificaAndar(andar[0]);
-
-                            desceu = 1;
-                            teste = 0;
-
-                        }else{
-                            rota = rotaCompleta.slice(0, verifica);
-                            desceu = 0;  
-                        }
-                    }else{
-                        if(desceu == 0){
-                            rota = rotaCompleta.slice(0, verifica);
-                            currentFloor = verificaAndar(andar[0]);
-
-                            desceu = 1;
-
-                        }else{
-                            rota = rotaCompleta.slice(verifica - 1);
-                            desceu = 0;
-
-                        }
-
+                for (let i = 1; i < andar.length; i++) {
+                    if (andar[i] !== andar[i - 1]) {
+                        changePositions.push(i);
                     }
                 }
+
+                currentFloor = verificaAndar(andar[0]);
+
+                // Não sei oq foi feito aqui mas funciona
+                if (currentFloor == "Terreo") {
+                    if ((andar[destinoFinal] == 0 || andar[destinoFinal] == 1) && subiu == 0) {
+                        rota = rotaCompleta.slice(0, verifica);
+                        subiu = 1;
+
+                    } else if (andar[destinoFinal] == 2 && subiu == 0) {
+                        if (currentFloor == "Terreo") {
+                            rota = rotaCompleta.slice(0, verifica);
+                            subiu = 1
+                        }
+
+                    } else if ((andar[destinoFinal] == "MB" || andar[destinoFinal] == "MB1") && subiu == 0) {
+                        if (currentFloor == "Terreo") {
+                            rota = rotaCompleta.slice(0, verifica);
+                            subiu = 1
+                        }
+                    } else {
+                        if (andar[destinoFinal] == 2) {
+                            currentFloor = "Segundo";
+                            rota = rotaCompleta.slice(verifica - 1);
+
+                            console.log(2);
+
+
+                        } else if (andar[destinoFinal] == 1) {
+                            currentFloor = "Primeiro";
+                            rota = rotaCompleta.slice(verifica - 1);
+
+                            console.log(1);
+
+
+                        } else if (andar[destinoFinal] == "MB") {
+                            currentFloor = "MB";
+                            rota = rotaCompleta.slice(verifica - 1);
+
+                        } else if (andar[destinoFinal] == "MB1") {
+                            rota = rotaCompleta.slice(changePositions[0] - 1, changePositions[1]);
+                            currentFloor = "MB";
+                        
+                        }
+
+                        subiu = 0;
+
+                    }
+
+                } else if (currentFloor == "Primeiro") {
+                    rota = rotaCompleta.slice(verifica - 1)
+
+                }
+
+                // console.log(andar[destinoFinal]);
+                // console.log(rota);
+                // console.log(currentFloor);
+                // console.log(andar[destinoFinal]);
+                // console.log(mb);
+
 
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
@@ -359,7 +387,7 @@
                     const centerY = y + height / 2;
 
                     // Verificar se é uma escada e mudar a cor para verde se estiver na rota
-                    if (rota.includes(key) && key.startsWith('Escada')) {
+                    if (rota.includes(key) && (key.startsWith('Escada') || key.startsWith('Entrada'))) {
                         ctx.fillStyle = 'green';
 
                         // Tornar a escada clicável apenas se estiver na rota
@@ -378,12 +406,30 @@
                                 if (andar[destinoFinal] == 0) {
                                     currentFloor = 'Terreo'
 
-                                } else if (andar[destinoFinal] == 1) {
+                                } else if (andar[destinoFinal] == 1 || andar[destinoFinal] == 2) {
                                     if (validaAndar == 0) {
                                         currentFloor = 'Primeiro';
                                         validaAndar = 1;
                                     } else {
-                                        currentFloor = 'Terreo';
+                                        if (andar[destinoFinal] == 2) {
+                                            currentFloor = 'Segundo';
+                                        } else {
+                                            currentFloor = 'Primeiro';
+                                        }
+                                    }
+
+                                } else if (andar[destinoFinal] == "MB" || andar[destinoFinal] == "MB1") {
+                                    if (validaAndar == 0) {
+                                        currentFloor = 'MB';
+                                        validaAndar = 1;
+                                    } else {
+                                        if (andar[destinoFinal] == "MB1") {
+                                            currentFloor = 'MB1';
+                                            
+                                        } else {
+                                            currentFloor = 'Terreo';
+                                        }
+
                                         validaAndar = 0;
                                     }
 
@@ -394,9 +440,14 @@
                                     } else {
                                         currentFloor = 'Terreo'
                                         validaAndar = 0;
+                                        
                                     }
 
                                 }
+
+                                // console.log(andar[destinoFinal]);
+                                // console.log(currentFloor);
+                                
 
                                 draw();
                                 // Remove o listener de clique para evitar múltiplas execuções

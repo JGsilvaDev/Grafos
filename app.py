@@ -154,6 +154,7 @@ G.add_edge("C102", "Escada M.B.", weight=5)
 G.add_edge("C102", "C103", weight=4)
 
 G.add_edge("Escada M.B.", "C102", weight=5)
+G.add_edge("Escada M.B.", "C107", weight=1)
 
 G.add_edge("C103", "C102", weight=4)
 G.add_edge("C103", "Elevador M.B.", weight=5)
@@ -179,6 +180,9 @@ G.add_edge("Lab. Civil", "Estacionamento", weight=10)
 G.add_edge("C106", "Lab. Mecanica", weight=40)
 
 G.add_edge("Lab. Mecanica", "103", weight=5)
+
+G.add_edge("C107", "MB09", weight=10)
+G.add_edge("C107", "Escada M.B", weight=10)
 
 G.add_edge("Centro", "C0", weight=32)
 G.add_edge("Centro", "C1", weight=44)
@@ -265,21 +269,24 @@ andar_info = {
     
     # Prédio M.B.
     "Entrada Prédio M.B.": "0",
-    "C101": "0",
-    "C102": "0",
-    "C103": "0",
-    "C104": "0",
-    "C105": "0",
-    "C106": "0",
-    "Saida Prédio M.B.": "0",
-    "Lab. Mec./Projeto": "0",
-    "Escada M.B.": "0",
-    "Elevador M.B.": "0",
-    "Oficina/Aero Unisal": "0",
-    "Banheiros": "0",
-    "Lab. Mecanica": "0",
-    "Lab. Civil": "0",
-
+    "C101": "MB",
+    "C102": "MB",
+    "C103": "MB",
+    "C104": "MB",
+    "C105": "MB",
+    "C106": "MB",
+    "Saida Prédio M.B.": "MB",
+    "Lab. Mec./Projeto": "MB",
+    "Escada M.B.": "MB",
+    "Elevador M.B.": "MB",
+    "Oficina/Aero Unisal": "MB",
+    "Banheiros": "MB",
+    "Lab. Mecanica": "MB",
+    "Lab. Civil": "MB",
+    
+    # Primeiro andar M.B.
+    "C107": "MB1",
+    "MB09": "MB1",
     
 }
 
