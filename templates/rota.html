@@ -307,32 +307,44 @@
                         }
 
                     } else if ((andar[destinoFinal] == "MB" || andar[destinoFinal] == "MB1") && subiu == 0) {
-                        if (currentFloor == "Terreo") {
+                        if (currentFloor == "Terreo" && mb == 0) {
                             rota = rotaCompleta.slice(0, verifica);
                             subiu = 1
+                        }else{
+                            rota = rotaCompleta.slice(changePositions[1] - 1);
+                            
+                            subiu = 1
+                            mb = 0
+                            currentFloor = "MB1"
+                            
                         }
+
+                        
                     } else {
                         if (andar[destinoFinal] == 2) {
                             currentFloor = "Segundo";
                             rota = rotaCompleta.slice(verifica - 1);
 
-                            console.log(2);
-
-
                         } else if (andar[destinoFinal] == 1) {
                             currentFloor = "Primeiro";
                             rota = rotaCompleta.slice(verifica - 1);
-
-                            console.log(1);
-
 
                         } else if (andar[destinoFinal] == "MB") {
                             currentFloor = "MB";
                             rota = rotaCompleta.slice(verifica - 1);
 
                         } else if (andar[destinoFinal] == "MB1") {
-                            rota = rotaCompleta.slice(changePositions[0] - 1, changePositions[1]);
-                            currentFloor = "MB";
+                            if(currentFloor == "Terreo"){                                
+                                rota = rotaCompleta.slice(changePositions[0] - 1, changePositions[1]);
+                                currentFloor = "MB";
+
+                                console.log(subiu);
+                                
+                                
+                            }else{
+                                rota = rotaCompleta.slice(verifica - 1);
+                                currentFloor = "MB1";
+                            }
                         
                         }
 
@@ -344,14 +356,6 @@
                     rota = rotaCompleta.slice(verifica - 1)
 
                 }
-
-                // console.log(andar[destinoFinal]);
-                // console.log(rota);
-                // console.log(currentFloor);
-                // console.log(andar[destinoFinal]);
-                // console.log(mb);
-
-
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
 
@@ -424,13 +428,25 @@
                                         validaAndar = 1;
                                     } else {
                                         if (andar[destinoFinal] == "MB1") {
-                                            currentFloor = 'MB1';
+                                            if(currentFloor == "MB"){
+                                                if(mb == 0){
+                                                    currentFloor = 'MB'; 
+                                                    mb = 1
+                                                }else{
+                                                    currentFloor = 'Terreo';
+                                                }
+                                                
+                                            }else{
+                                                currentFloor = 'MB1'
+                                            }
                                             
                                         } else {
                                             currentFloor = 'Terreo';
                                         }
 
                                         validaAndar = 0;
+
+                                        
                                     }
 
                                 } else {
@@ -445,8 +461,8 @@
 
                                 }
 
-                                // console.log(andar[destinoFinal]);
                                 // console.log(currentFloor);
+                                // console.log(mb);
                                 
 
                                 draw();
