@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <title>Mapa</title>
 
     <style>
@@ -65,20 +67,39 @@
             border-radius: 5px;
             z-index: 1000;
         }
+
+        #btnVoltar {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
     </style>
 </head>
 
 <body>
     <h1>Mapa</h1>
     <div id="mapaContainer">
-        <div id="andarDisplay"></div>
+        <select id="andarDisplay">
+            <option value="Terreo" selected>Térreo</option>
+            <option value="Primeiro">Primeiro Andar</option>
+            <option value="Segundo">Segundo Andar</option>
+            <option value="MB">MB</option>
+            <option value="MB1">MB1</option>
+        </select>
+
         <canvas id="mapaCanvas" width="800" height="600"></canvas>
         <div id="zoomButtons">
             <button id="zoomInButton">+</button>
             <button id="zoomOutButton">-</button>
         </div>
     </div>
-    <button onclick="window.location.href='/'">Voltar</button>
+    <button id="btnVoltar" onclick="window.location.href='/'"><span
+            class="material-symbols-outlined">undo</span></button>
 </body>
 
 </html>
@@ -236,7 +257,6 @@
         };
 
         function draw() {
-            andarDisplay.textContent = currentFloor;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
 
@@ -270,16 +290,12 @@
                 const height = 20;
                 const centerX = x + width / 2;
                 const centerY = y + height / 2;
-                
+
                 const isNotCPlusNumber = !/^C\d/.test(key);
 
                 if (isNotCPlusNumber) {
-                    if ((key.startsWith('Escada') || key.startsWith('Entrada'))) {
-                        ctx.fillStyle = 'green';
 
-                    } else {
-                        ctx.fillStyle = 'lightgrey';
-                    }
+                    ctx.fillStyle = 'lightgrey';
 
                     ctx.beginPath();
                     ctx.rect(x, y, width, height);
@@ -300,64 +316,18 @@
 
         }
 
-        canvas.addEventListener('click', function clickHandler(event) {
-            const rect = canvas.getBoundingClientRect();
-            const clickX = event.clientX - rect.left;
-            const clickY = event.clientY - rect.top;
-
-            Object.keys(positions[currentFloor]).forEach(key => {
-                const [x, y] = positions[currentFloor][key];
-                const width = 20;
-                const height = 20;
-
-                if (
-                    clickX >= x + offsetX &&
-                    clickX <= x + offsetX + width &&
-                    clickY >= y + offsetY &&
-                    clickY <= y + offsetY + height
-                ) {
-                    if (key.startsWith('Escada A') || key.startsWith('Escada B') || key.startsWith('Escada C') || key.startsWith('Escada D')) {
-                        if (validaAndar == 0) {
-                            currentFloor = 'Primeiro';
-                            validaAndar = 1;
-                        } else {
-                            currentFloor = 'Terreo';
-                            validaAndar = 0;
-                        }
-
-                    } else if (key.startsWith('Entrada')) {
-                        if (validaAndar == 0) {
-                            currentFloor = 'MB';
-                            validaAndar = 1;
-                        } else {
-                            currentFloor = 'Terreo';
-                            validaAndar = 0;
-                        }
-
-                    } else if (key.startsWith('Escada F')) {
-                        if (validaAndar == 0) {
-                            currentFloor = 'Primeiro';
-                            validaAndar = 1;
-                        } else {
-                            currentFloor = 'Terreo';
-                            validaAndar = 0;
-                        }
-                    } else if (key.startsWith('Escada M.B.')) {
-                        if (validaAndar == 0) {
-                            currentFloor = 'MB1';
-                            validaAndar = 1;
-                        } else {
-                            currentFloor = 'MB';
-                            validaAndar = 0;
-                        }
-                    }
-
-                    draw();
-                }
-            });
-        });
+        andarDisplay.addEventListener('change', setAndar);
 
         draw();
+
+        function setAndar() {
+            const andarDisplay = document.getElementById('andarDisplay');
+            const andarSelecionado = andarDisplay.value;
+
+            // Atualiza o andar atual
+            currentFloor = andarSelecionado;
+            draw(); // Redesenha o canvas
+        }
     });
 
 </script>
