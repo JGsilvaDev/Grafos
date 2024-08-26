@@ -53,12 +53,24 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        #andarDisplay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
     </style>
 </head>
 
 <body>
     <h1>Rota para <span id="destinoDisplay"></span></h1>
     <div id="mapaContainer">
+        <div id="andarDisplay">Andar: </div>
         <canvas id="mapaCanvas" width="800" height="600"></canvas>
         <div id="zoomButtons">
             <button id="zoomInButton">+</button>
@@ -74,8 +86,12 @@
                 valor = 'Terreo';
             } else if (andar == 1) {
                 valor = 'Primeiro';
-            } else {
+            } else if(andar == 2){
                 valor = 'Segundo';
+            }else if(andar == 'MB'){
+                valor = 'MB';
+            }else{
+                valor = 'MB1';
             }
 
             return valor;
@@ -96,10 +112,13 @@
             let subiu = 0;
             let mb = 0;
 
+            let andares = []
+
             document.getElementById('destinoDisplay').textContent = destino;
 
             const canvas = document.getElementById('mapaCanvas');
             const ctx = canvas.getContext('2d');
+            const andarDisplay = document.getElementById('andarDisplay');
 
             // Variáveis para panning
             let isPanning = false;
@@ -271,9 +290,13 @@
             };
 
 
+            currentFloor = verificaAndar(andar[0]);
+
             // Função para desenhar o mapa
             function draw() {
                 let verifica = andar.length; // Inicializa verifica com o valor padrão (comprimento do array)
+
+                andarDisplay.textContent = currentFloor;
 
                 for (let i = 1; i < andar.length; i++) {
                     if (andar[i] !== andar[i - 1]) {
@@ -292,13 +315,11 @@
                     }
                 }
 
-                currentFloor = verificaAndar(andar[0]);
-
                 // Não sei oq foi feito aqui mas funciona
                 if (currentFloor == "Terreo") {
                     if ((andar[destinoFinal] == 0 || andar[destinoFinal] == 1) && subiu == 0) {
                         rota = rotaCompleta.slice(0, verifica);
-                        subiu = 1;
+                        subiu = 0;
 
                     } else if (andar[destinoFinal] == 2 && subiu == 0) {
                         if (currentFloor == "Terreo") {
@@ -307,45 +328,32 @@
                         }
 
                     } else if ((andar[destinoFinal] == "MB" || andar[destinoFinal] == "MB1") && subiu == 0) {
-                        if (currentFloor == "Terreo" && mb == 0) {
+                        if (currentFloor == "Terreo") {
                             rota = rotaCompleta.slice(0, verifica);
-                            subiu = 1
-                        }else{
+
+                        } else {
                             rota = rotaCompleta.slice(changePositions[1] - 1);
-                            
                             subiu = 1
-                            mb = 0
-                            currentFloor = "MB1"
-                            
+
                         }
 
-                        
                     } else {
                         if (andar[destinoFinal] == 2) {
                             currentFloor = "Segundo";
                             rota = rotaCompleta.slice(verifica - 1);
 
                         } else if (andar[destinoFinal] == 1) {
-                            currentFloor = "Primeiro";
-                            rota = rotaCompleta.slice(verifica - 1);
+                            currentFloor = "Terreo";
+                            rota = rotaCompleta.slice(0, verifica);
 
                         } else if (andar[destinoFinal] == "MB") {
-                            currentFloor = "MB";
-                            rota = rotaCompleta.slice(verifica - 1);
+                            currentFloor = "Terreo";
+                            rota = rotaCompleta.slice(0, verifica);
 
                         } else if (andar[destinoFinal] == "MB1") {
-                            if(currentFloor == "Terreo"){                                
-                                rota = rotaCompleta.slice(changePositions[0] - 1, changePositions[1]);
-                                currentFloor = "MB";
+                            currentFloor = "Terreo"
+                            rota = rotaCompleta.slice(0, verifica);
 
-                                console.log(subiu);
-                                
-                                
-                            }else{
-                                rota = rotaCompleta.slice(verifica - 1);
-                                currentFloor = "MB1";
-                            }
-                        
                         }
 
                         subiu = 0;
@@ -353,8 +361,37 @@
                     }
 
                 } else if (currentFloor == "Primeiro") {
-                    rota = rotaCompleta.slice(verifica - 1)
+                    if (andar[destinoFinal] == 1 && subiu == 0) {
+                        rota = rotaCompleta.slice(verifica - 1);
+                        subiu = 1
 
+                    } else {
+                        rota = rotaCompleta.slice(0, verifica);
+                        subiu = 0
+                    }
+
+                } else if (currentFloor == "Segundo") {
+                    if (andar[destinoFinal] == 2 && subiu == 0) {
+                        rota = rotaCompleta.slice(verifica - 1);
+                        subiu = 1
+
+                    } else {
+                        rota = rotaCompleta.slice(verifica - 1);
+                        subiu = 0
+                    }
+
+                } else if (currentFloor == "MB") {
+                    if (andar[destinoFinal] == 'MB1') {
+                        rota = rotaCompleta.slice(changePositions[0] - 1, changePositions[1]);
+                        subiu = 0
+
+                    } else {
+                        rota = rotaCompleta.slice(verifica - 1);
+                    }
+
+                } else if (currentFloor == "MB1") {
+                    rota = rotaCompleta.slice(changePositions[1] - 1);
+                    subiu = 1
                 }
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
@@ -407,63 +444,68 @@
                                 clickY <= y + offsetY + height
                             ) {
 
-                                if (andar[destinoFinal] == 0) {
-                                    currentFloor = 'Terreo'
+                                if (key.startsWith('Escada')) {
 
-                                } else if (andar[destinoFinal] == 1 || andar[destinoFinal] == 2) {
-                                    if (validaAndar == 0) {
-                                        currentFloor = 'Primeiro';
-                                        validaAndar = 1;
-                                    } else {
-                                        if (andar[destinoFinal] == 2) {
-                                            currentFloor = 'Segundo';
-                                        } else {
-                                            currentFloor = 'Primeiro';
-                                        }
-                                    }
+                                    if (andar[destinoFinal] == 0) {
+                                        currentFloor = 'Terreo'
 
-                                } else if (andar[destinoFinal] == "MB" || andar[destinoFinal] == "MB1") {
-                                    if (validaAndar == 0) {
-                                        currentFloor = 'MB';
-                                        validaAndar = 1;
-                                    } else {
-                                        if (andar[destinoFinal] == "MB1") {
-                                            if(currentFloor == "MB"){
-                                                if(mb == 0){
-                                                    currentFloor = 'MB'; 
-                                                    mb = 1
-                                                }else{
-                                                    currentFloor = 'Terreo';
-                                                }
-                                                
-                                            }else{
-                                                currentFloor = 'MB1'
+                                    } else if (andar[destinoFinal] == 1 || andar[destinoFinal] == 2) {
+                                        if (validaAndar == 0) {
+                                            if (andar[destinoFinal] == 2) {
+                                                currentFloor = 'Segundo';
+                                            } else {
+                                                currentFloor = 'Primeiro';
                                             }
-                                            
+                                            validaAndar = 1;
                                         } else {
-                                            currentFloor = 'Terreo';
+                                            currentFloor = 'Terreo'
+                                            validaAndar = 0;
+
                                         }
 
-                                        validaAndar = 0;
 
-                                        
+                                    } else if (andar[destinoFinal] == "MB") {
+                                        if (validaAndar == 0) {
+                                            currentFloor = 'MB';
+                                            validaAndar = 1;
+                                        } else {
+                                            currentFloor = 'Terreo'
+                                            validaAndar = 0
+                                        }
+
+                                    } else if (andar[destinoFinal] == "MB1") {
+                                        if (validaAndar == 0) {
+                                            currentFloor = 'MB1';
+                                            validaAndar = 1;
+                                        } else {
+                                            currentFloor = 'MB'
+                                            validaAndar = 0
+                                        }
+
+                                    } else {
+                                        if (validaAndar == 0) {
+                                            currentFloor = 'Segundo';
+                                            validaAndar = 1;
+                                        } else {
+                                            currentFloor = 'Terreo'
+                                            validaAndar = 0;
+
+                                        }
                                     }
 
-                                } else {
-                                    if (validaAndar == 0) {
-                                        currentFloor = 'Segundo';
-                                        validaAndar = 1;
+                                } else if (key.startsWith('Entrada')) {
+                                    if (mb == 0) {
+                                        currentFloor = 'MB'
+                                        mb = 1
                                     } else {
                                         currentFloor = 'Terreo'
-                                        validaAndar = 0;
-                                        
+                                        mb = 0
                                     }
 
-                                }
+                                    console.log("M.B. " + mb);
 
-                                // console.log(currentFloor);
-                                // console.log(mb);
-                                
+
+                                }
 
                                 draw();
                                 // Remove o listener de clique para evitar múltiplas execuções
@@ -488,6 +530,10 @@
                     ctx.fillStyle = 'lightgrey';
 
                 });
+
+                // console.log('CurrenteFlor: ' + currentFloor);
+                // console.log('Destino final: ' + andar[destinoFinal]);
+                // console.log('Subiu: ' + subiu);
 
                 // Desenha a rota com uma linha vermelha
                 if (rota.length > 0) {
