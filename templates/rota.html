@@ -64,20 +64,38 @@
             border-radius: 5px;
             z-index: 1000;
         }
+
+        #btnVoltar {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
     </style>
 </head>
 
 <body>
     <h1>Rota para <span id="destinoDisplay"></span></h1>
     <div id="mapaContainer">
-        <div id="andarDisplay">Andar: </div>
+        <select id="andarDisplay">
+            <option value="Terreo" selected>Térreo</option>
+            <!-- <option value="Primeiro">Primeiro Andar</option>
+            <option value="Segundo">Segundo Andar</option>
+            <option value="MB">MB</option>
+            <option value="MB1">MB1</option> -->
+        </select>
+
         <canvas id="mapaCanvas" width="800" height="600"></canvas>
         <div id="zoomButtons">
             <button id="zoomInButton">+</button>
             <button id="zoomOutButton">-</button>
         </div>
     </div>
-    <button onclick="window.location.href='/salas'">Voltar</button>
+    <button id="btnVoltar" onclick="window.location.href='/salas'">Voltar</button>
 
     <script>
 
@@ -98,6 +116,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
+            const andarDisplay = document.getElementById('andarDisplay')
             const rotaCompleta = JSON.parse(localStorage.getItem('rota')) || [];
             const arestas = JSON.parse(localStorage.getItem('arestas')) || [];
             const andar = JSON.parse(localStorage.getItem('andares')) || [];
@@ -118,7 +137,6 @@
 
             const canvas = document.getElementById('mapaCanvas');
             const ctx = canvas.getContext('2d');
-            const andarDisplay = document.getElementById('andarDisplay');
 
             // Variáveis para panning
             let isPanning = false;
@@ -289,11 +307,26 @@
                 }
             };
 
+            let changePositions = []
+
+            // Resetando o dropdown list
+
+            andarDisplay.innerHTML = '<option value="Terreo">Térreo</option>'
+
+            for (let i = 1; i < andar.length; i++) {
+                if (andar[i] !== andar[i - 1]) {
+                    changePositions.push(i);
+
+                    andarDisplay.innerHTML += `<option value="${andar[i]}" id="${andar[i]}">${verificaAndar(andar[i])}</option>`
+
+                    andares.push(andar[i])
+
+                }
+            }
+
             // Função para desenhar o mapa
             function draw() {
                 let verifica = andar.length; // Inicializa verifica com o valor padrão (comprimento do array)
-
-                andarDisplay.textContent = currentFloor;
 
                 for (let i = 1; i < andar.length; i++) {
                     if (andar[i] !== andar[i - 1]) {
@@ -303,15 +336,8 @@
                 }
 
                 let destinoFinal = andar.length - 1
-                let changePositions = []
 
-                for (let i = 1; i < andar.length; i++) {
-                    if (andar[i] !== andar[i - 1]) {
-                        changePositions.push(i);
-                    }
-                }
 
-                // Não sei oq foi feito aqui mas funciona
                 if (currentFloor == "Terreo") {
                     if ((andar[destinoFinal] == 0 || andar[destinoFinal] == 1) && subiu == 0) {
                         rota = rotaCompleta.slice(0, verifica);
@@ -503,6 +529,8 @@
                                         }
                                     }
 
+                                   document.getElementById(currentFloor).selected  = true;
+
                                     draw();
 
                                 }
@@ -571,8 +599,16 @@
                 ctx.fill();
             }
 
+            andarDisplay.addEventListener('change', setAndar);
 
             draw();
+
+            function setAndar() {
+                const andarSelecionado = andarDisplay.value;
+                // Atualiza o andar atual
+                currentFloor = andarSelecionado;
+                draw(); // Redesenha o canvas
+            }
         });
     </script>
 </body>
