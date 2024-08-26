@@ -298,6 +298,24 @@ for node, andar in andar_info.items():
 def index():
     return render_template('index.html')
 
+@app.route('/salas')
+def salas():
+    return render_template('salas.html')
+
+@app.route('/mapa', methods=['POST'])
+def mapa():
+    try:
+        # Obtendo as arestas para desenhar no canvas
+        arestas = [(u, v, data['weight']) for u, v, data in G.edges(data=True)]
+        return jsonify({'arestas': arestas})
+    except nx.NetworkXNoPath:
+        return jsonify({'arestas': []})
+    
+@app.route('/mapa')
+def mapa_page():
+    return render_template('mapa.html')
+
+
 @app.route('/rota', methods=['POST'])
 def rota():
     destino = request.form.get('destino')

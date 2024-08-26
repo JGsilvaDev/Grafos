@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa</title>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #mapaContainer {
+            position: relative;
+        }
+
+        canvas {
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #zoomButtons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        #zoomButtons button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #andarDisplay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Mapa</h1>
+    <div id="mapaContainer">
+        <div id="andarDisplay"></div>
+        <canvas id="mapaCanvas" width="800" height="600"></canvas>
+        <div id="zoomButtons">
+            <button id="zoomInButton">+</button>
+            <button id="zoomOutButton">-</button>
+        </div>
+    </div>
+    <button onclick="window.location.href='/'">Voltar</button>
+</body>
+
+</html>
+
+<script>
+    function verificaAndar(andar) {
+        if (andar == 0) {
+            valor = 'Terreo';
+        } else if (andar == 1) {
+            valor = 'Primeiro';
+        } else if (andar == 2) {
+            valor = 'Segundo';
+        } else if (andar == 'MB') {
+            valor = 'MB';
+        } else {
+            valor = 'MB1';
+        }
+
+        return valor;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const arestas = JSON.parse(localStorage.getItem('arestas')) || [];
+
+        const zoomInButton = document.getElementById('zoomInButton');
+        const zoomOutButton = document.getElementById('zoomOutButton');
+        const canvas = document.getElementById('mapaCanvas');
+        const ctx = canvas.getContext('2d');
+        const andarDisplay = document.getElementById('andarDisplay');
+
+        let isPanning = false;
+        let startX = 0;
+        let startY = 0;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        let scale = 1;
+        let currentFloor = verificaAndar(0);
+        let validaAndar = 0;
+
+        // Eventos de zoom
+        zoomInButton.addEventListener('click', function () {
+            scale *= 1.2; // Aumenta a escala
+            draw();
+        });
+
+        zoomOutButton.addEventListener('click', function () {
+            scale /= 1.2; // Diminui a escala
+            draw();
+        });
+
+        // Definindo as posições das salas para diferentes andares
+        const positions = {
+            "Terreo": {
+                "Portaria": [400, 550],
+                "C0": [400, 500],
+                "TI": [333, 500],
+                "Xerox": [216, 500],
+                "Lab. Info. Geral": [150, 550],
+                "Escada A": [100, 500],
+                "Escada B": [593, 100],
+                "Escada C": [700, 220],
+                "Escada D": [700, 500],
+                "Escada F": [295, 40],
+                "Elevador": [325, 40],
+                "C1": [150, 500],
+                "C2": [150, 465],
+                "C3": [150, 409],
+                "C4": [150, 353],
+                "C5": [150, 325],
+                "C6": [150, 298],
+                "C7": [150, 271],
+                "C8": [150, 222],
+                "C9": [150, 173],
+                "Ref./Cantina": [150, 150],
+                "C10": [255, 150],
+                "C11": [360, 150],
+                "C12": [400, 150],
+                "C13": [593, 150],
+                "Biblioteca": [650, 150],
+                "C14": [650, 185],
+                "C15": [650, 220],
+                "C16": [650, 325],
+                "C17": [650, 409],
+                "C18": [650, 465],
+                "C19": [650, 500],
+                "C20": [600, 500],
+                "C21": [255, 119],
+                "C22": [255, 71],
+                "C23": [295, 71],
+                "C24": [325, 71],
+                "C25": [255, 10],
+                "WC/Vest. M": [100, 222],
+                "WC/Vest. F": [100, 173],
+                "WC Familia": [360, 119],
+                "WC Cantina": [305, 119],
+                "Sala Prof.": [400, 119],
+                "Sala Prof. 1": [100, 298],
+                "Sala Prof. 2": [100, 271],
+                "Centro": [400, 325],
+                "Sala Estágio": [600, 550],
+                "Pastoral": [100, 465],
+                "Diretoria": [100, 409],
+                "Lab. AutoCad": [100, 353],
+                "Social": [700, 465],
+                "Secretaria": [700, 409],
+                "Coordenação": [700, 325],
+                "Cant. Leitura": [700, 185],
+                "Quadra": [70, 150],
+                "Sala Arquivo": [360, 71],
+                "Capela": [100, 550],
+                "Corredor S.J.": [70, 325],
+                "Estacionamento": [500, 10],
+                "Entrada Prédio M.B.": [130, 10],
+            },
+            "Primeiro": {
+                "Escada A": [100, 500],
+                "Escada B": [593, 100],
+                "Escada C": [700, 220],
+                "Escada D": [700, 500],
+                "Escada F": [295, 40],
+                "Elevador": [325, 40],
+                "C26": [50, 500],
+                "Sala 201": [100, 400],
+            },
+            "Segundo": {
+                "Escada F": [295, 40],
+                "Elevador": [325, 40],
+                "C28": [50, 500],
+                "Sala 301": [100, 400],
+            },
+            "MB": {
+                "Entrada Prédio M.B.": [400, 500],
+                "Oficina/Aero Unisal": [400, 200],
+                "C101": [400, 410],
+                "Lab. Mec./Projeto": [330, 410],
+                "Saida Prédio M.B.": [480, 410],
+                "C102": [400, 375],
+                "Escada M.B.": [480, 375],
+                "C103": [400, 340],
+                "Lab. Mecanica": [330, 340],
+                "Elevador M.B.": [480, 340],
+                "C104": [400, 285],
+                "Banheiros": [480, 285],
+                "C105": [560, 410],
+                "Lab. Civil": [560, 100],
+                "C106": [330, 100],
+                "Estacionamento": [630, 285],
+            },
+            "MB1": {
+                "Escada M.B.": [480, 340],
+                "C107": [400, 340],
+                "MB09": [400, 250],
+            }
+        };
+
+        function draw() {
+            andarDisplay.textContent = currentFloor;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
+
+            // Aplica o deslocamento
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(scale, scale);
+
+            // Desenhar as arestas
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 1;
+            arestas.forEach(([u, v, weight]) => {
+                if (positions[currentFloor][u] && positions[currentFloor][v]) {
+                    const [x1, y1] = positions[currentFloor][u];
+                    const [x2, y2] = positions[currentFloor][v];
+                    ctx.beginPath();
+                    ctx.moveTo(x1 + 10, y1 + 10);
+                    ctx.lineTo(x2 + 10, y2 + 10);
+                    ctx.stroke();
+                }
+            });
+
+            // Desenhar as salas
+            ctx.fillStyle = 'lightgrey';
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+
+            Object.keys(positions[currentFloor]).forEach(key => {
+                const [x, y] = positions[currentFloor][key];
+                const width = 20;
+                const height = 20;
+                const centerX = x + width / 2;
+                const centerY = y + height / 2;
+                
+                const isNotCPlusNumber = !/^C\d/.test(key);
+
+                if (isNotCPlusNumber) {
+                    if ((key.startsWith('Escada') || key.startsWith('Entrada'))) {
+                        ctx.fillStyle = 'green';
+
+                    } else {
+                        ctx.fillStyle = 'lightgrey';
+                    }
+
+                    ctx.beginPath();
+                    ctx.rect(x, y, width, height);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = 'black';
+                    ctx.font = '12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(key, centerX, y);
+                    ctx.fillStyle = 'lightgrey';
+                }
+
+            });
+
+            ctx.restore(); // Restaura o estado do canvas
+
+        }
+
+        canvas.addEventListener('click', function clickHandler(event) {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const clickY = event.clientY - rect.top;
+
+            Object.keys(positions[currentFloor]).forEach(key => {
+                const [x, y] = positions[currentFloor][key];
+                const width = 20;
+                const height = 20;
+
+                if (
+                    clickX >= x + offsetX &&
+                    clickX <= x + offsetX + width &&
+                    clickY >= y + offsetY &&
+                    clickY <= y + offsetY + height
+                ) {
+                    if (key.startsWith('Escada A') || key.startsWith('Escada B') || key.startsWith('Escada C') || key.startsWith('Escada D')) {
+                        if (validaAndar == 0) {
+                            currentFloor = 'Primeiro';
+                            validaAndar = 1;
+                        } else {
+                            currentFloor = 'Terreo';
+                            validaAndar = 0;
+                        }
+
+                    } else if (key.startsWith('Entrada')) {
+                        if (validaAndar == 0) {
+                            currentFloor = 'MB';
+                            validaAndar = 1;
+                        } else {
+                            currentFloor = 'Terreo';
+                            validaAndar = 0;
+                        }
+
+                    } else if (key.startsWith('Escada F')) {
+                        if (validaAndar == 0) {
+                            currentFloor = 'Primeiro';
+                            validaAndar = 1;
+                        } else {
+                            currentFloor = 'Terreo';
+                            validaAndar = 0;
+                        }
+                    } else if (key.startsWith('Escada M.B.')) {
+                        if (validaAndar == 0) {
+                            currentFloor = 'MB1';
+                            validaAndar = 1;
+                        } else {
+                            currentFloor = 'MB';
+                            validaAndar = 0;
+                        }
+                    }
+
+                    draw();
+                }
+            });
+        });
+
+        draw();
+    });
+
+</script>
