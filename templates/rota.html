@@ -77,7 +77,7 @@
             <button id="zoomOutButton">-</button>
         </div>
     </div>
-    <button onclick="window.location.href='/'">Voltar</button>
+    <button onclick="window.location.href='/salas'">Voltar</button>
 
     <script>
 
@@ -86,11 +86,11 @@
                 valor = 'Terreo';
             } else if (andar == 1) {
                 valor = 'Primeiro';
-            } else if(andar == 2){
+            } else if (andar == 2) {
                 valor = 'Segundo';
-            }else if(andar == 'MB'){
+            } else if (andar == 'MB') {
                 valor = 'MB';
-            }else{
+            } else {
                 valor = 'MB1';
             }
 
@@ -106,7 +106,7 @@
             const zoomOutButton = document.getElementById('zoomOutButton');
             let verifica = 0;
             let scale = 1;
-            let currentFloor = '';
+            let currentFloor = verificaAndar(andar[0]);
             let rota = [];
             let validaAndar = 0;
             let subiu = 0;
@@ -289,9 +289,6 @@
                 }
             };
 
-
-            currentFloor = verificaAndar(andar[0]);
-
             // Função para desenhar o mapa
             function draw() {
                 let verifica = andar.length; // Inicializa verifica com o valor padrão (comprimento do array)
@@ -306,7 +303,6 @@
                 }
 
                 let destinoFinal = andar.length - 1
-
                 let changePositions = []
 
                 for (let i = 1; i < andar.length; i++) {
@@ -427,113 +423,108 @@
                     const centerX = x + width / 2;
                     const centerY = y + height / 2;
 
-                    // Verificar se é uma escada e mudar a cor para verde se estiver na rota
-                    if (rota.includes(key) && (key.startsWith('Escada') || key.startsWith('Entrada'))) {
-                        ctx.fillStyle = 'green';
+                    const isNotCPlusNumber = !/^C\d/.test(key);
 
-                        // Tornar a escada clicável apenas se estiver na rota
-                        canvas.addEventListener('click', function clickHandler(event) {
-                            const rect = canvas.getBoundingClientRect();
-                            const clickX = event.clientX - rect.left;
-                            const clickY = event.clientY - rect.top;
+                    if (isNotCPlusNumber) {
 
-                            if (
-                                clickX >= x + offsetX &&
-                                clickX <= x + offsetX + width &&
-                                clickY >= y + offsetY &&
-                                clickY <= y + offsetY + height
-                            ) {
+                        // Verificar se é uma escada e mudar a cor para verde se estiver na rota
+                        if (rota.includes(key) && (key.startsWith('Escada') || key.startsWith('Entrada'))) {
+                            ctx.fillStyle = 'green';
 
-                                if (key.startsWith('Escada')) {
+                            // Tornar a escada clicável apenas se estiver na rota
+                            canvas.addEventListener('click', function clickHandler(event) {
+                                const rect = canvas.getBoundingClientRect();
+                                const clickX = event.clientX - rect.left;
+                                const clickY = event.clientY - rect.top;
 
-                                    if (andar[destinoFinal] == 0) {
-                                        currentFloor = 'Terreo'
+                                if (
+                                    clickX >= x + offsetX &&
+                                    clickX <= x + offsetX + width &&
+                                    clickY >= y + offsetY &&
+                                    clickY <= y + offsetY + height
+                                ) {
 
-                                    } else if (andar[destinoFinal] == 1 || andar[destinoFinal] == 2) {
-                                        if (validaAndar == 0) {
-                                            if (andar[destinoFinal] == 2) {
-                                                currentFloor = 'Segundo';
+                                    if (key.startsWith('Escada')) {
+
+                                        if (andar[destinoFinal] == 0) {
+                                            currentFloor = 'Terreo'
+
+                                        } else if (andar[destinoFinal] == 1 || andar[destinoFinal] == 2) {
+                                            if (validaAndar == 0) {
+                                                if (andar[destinoFinal] == 2) {
+                                                    currentFloor = 'Segundo';
+                                                } else {
+                                                    currentFloor = 'Primeiro';
+                                                }
+                                                validaAndar = 1;
                                             } else {
-                                                currentFloor = 'Primeiro';
+                                                currentFloor = 'Terreo'
+                                                validaAndar = 0;
+
                                             }
-                                            validaAndar = 1;
-                                        } else {
-                                            currentFloor = 'Terreo'
-                                            validaAndar = 0;
 
+
+                                        } else if (andar[destinoFinal] == "MB") {
+                                            if (validaAndar == 0) {
+                                                currentFloor = 'MB';
+                                                validaAndar = 1;
+                                            } else {
+                                                currentFloor = 'Terreo'
+                                                validaAndar = 0
+                                            }
+
+                                        } else if (andar[destinoFinal] == "MB1") {
+                                            if (validaAndar == 0) {
+                                                currentFloor = 'MB1';
+                                                validaAndar = 1;
+                                            } else {
+                                                currentFloor = 'MB'
+                                                validaAndar = 0
+                                            }
+
+                                        } else {
+                                            if (validaAndar == 0) {
+                                                currentFloor = 'Segundo';
+                                                validaAndar = 1;
+                                            } else {
+                                                currentFloor = 'Terreo'
+                                                validaAndar = 0;
+
+                                            }
                                         }
 
-
-                                    } else if (andar[destinoFinal] == "MB") {
-                                        if (validaAndar == 0) {
-                                            currentFloor = 'MB';
-                                            validaAndar = 1;
-                                        } else {
-                                            currentFloor = 'Terreo'
-                                            validaAndar = 0
-                                        }
-
-                                    } else if (andar[destinoFinal] == "MB1") {
-                                        if (validaAndar == 0) {
-                                            currentFloor = 'MB1';
-                                            validaAndar = 1;
-                                        } else {
+                                    } else if (key.startsWith('Entrada')) {
+                                        if (mb == 0) {
                                             currentFloor = 'MB'
-                                            validaAndar = 0
-                                        }
-
-                                    } else {
-                                        if (validaAndar == 0) {
-                                            currentFloor = 'Segundo';
-                                            validaAndar = 1;
+                                            mb = 1
                                         } else {
                                             currentFloor = 'Terreo'
-                                            validaAndar = 0;
-
+                                            mb = 0
                                         }
                                     }
 
-                                } else if (key.startsWith('Entrada')) {
-                                    if (mb == 0) {
-                                        currentFloor = 'MB'
-                                        mb = 1
-                                    } else {
-                                        currentFloor = 'Terreo'
-                                        mb = 0
-                                    }
-
-                                    console.log("M.B. " + mb);
-
+                                    draw();
 
                                 }
+                            });
 
-                                draw();
-                                // Remove o listener de clique para evitar múltiplas execuções
-                                canvas.removeEventListener('click', clickHandler);
-                            }
-                        });
+                        } else {
+                            ctx.fillStyle = 'lightgrey';
+                        }
 
-                    } else {
+                        ctx.beginPath();
+                        ctx.rect(x, y, width, height);
+                        ctx.fill();
+                        ctx.stroke();
+
+                        ctx.fillStyle = 'black';
+                        ctx.font = '12px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(key, centerX, y);
                         ctx.fillStyle = 'lightgrey';
                     }
-
-                    ctx.beginPath();
-                    ctx.rect(x, y, width, height);
-                    ctx.fill();
-                    ctx.stroke();
-
-                    ctx.fillStyle = 'black';
-                    ctx.font = '12px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'bottom';
-                    ctx.fillText(key, centerX, y);
-                    ctx.fillStyle = 'lightgrey';
-
                 });
-
-                // console.log('CurrenteFlor: ' + currentFloor);
-                // console.log('Destino final: ' + andar[destinoFinal]);
-                // console.log('Subiu: ' + subiu);
 
                 // Desenha a rota com uma linha vermelha
                 if (rota.length > 0) {
