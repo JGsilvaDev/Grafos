@@ -150,9 +150,148 @@ G.add_edge("Centro", "C19", weight=44)
 
 G.add_edge("Escada A", "C26", weight=1)
 
-G.add_edge("C26", "Sala 201", weight=1)
+#Primeiro Andar
 G.add_edge("C26", "Escada A", weight=1)
+G.add_edge("C26", "Sala Infra", weight=1)
+G.add_edge("C26", "Salão do Juri", weight=7)
 
+G.add_edge("Salão do Juri", "C26",  weight=7)
+G.add_edge("Salão do Juri", "C27",  weight=23)
+G.add_edge("Salão do Juri", "C53",  weight=4)
+
+G.add_edge("C27", "Salão do Juri",  weight=23)
+G.add_edge("C27", "Sala C2",  weight=1)
+G.add_edge("C27", "C28",  weight=20)
+
+G.add_edge("C28", "C27",  weight=20)
+G.add_edge("C28", "Sala C3",  weight=1)
+G.add_edge("C28", "C29",  weight=12)
+
+G.add_edge("C29", "C28",  weight=12)
+G.add_edge("C29", "Sala C4",  weight=1)
+G.add_edge("C29", "C30",  weight=15)
+
+G.add_edge("C30", "C29",  weight=15)
+G.add_edge("C30", "DD102",  weight=1)
+G.add_edge("C30", "C31",  weight=15)
+
+G.add_edge("C31", "C30",  weight=15)
+G.add_edge("C31", "Auditorio",  weight=1)
+G.add_edge("C31", "C33",  weight=14)
+
+G.add_edge("C33", "C31",  weight=14)
+G.add_edge("C33", "DD101",  weight=1)
+G.add_edge("C33", "DD103",  weight=1)
+G.add_edge("C33", "C34",  weight=9)
+
+G.add_edge("C34", "C33",  weight=9)
+G.add_edge("C34", "Escada F",  weight=1)
+G.add_edge("C34", "C32",  weight=1)
+
+G.add_edge("C32", "C34",  weight=1)
+G.add_edge("C32", "Elevador",  weight=1)
+G.add_edge("C32", "C35",  weight=2)
+
+G.add_edge("C35", "C32",  weight=2)
+G.add_edge("C35", "DD104",  weight=1)
+G.add_edge("C35", "C36",  weight=3)
+
+G.add_edge("C36", "C35",  weight=3)
+G.add_edge("C36", "DD110",  weight=3)
+G.add_edge("C36", "C37",  weight=9)
+
+G.add_edge("C37", "C36",  weight=9)
+G.add_edge("C37", "DD105",  weight=1)
+G.add_edge("C37", "C38",  weight=7)
+
+G.add_edge("C38", "C37",  weight=7)
+G.add_edge("C38", "C38.1",  weight=1)
+G.add_edge("C38", "C39",  weight=4)
+
+G.add_edge("C38.1", "Banheiro M",  weight=1)
+G.add_edge("C38.1", "Banheiro F",  weight=1)
+
+G.add_edge("C39", "C38",  weight=4)
+G.add_edge("C39", "DD108",  weight=1)
+G.add_edge("C39", "C40",  weight=3)
+
+G.add_edge("C40", "C39",  weight=3)
+G.add_edge("C40", "Escada B",  weight=1)
+G.add_edge("C40", "DD109",  weight=1)
+G.add_edge("C40", "C41",  weight=10)
+
+G.add_edge("C41", "C40",  weight=10)
+G.add_edge("C41", "DD105",  weight=1)
+G.add_edge("C41", "Audio Visual",  weight=1)
+G.add_edge("C41", "C42",  weight=3)
+
+G.add_edge("C42", "C41",  weight=3)
+G.add_edge("C42", "DD107",  weight=1)
+G.add_edge("C42", "C43",  weight=20)
+
+G.add_edge("C43", "C42",  weight=20)
+G.add_edge("C43", "Escada C",  weight=1)
+G.add_edge("C43", "C44",  weight=12)
+
+G.add_edge("C44", "C43",  weight=12)
+G.add_edge("C44", "Sala E5",  weight=1)
+G.add_edge("C44", "C45",  weight=12)
+
+G.add_edge("C45", "C44",  weight=12)
+G.add_edge("C45", "Sala E4",  weight=1)
+G.add_edge("C45", "C46",  weight=12)
+
+G.add_edge("C46", "C46",  weight=12)
+G.add_edge("C46", "Sala E3",  weight=1)
+G.add_edge("C46", "C47",  weight=12)
+
+G.add_edge("C47", "C46",  weight=12)
+G.add_edge("C47", "Sala E2",  weight=1)
+G.add_edge("C47", "C48",  weight=12)
+
+G.add_edge("C48", "C47",  weight=12)
+G.add_edge("C48", "Obs. V.E.",  weight=1)
+G.add_edge("C48", "C49",  weight=7)
+
+G.add_edge("C49", "C48",  weight=7)
+G.add_edge("C49", "Escada D",  weight=1)
+G.add_edge("C49", "Lab.07",  weight=1)
+G.add_edge("C49", "C50",  weight=22)
+G.add_edge("C49", "C54",  weight=13)
+
+G.add_edge("C50", "C49",  weight=22)
+G.add_edge("C50", "Lab.06",  weight=22)
+G.add_edge("C50", "C51",  weight=13)
+
+G.add_edge("C51", "C50",  weight=13)
+G.add_edge("C51", "Lab.05",  weight=1)
+G.add_edge("C51", "C52",  weight=13)
+
+G.add_edge("C52", "C51",  weight=13)
+G.add_edge("C52", "Lab.04",  weight=1)
+G.add_edge("C52", "C53",  weight=13)
+
+G.add_edge("C53", "C52",  weight=13)
+G.add_edge("C53", "Lab.03",  weight=1)
+G.add_edge("C53", "Salão do Juri",  weight=4)
+
+G.add_edge("C54", "C49",  weight=13)
+G.add_edge("C54", "Bloco F",  weight=10)
+G.add_edge("C54", "C57",  weight=2)
+G.add_edge("C54", "C55",  weight=14)
+
+G.add_edge("C55", "C54",  weight=14)
+G.add_edge("C55", "Lab.08",  weight=1)
+G.add_edge("C55", "C56",  weight=4)
+
+G.add_edge("C56", "C55",  weight=4)
+G.add_edge("C56", "Lab.09",  weight=1)
+
+G.add_edge("C57", "C54",  weight=2)
+G.add_edge("C57", "C58",  weight=17)
+
+
+# Segundo Andar
 G.add_edge("Escada F", "C28", weight=1)
 G.add_edge("C28", "Sala 301", weight=1)
 
@@ -298,8 +437,68 @@ andar_info = {
     "Escada F": "0",
     
     # Primeiro andar
-    "Sala 201": "1",
     "C26": "1",
+    "C27": "1",
+    "C28": "1",
+    "C29": "1",
+    "C30": "1",
+    "C31": "1",
+    "C32": "1",
+    "C33": "1",
+    "C34": "1",
+    "C35": "1",
+    "C36": "1",
+    "C37": "1",
+    "C38": "1",
+    "C39": "1",
+    "C40": "1",
+    "C41": "1",
+    "C42": "1",
+    "C43": "1",
+    "C44": "1",
+    "C45": "1",
+    "C46": "1",
+    "C47": "1",
+    "C48": "1",
+    "C49": "1",
+    "C50": "1",
+    "C51": "1",
+    "C52": "1",
+    "C53": "1",
+    "C54": "1",
+    "C55": "1",
+    "C56": "1",
+    "C57": "1",
+    "C58": "1",
+    "Sala Infra": "1",
+    "Salão do Juri": "1",
+    "Sala C2": "1",
+    "Sala C3": "1",
+    "Sala C4": "1",
+    "DD102": "1",
+    "DD103": "1",
+    "DD104": "1",
+    "DD105": "1",
+    "DD107": "1",
+    "DD108": "1",
+    "DD109": "1",
+    "DD110": "1",
+    "Auditorio": "1",
+    "Banheiro M": "1",
+    "Banheiro F": "1",
+    "Sala E5": "1",
+    "Sala E4": "1",
+    "Sala E3": "1",
+    "Sala E2": "1",
+    "Obs. V.E.": "1",
+    "Lab.09": "1",
+    "Lab.08": "1",
+    "Lab.07": "1",
+    "Lab.06": "1",
+    "Lab.05": "1",
+    "Lab.04": "1",
+    "Lab.03": "1",
+    "Bloco F": "1",
     
     # Segundo andar 
     "Sala 301": "2",
