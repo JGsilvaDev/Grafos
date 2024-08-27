@@ -90,6 +90,7 @@
             <option value="Segundo">Segundo Andar</option>
             <option value="MB">MB</option>
             <option value="MB1">MB1</option>
+            <option value="MB2">MB2</option>
         </select>
 
         <canvas id="mapaCanvas" width="800" height="600"></canvas>
@@ -114,8 +115,10 @@
             valor = 'Segundo';
         } else if (andar == 'MB') {
             valor = 'MB';
-        } else {
+        } else if (andar == 'MB1') {
             valor = 'MB1';
+        }else if(andar == 'MB2'){
+            valor = 'MB2'
         }
 
         return valor;
@@ -137,7 +140,7 @@
         let offsetY = 0;
 
         let scale = 1;
-        let currentFloor = verificaAndar(0);
+        let currentFloor = 'MB2'//verificaAndar(0);
         let validaAndar = 0;
 
         // Eventos de zoom
@@ -250,9 +253,31 @@
                 "Estacionamento": [630, 285],
             },
             "MB1": {
-                "Escada M.B.": [480, 340],
-                "C107": [400, 340],
-                "MB09": [400, 250],
+                "Escada M.B.": [480, 375],
+                "Elevador M.B.": [480, 340],
+                "C107": [400, 375],
+                "C108": [400, 340],
+                "C109": [400, 295],
+                "C110": [400, 240],
+                "MB07": [400, 175],
+                "MB08": [320, 340],
+                "MB09": [400, 445],
+                "LMI":  [480, 295],
+                "Banheiros 1":  [480, 240],
+            },
+            "MB2":{
+                "Escada M.B.": [480, 375],
+                "Elevador M.B.": [480, 340],
+                "C111": [400, 375],
+                "C112": [400, 340],
+                "C113": [400, 260],
+                "C114": [400, 180],
+                "MB01": [400, 435],
+                "MB02": [370, 465],
+                "MB03": [320, 340],
+                "MB04": [320, 260],
+                "MB05/MB06": [400, 100],
+                "Banheiros 2": [480, 180],
             }
         };
 
@@ -293,7 +318,7 @@
 
                 const isNotCPlusNumber = !/^C\d/.test(key);
 
-                if (isNotCPlusNumber) {
+                if (true == true) {
 
                     ctx.fillStyle = 'lightgrey';
 

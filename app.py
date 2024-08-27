@@ -7,6 +7,7 @@ app = Flask(__name__)
 G = nx.Graph()
 
 # Definição das conexões
+#Predio Principal
 G.add_edge("Portaria", "C0", weight=6)
 
 G.add_edge("C0", "TI", weight=11)
@@ -138,6 +139,24 @@ G.add_edge("Estacionamento", "Lab. Civil", weight=10)
 G.add_edge("Estacionamento", "C105", weight=10)
 G.add_edge("Estacionamento", "C25", weight=10)
 
+G.add_edge("Centro", "C0", weight=32)
+G.add_edge("Centro", "C1", weight=44)
+G.add_edge("Centro", "Corredor S.J.", weight=25)
+G.add_edge("Centro", "Ref./Cantina", weight=44)
+G.add_edge("Centro", "Sala Prof.", weight=32)
+G.add_edge("Centro", "Biblioteca", weight=44)
+G.add_edge("Centro", "Coordenação", weight=25)
+G.add_edge("Centro", "C19", weight=44)
+
+G.add_edge("Escada A", "C26", weight=1)
+
+G.add_edge("C26", "Sala 201", weight=1)
+G.add_edge("C26", "Escada A", weight=1)
+
+G.add_edge("Escada F", "C28", weight=1)
+G.add_edge("C28", "Sala 301", weight=1)
+
+# Predio M.B.
 G.add_edge("Entrada Prédio M.B.", "C101", weight=13)
 
 G.add_edge("C101", "Entrada Prédio M.B.", weight=13)
@@ -181,25 +200,44 @@ G.add_edge("C106", "Lab. Mecanica", weight=40)
 
 G.add_edge("Lab. Mecanica", "103", weight=5)
 
+G.add_edge("C107", "Escada M.B", weight=5)
 G.add_edge("C107", "MB09", weight=10)
-G.add_edge("C107", "Escada M.B", weight=10)
+G.add_edge("C107", "C108", weight=8)
 
-G.add_edge("Centro", "C0", weight=32)
-G.add_edge("Centro", "C1", weight=44)
-G.add_edge("Centro", "Corredor S.J.", weight=25)
-G.add_edge("Centro", "Ref./Cantina", weight=44)
-G.add_edge("Centro", "Sala Prof.", weight=32)
-G.add_edge("Centro", "Biblioteca", weight=44)
-G.add_edge("Centro", "Coordenação", weight=25)
-G.add_edge("Centro", "C19", weight=44)
+G.add_edge("C108", "C107", weight=8)
+G.add_edge("C108", "Elevador M.B.", weight=5)
+G.add_edge("C108", "MB08", weight=5)
+G.add_edge("C108", "C109", weight=8)
 
-G.add_edge("Escada A", "C26", weight=1)
+G.add_edge("C109", "C108", weight=8)
+G.add_edge("C109", "LMI", weight=5)
+G.add_edge("C109", "C110", weight=8)
 
-G.add_edge("C26", "Sala 201", weight=1)
-G.add_edge("C26", "Escada A", weight=1)
+G.add_edge("C110", "C109", weight=8)
+G.add_edge("C110", "MB07", weight=10)
+G.add_edge("C110", "Banheiros 1", weight=5)
 
-G.add_edge("Escada F", "C28", weight=1)
-G.add_edge("C28", "Sala 301", weight=1)
+G.add_edge("C111", "Escada M.B.", weight=5)
+G.add_edge("C111", "MB01", weight=6)
+G.add_edge("C111", "C112", weight=5)
+
+G.add_edge("MB01", "MB02", weight=6)
+G.add_edge("MB01", "C111", weight=6)
+
+G.add_edge("C112", "C111", weight=6)
+G.add_edge("C112", "Elevador M.B.", weight=5)
+G.add_edge("C112", "MB03", weight=5)
+G.add_edge("C112", "C113", weight=3)
+
+G.add_edge("C113", "MB04", weight=5)
+G.add_edge("C113", "C112", weight=3)
+G.add_edge("C113", "C114", weight=8)
+
+G.add_edge("C114", "C113", weight=8)
+G.add_edge("C114", "Banheiros 2", weight=5)
+G.add_edge("C114", "MB05/MB06", weight=8)
+
+G.add_edge("Elevador M.B.", "C112", weight=5)
 
 andar_info = {
     # Terreo
@@ -277,16 +315,34 @@ andar_info = {
     "C106": "MB",
     "Saida Prédio M.B.": "MB",
     "Lab. Mec./Projeto": "MB",
-    "Escada M.B.": "MB",
-    "Elevador M.B.": "MB",
     "Oficina/Aero Unisal": "MB",
     "Banheiros": "MB",
     "Lab. Mecanica": "MB",
     "Lab. Civil": "MB",
+    "Escada M.B.": "MB",
+    "Elevador M.B.": "MB",
     
     # Primeiro andar M.B.
     "C107": "MB1",
+    "C108": "MB1",
+    "C109": "MB1",
+    "C110": "MB1",
+    "MB07": 'MB1',
+    "MB08": 'MB1',
     "MB09": "MB1",
+    "Banheiros 1": "MB1",
+    "LMI": "MB1",
+    
+    # Segundo andar M.B.
+    "C111": "MB2",
+    "C112": "MB2",
+    "C113": "MB2",
+    "C114": "MB2",
+    "MB01": "MB2",
+    "MB02": "MB2",
+    "MB03": "MB2",
+    "MB04": "MB2",
+    "Banheiros 2": "MB2",
     
 }
 

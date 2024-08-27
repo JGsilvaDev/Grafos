@@ -108,8 +108,10 @@
                 valor = 'Segundo';
             } else if (andar == 'MB') {
                 valor = 'MB';
-            } else {
+            } else if (andar == 'MB1') {
                 valor = 'MB1';
+            } else if (andar == 'MB2') {
+                valor = 'MB2'
             }
 
             return valor;
@@ -301,9 +303,31 @@
                     "Estacionamento": [630, 285],
                 },
                 "MB1": {
-                    "Escada M.B.": [480, 340],
-                    "C107": [400, 340],
-                    "MB09": [400, 250],
+                    "Escada M.B.": [480, 375],
+                    "Elevador M.B.": [480, 340],
+                    "C107": [400, 375],
+                    "C108": [400, 340],
+                    "C109": [400, 295],
+                    "C110": [400, 240],
+                    "MB07": [400, 175],
+                    "MB08": [320, 340],
+                    "MB09": [400, 445],
+                    "LMI": [480, 295],
+                    "Banheiros 1": [480, 240],
+                },
+                "MB2": {
+                    "Escada M.B.": [480, 375],
+                    "Elevador M.B.": [480, 340],
+                    "C111": [400, 375],
+                    "C112": [400, 340],
+                    "C113": [400, 260],
+                    "C114": [400, 180],
+                    "MB01": [400, 435],
+                    "MB02": [370, 465],
+                    "MB03": [320, 340],
+                    "MB04": [320, 260],
+                    "MB05/MB06": [400, 100],
+                    "Banheiros 2": [480, 180],
                 }
             };
 
@@ -349,7 +373,7 @@
                             subiu = 1
                         }
 
-                    } else if ((andar[destinoFinal] == "MB" || andar[destinoFinal] == "MB1") && subiu == 0) {
+                    } else if ((andar[destinoFinal] == "MB" || andar[destinoFinal] == "MB1" || andar[destinoFinal] == "MB2") && subiu == 0) {
                         if (currentFloor == "Terreo") {
                             rota = rotaCompleta.slice(0, verifica);
 
@@ -372,7 +396,7 @@
                             currentFloor = "Terreo";
                             rota = rotaCompleta.slice(0, verifica);
 
-                        } else if (andar[destinoFinal] == "MB1") {
+                        } else if (andar[destinoFinal] == "MB1" || andar[destinoFinal] == "MB2") {
                             currentFloor = "Terreo"
                             rota = rotaCompleta.slice(0, verifica);
 
@@ -403,7 +427,7 @@
                     }
 
                 } else if (currentFloor == "MB") {
-                    if (andar[destinoFinal] == 'MB1') {
+                    if ((andar[destinoFinal] == 'MB1' || andar[destinoFinal] == 'MB2')) {
                         rota = rotaCompleta.slice(changePositions[0] - 1, changePositions[1]);
                         subiu = 0
 
@@ -411,9 +435,10 @@
                         rota = rotaCompleta.slice(verifica - 1);
                     }
 
-                } else if (currentFloor == "MB1") {
+                } else if (currentFloor == "MB1" || currentFloor == "MB2") {
                     rota = rotaCompleta.slice(changePositions[1] - 1);
                     subiu = 1
+
                 }
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
@@ -454,7 +479,7 @@
                     if (isNotCPlusNumber) {
 
                         // Verificar se é uma escada e mudar a cor para verde se estiver na rota
-                        if (rota.includes(key) && (key.startsWith('Escada') || key.startsWith('Entrada'))) {
+                        if (rota.includes(key) && (key.startsWith('Escada') || key.startsWith('Entrada') || key.startsWith('Elevador'))) {
                             ctx.fillStyle = 'green';
 
                             // Tornar a escada clicável apenas se estiver na rota
@@ -470,7 +495,7 @@
                                     clickY <= y + offsetY + height
                                 ) {
 
-                                    if (key.startsWith('Escada')) {
+                                    if (key.startsWith('Escada') || key.startsWith('Elevador')) {
 
                                         if (andar[destinoFinal] == 0) {
                                             currentFloor = 'Terreo'
@@ -499,15 +524,19 @@
                                                 validaAndar = 0
                                             }
 
-                                        } else if (andar[destinoFinal] == "MB1") {
+                                        } else if (andar[destinoFinal] == "MB1" || andar[destinoFinal] == "MB2") {
                                             if (validaAndar == 0) {
-                                                currentFloor = 'MB1';
+                                                if (andar[destinoFinal] == "MB1") {
+                                                    currentFloor = 'MB1';
+                                                } else {
+                                                    currentFloor = 'MB2';
+                                                }
+
                                                 validaAndar = 1;
                                             } else {
                                                 currentFloor = 'MB'
                                                 validaAndar = 0
                                             }
-
                                         } else {
                                             if (validaAndar == 0) {
                                                 currentFloor = 'Segundo';
@@ -529,7 +558,7 @@
                                         }
                                     }
 
-                                   document.getElementById(currentFloor).selected  = true;
+                                    document.getElementById(currentFloor).selected = true;
 
                                     draw();
 
