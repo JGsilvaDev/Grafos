@@ -148,8 +148,6 @@ G.add_edge("Centro", "Biblioteca", weight=44)
 G.add_edge("Centro", "Coordenação", weight=25)
 G.add_edge("Centro", "C19", weight=44)
 
-G.add_edge("Escada A", "C26", weight=1)
-
 #Primeiro Andar
 G.add_edge("C26", "Escada A", weight=1)
 G.add_edge("C26", "Sala Infra", weight=1)
@@ -201,7 +199,7 @@ G.add_edge("C36", "DD110",  weight=3)
 G.add_edge("C36", "C37",  weight=9)
 
 G.add_edge("C37", "C36",  weight=9)
-G.add_edge("C37", "DD105",  weight=1)
+G.add_edge("C37", "DD109",  weight=1)
 G.add_edge("C37", "C38",  weight=7)
 
 G.add_edge("C38", "C37",  weight=7)
@@ -212,12 +210,12 @@ G.add_edge("C38.1", "Banheiro M",  weight=1)
 G.add_edge("C38.1", "Banheiro F",  weight=1)
 
 G.add_edge("C39", "C38",  weight=4)
-G.add_edge("C39", "DD108",  weight=1)
+G.add_edge("C39", "DD106",  weight=1)
 G.add_edge("C39", "C40",  weight=3)
 
 G.add_edge("C40", "C39",  weight=3)
 G.add_edge("C40", "Escada B",  weight=1)
-G.add_edge("C40", "DD109",  weight=1)
+# G.add_edge("C40", "DD104",  weight=1)
 G.add_edge("C40", "C41",  weight=10)
 
 G.add_edge("C41", "C40",  weight=10)
@@ -290,9 +288,8 @@ G.add_edge("C56", "Lab.09",  weight=1)
 G.add_edge("C57", "C54",  weight=2)
 G.add_edge("C57", "C58",  weight=17)
 
-
 # Segundo Andar
-G.add_edge("Escada F", "C28", weight=1)
+# G.add_edge("Escada F", "C28", weight=1)
 G.add_edge("C28", "Sala 301", weight=1)
 
 # Predio M.B.
@@ -479,8 +476,8 @@ andar_info = {
     "DD103": "1",
     "DD104": "1",
     "DD105": "1",
+    "DD106": "1",
     "DD107": "1",
-    "DD108": "1",
     "DD109": "1",
     "DD110": "1",
     "Auditorio": "1",
