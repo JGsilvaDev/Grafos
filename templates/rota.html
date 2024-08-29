@@ -130,8 +130,6 @@
             let subiu = 0;
             let mb = 0;
 
-            let andares = []
-
             document.getElementById('destinoDisplay').textContent = destino;
 
             const canvas = document.getElementById('mapaCanvas');
@@ -392,8 +390,6 @@
                     changePositions.push(i);
 
                     andarDisplay.innerHTML += `<option value="${andar[i]}" id="${andar[i]}">${verificaAndar(andar[i])}</option>`
-
-                    andares.push(andar[i])
 
                 }
             }

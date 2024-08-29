@@ -78,6 +78,20 @@
             border-radius: 5px;
             z-index: 1000;
         }
+
+        #thumbnail {
+            position: absolute;
+            display: none;
+            z-index: 1000;
+            border: 1px solid #000;
+            background-color: #fff;
+            padding: 5px;
+        }
+
+        #thumbnail img {
+            max-width: 100px;
+            max-height: 100px;
+        }
     </style>
 </head>
 
@@ -98,6 +112,9 @@
             <button id="zoomInButton">+</button>
             <button id="zoomOutButton">-</button>
         </div>
+        <div id="thumbnail">
+            <img src="" alt="Miniatura" />
+        </div>
     </div>
     <button id="btnVoltar" onclick="window.location.href='/'"><span
             class="material-symbols-outlined">undo</span></button>
@@ -117,7 +134,7 @@
             valor = 'MB';
         } else if (andar == 'MB1') {
             valor = 'MB1';
-        }else if(andar == 'MB2'){
+        } else if (andar == 'MB2') {
             valor = 'MB2'
         }
 
@@ -129,6 +146,8 @@
 
         const zoomInButton = document.getElementById('zoomInButton');
         const zoomOutButton = document.getElementById('zoomOutButton');
+
+        const thumbnail = document.getElementById('thumbnail');
         const canvas = document.getElementById('mapaCanvas');
         const ctx = canvas.getContext('2d');
         const andarDisplay = document.getElementById('andarDisplay');
@@ -140,7 +159,7 @@
         let offsetY = 0;
 
         let scale = 1;
-        let currentFloor =  verificaAndar(1);
+        let currentFloor = verificaAndar(0);
         let validaAndar = 0;
 
         // Eventos de zoom
@@ -315,10 +334,10 @@
                 "MB07": [400, 175],
                 "MB08": [320, 340],
                 "MB09": [400, 445],
-                "LMI":  [480, 295],
-                "Banheiros 1":  [480, 240],
+                "LMI": [480, 295],
+                "Banheiros 1": [480, 240],
             },
-            "MB2":{
+            "MB2": {
                 "Escada M.B.": [480, 375],
                 "Elevador M.B.": [480, 340],
                 "C111": [400, 375],
@@ -395,6 +414,34 @@
         }
 
         andarDisplay.addEventListener('change', setAndar);
+
+        canvas.addEventListener('click', function (event) {
+            const rect = canvas.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / scale;
+            const y = (event.clientY - rect.top) / scale;
+
+            const salas = positions[currentFloor];
+            for (const [name, pos] of Object.entries(salas)) {
+                if (x >= pos[0] && x <= pos[0] + 20 && y >= pos[1] && y <= pos[1] + 20) {
+                    // Exibe a miniatura
+                    let left = `${event.clientX}` - 210
+                    let top  = `${event.clientY}` - 20
+
+                    const thumbnailImage = thumbnail.querySelector('img');
+                    thumbnailImage.src = `{{ url_for('static', filename='images/${name}.jpg') }}`; 
+                    thumbnail.style.left = left + 'px';
+                    thumbnail.style.top = top + 'px';
+                    thumbnail.style.transform = 'translate(-50%, -100%)';
+                    thumbnail.style.display = 'block';
+                    break;
+                }
+            }
+        });
+
+        canvas.addEventListener('mousemove', function (event) {
+            thumbnail.style.display = 'none'; // Esconde a miniatura ao mover o mouse
+        });
+
 
         draw();
 
