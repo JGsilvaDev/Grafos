@@ -16,6 +16,19 @@
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        flex-direction: column;
+                }
+
+                .search-input {
+                        margin-top: 20px;
+                        padding: 10px;
+                        width: 80%;
+                        max-width: 400px;
+                        font-size: 18px;
+                        border: 2px solid #4086F3;
+                        border-radius: 10px;
+                        outline: none;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 }
 
                 .botao {
@@ -33,6 +46,12 @@
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
+                        transition: background-color 0.3s ease, transform 0.3s ease;
+                }
+
+                .botao:hover {
+                        background-color: #3066C2;
+                        transform: translateY(-5px);
                 }
 
                 .icon {
@@ -41,9 +60,13 @@
 
                 #botoesDestino {
                         display: flex;
-                        gap: 30px;
-
+                        gap: 15px;
                         flex-wrap: wrap;
+                        justify-content: space-between;
+                }
+
+                #container_predios{
+                        margin-bottom: 100px;
                 }
 
                 /* Rodapé */
@@ -106,74 +129,82 @@
         <div class="container">
                 <div class="title">
                         <h1>Buscar Sala</h1>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Digite o nome da sala...">
+                </div>
+        </div>
+
+        <div id="container_predios">
+                <div id="predio_principal">
+                        <h1>Prédio Principal</h1>
+                        <div id="botoesDestino">
+                                <button onclick="verRota('TI')" class="botao">TI<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Xerox')" class="botao">Xerox<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Capela')" class="botao">Capela<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Pastoral')" class="botao">Pastoral<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Diretoria')" class="botao">Diretoria<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Lab. AutoCad')" class="botao">Lab. AutoCad<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Sala Prof. 1')" class="botao">Sala Prof. 1<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Sala Prof. 2')" class="botao">Sala Prof. 2<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('WC/Vest. M')" class="botao">WC/Vest. M<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('WC/Vest. F')" class="botao">WC/Vest. F<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Ref./Cantina')" class="botao">Ref./Cantina<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('WC Familia')" class="botao">WC Familia<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Sala Prof.')" class="botao">Sala Prof.<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Biblioteca')" class="botao">Biblioteca<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Cant. Leitura')" class="botao">Cant. Leitura<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Coordenação')" class="botao">Coordenação<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Secretaria')" class="botao">Secretaria<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Social')" class="botao">Social<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Sala Estágio')" class="botao">Sala Estágio<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('WC Cantina')" class="botao">WC Cantina<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Sala Arquivo')" class="botao">Sala Arquivo<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Entrada Prédio M.B.')" class="botao">Prédio M.B.<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Estacionamento')" class="botao">Estacionamento<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Sala 201')" class="botao">Sala 201<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('Sala 301')" class="botao">Sala 301<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                        </div>
                 </div>
 
-                <div id="container_predios">
-                        <div id="predio_principal">
-                                <h1>Prédio Principal</h1>
-                                <div id="botoesDestino">
-                                        <button onclick="verRota('TI')" class="botao">TI<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Xerox')" class="botao">Xerox<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Capela')" class="botao">Capela<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Pastoral')" class="botao">Pastoral<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Diretoria')" class="botao">Diretoria<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Lab. AutoCad')" class="botao">Lab. AutoCad<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Sala Prof. 1')" class="botao">Sala Prof. 1<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Sala Prof. 2')" class="botao">Sala Prof. 2<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('WC/Vest. M')" class="botao">WC/Vest. M<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('WC/Vest. F')" class="botao">WC/Vest. F<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Ref./Cantina')" class="botao">Ref./Cantina<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('WC Familia')" class="botao">WC Familia<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Sala Prof.')" class="botao">Sala Prof.<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Biblioteca')" class="botao">Biblioteca<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Cant. Leitura')" class="botao">Cant. Leitura<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Coordenação')" class="botao">Coordenação<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Secretaria')" class="botao">Secretaria<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Social')" class="botao">Social<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Sala Estágio')" class="botao">Sala Estágio<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('WC Cantina')" class="botao">WC Cantina<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Sala Arquivo')" class="botao">Sala Arquivo<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Entrada Prédio M.B.')" class="botao">Prédio M.B.<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Estacionamento')" class="botao">Estacionamento<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Sala 201')" class="botao">Sala 201<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Sala 301')" class="botao">Sala 301<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('Oficina/Aero Unisal')" class="botao">Oficina/Aero
-                                                Unisal<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('MB09')" class="botao">MB09<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                        <button onclick="verRota('MB04')" class="botao">MB04<span
-                                                        class="material-symbols-outlined icon">pin_drop</span></button>
-                                </div>
+                <div class="mario-bonate">
+                        <h1>Prédio Mario Bonate</h1>
+                        <div id="botoesDestino">
+                                <button onclick="verRota('Oficina/Aero Unisal')" class="botao">Oficina/Aero
+                                        Unisal<span class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('MB09')" class="botao">MB09<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+                                <button onclick="verRota('MB04')" class="botao">MB04<span
+                                                class="material-symbols-outlined icon">pin_drop</span></button>
+
                         </div>
-                        <button id="btnVoltar" onclick="window.location.href='/'"><span
-                                        class="material-symbols-outlined">undo</span></button>
                 </div>
+                <button id="btnVoltar" onclick="window.location.href='/'"><span
+                                class="material-symbols-outlined">undo</span></button>
+        </div>
         </div>
 
         <footer>
@@ -201,6 +232,20 @@
                                         window.location.href = '/rota';
                                 });
                 }
+
+                document.getElementById('searchInput').addEventListener('input', function () {
+                        const searchValue = this.value.toLowerCase();
+                        const buttons = document.querySelectorAll('#botoesDestino .botao');
+
+                        buttons.forEach(button => {
+                                const buttonText = button.textContent.toLowerCase();
+                                if (buttonText.includes(searchValue)) {
+                                        button.style.display = 'flex';
+                                } else {
+                                        button.style.display = 'none';
+                                }
+                        });
+                });
         </script>
 </body>
 
