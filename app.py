@@ -570,6 +570,15 @@ def mapa_page():
 def rota():
     # G["C0"]["TI"]["weight"] = 999999
     isPCD = request.form.get('pcd')
+    if isPCD:
+        for u, v, data in G.edges(data=True):
+            if "Escada" in v or "Escada" in u:
+                G[u][v]["weight"] = 100000
+    else:
+        for u, v, data in G.edges(data=True):
+            if "Escada" in v or "Escada" in u:
+                G[u][v]["weight"] = 1
+                
     destino = request.form.get('destino')
 
     try:
