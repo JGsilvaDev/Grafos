@@ -389,7 +389,7 @@
                 if (andar[i] !== andar[i - 1]) {
                     changePositions.push(i);
 
-                    andarDisplay.innerHTML += `<option value="${andar[i]}" id="${andar[i]}">${verificaAndar(andar[i])}</option>`
+                    andarDisplay.innerHTML += `<option value="${verificaAndar(andar[i])}" id="${andar[i]}">${verificaAndar(andar[i])}</option>`
 
                 }
             }
@@ -406,7 +406,6 @@
                 }
 
                 let destinoFinal = andar.length - 1
-
 
                 if (currentFloor == "Terreo") {
                     if ((andar[destinoFinal] == 0 || andar[destinoFinal] == 1) && subiu == 0) {
@@ -457,6 +456,8 @@
                         rota = rotaCompleta.slice(verifica - 1);
                         subiu = 1
 
+                        console.log(rota);
+
                     } else {
                         rota = rotaCompleta.slice(0, verifica);
                         subiu = 0
@@ -497,6 +498,9 @@
                 // Desenhar as arestas
                 ctx.strokeStyle = 'black';
                 ctx.lineWidth = 1;
+
+                console.log(currentFloor);
+                
                 arestas.forEach(([u, v, weight]) => {
                     if (positions[currentFloor][u] && positions[currentFloor][v]) {
                         const [x1, y1] = positions[currentFloor][u];
@@ -683,6 +687,7 @@
                 const andarSelecionado = andarDisplay.value;
                 // Atualiza o andar atual
                 currentFloor = andarSelecionado;
+                
                 draw(); // Redesenha o canvas
             }
         });

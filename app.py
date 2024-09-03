@@ -128,7 +128,7 @@ G.add_edge("C23", "C22", weight=4)
 G.add_edge("C23", "C24", weight=5)
 
 G.add_edge("C24", "Sala Arquivo", weight=1)
-G.add_edge("C24", "Elevador", weight=1)
+G.add_edge("C24", "Elevador", weight=2)
 G.add_edge("C24", "C23", weight=5)
 
 G.add_edge("C25", "C22", weight=12)
@@ -568,8 +568,9 @@ def mapa_page():
 
 @app.route('/rota', methods=['POST'])
 def rota():
-    # G["C0"]["TI"]["weight"] = 999999
+    destino = request.form.get('destino')
     isPCD = request.form.get('pcd')
+    
     if isPCD:
         for u, v, data in G.edges(data=True):
             if "Escada" in v or "Escada" in u:
@@ -579,7 +580,6 @@ def rota():
             if "Escada" in v or "Escada" in u:
                 G[u][v]["weight"] = 1
                 
-    destino = request.form.get('destino')
 
     try:
         # Calculando o caminho mais curto a partir da entrada
