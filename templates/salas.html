@@ -65,7 +65,7 @@
                         justify-content: space-between;
                 }
 
-                #container_predios{
+                #container_predios {
                         margin-bottom: 100px;
                 }
 
@@ -127,6 +127,7 @@
 
 <body>
         <div class="container">
+                <input id="isPCD" type="checkbox">
                 <div class="title">
                         <h1>Buscar Sala</h1>
                         <input type="text" id="searchInput" class="search-input" placeholder="Digite o nome da sala...">
@@ -204,6 +205,7 @@
                 </div>
                 <button id="btnVoltar" onclick="window.location.href='/'"><span
                                 class="material-symbols-outlined">undo</span></button>
+
         </div>
         </div>
 
@@ -215,8 +217,10 @@
 
         <script>
                 function verRota(destino) {
+                        const isPCD = document.getElementById('isPCD').checked;
                         const formData = new FormData();
                         formData.append('destino', destino);
+                        formData.append('pcd', isPCD);
                         fetch('/rota', {
                                 method: 'POST',
                                 body: formData
@@ -228,8 +232,10 @@
                                         localStorage.setItem('arestas', JSON.stringify(data.arestas)); // Armazenar arestas
                                         localStorage.setItem('andares', JSON.stringify(data.andares));
                                         localStorage.setItem('destino', destino);
+                                        localStorage.setItem('pcd', isPCD);
                                         // Redirecionar para a página de rota
                                         window.location.href = '/rota';
+                                        
                                 });
                 }
 

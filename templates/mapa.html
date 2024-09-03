@@ -390,7 +390,7 @@
 
                 const isNotCPlusNumber = !/^C\d/.test(key);
 
-                if (true == true) {
+                if (isNotCPlusNumber) {
 
                     ctx.fillStyle = 'lightgrey';
 
@@ -428,7 +428,7 @@
                     let top  = `${event.clientY}` - 20
 
                     const thumbnailImage = thumbnail.querySelector('img');
-                    thumbnailImage.src = `{{ url_for('static', filename='images/${name}.jpg') }}`; 
+                    thumbnailImage.src = `/static/img/${name}.jpeg`; 
                     thumbnail.style.left = left + 'px';
                     thumbnail.style.top = top + 'px';
                     thumbnail.style.transform = 'translate(-50%, -100%)';

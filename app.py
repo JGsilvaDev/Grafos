@@ -215,7 +215,6 @@ G.add_edge("C39", "C40",  weight=3)
 
 G.add_edge("C40", "C39",  weight=3)
 G.add_edge("C40", "Escada B",  weight=1)
-# G.add_edge("C40", "DD104",  weight=1)
 G.add_edge("C40", "C41",  weight=10)
 
 G.add_edge("C41", "C40",  weight=10)
@@ -289,7 +288,6 @@ G.add_edge("C57", "C54",  weight=2)
 G.add_edge("C57", "C58",  weight=17)
 
 # Segundo Andar
-# G.add_edge("Escada F", "C28", weight=1)
 G.add_edge("C28", "Sala 301", weight=1)
 
 # Predio M.B.
@@ -570,7 +568,10 @@ def mapa_page():
 
 @app.route('/rota', methods=['POST'])
 def rota():
+    # G["C0"]["TI"]["weight"] = 999999
+    isPCD = request.form.get('pcd')
     destino = request.form.get('destino')
+
     try:
         # Calculando o caminho mais curto a partir da entrada
         caminho = nx.dijkstra_path(G, source='Portaria', target=destino, weight='weight')

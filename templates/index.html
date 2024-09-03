@@ -19,19 +19,22 @@
         gap: 50px;
     }
 
-    .title{
+    .title {
         text-align: center;
+
+        color: #fff;
+        background-color: #4086F3;
     }
 
-    .icon{
+    .icon {
         font-size: 120px;
     }
 
-    .text-card{
+    .text-card {
         font-size: 32px;
     }
 
-    .card{
+    .card {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -45,47 +48,91 @@
         height: 410px;
     }
 
-    .card:hover{
+    .card:hover {
         background-color: #fff;
         color: #4086F3;
         border: 1px solid #4086F3;
     }
 
+    /* Rodapé */
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #fff;
+        color: #B5B5B5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        /* Garante que o rodapé fique acima de outros elementos */
+    }
+
+    #infoButton {
+        position: absolute;
+        right: 70px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #fff;
+        color: black;
+        font-size: 24px;
+        border: #4086F3 1px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .footer-text {
+        font-size: 18px;
+    }
 </style>
 
 <body>
     <div class="title">
-        <h1>Mapa UNISAL</h1>
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo">
+        <h1 class="title">Encontre-se</h1>
     </div>
 
     <div class="container">
         <div class="card" onclick="mapa();">
-            <p class="text-card">Ver mapa Unisal</p>
+            <p class="text-card">Visualizar a UNISAL</p>
             <span class="material-symbols-outlined icon">map</span>
         </div>
 
         <div class="card" onclick="window.location.href = '/salas'">
-            <p class="text-card">Buscar Sala</p>
+            <p class="text-card">Buscar por sala</p>
             <span class="material-symbols-outlined icon">search</span>
         </div>
     </div>
+
+    <footer>
+        <div class="footer-text">Desenvolvido por Pineapple Tech</div>
+        <button id="infoButton">?</button>
+    </footer>
 </body>
 
 <script>
     function mapa() {
-            const formData = new FormData();
-            fetch('/mapa', {
-                    method: 'POST',
-                    body: formData
-            })
-                    .then(response => response.json())
-                    .then(data => {
-                            // Armazenar a rota e as arestas no localStorage
-                            localStorage.setItem('arestas', JSON.stringify(data.arestas));
+        const formData = new FormData();
+        fetch('/mapa', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Armazenar a rota e as arestas no localStorage
+                localStorage.setItem('arestas', JSON.stringify(data.arestas));
 
-                            // Redirecionar para a página de rota
-                            window.location.href = '/mapa';
-                    });
+                // Redirecionar para a página de rota
+                window.location.href = '/mapa';
+            });
     }
 </script>
 
