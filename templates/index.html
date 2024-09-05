@@ -5,97 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-
-<style>
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-
-        gap: 50px;
-    }
-
-    .title {
-        font-size: 48px;
-    }
-
-    .icon {
-        font-size: 120px;
-    }
-
-    .text-card {
-        font-size: 32px;
-    }
-
-    .card {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-
-        background-color: #4086F3;
-        color: #fff;
-        border-radius: 10px;
-        cursor: pointer;
-        width: 410px;
-        height: 410px;
-    }
-
-    .card:hover {
-        background-color: #fff;
-        color: #4086F3;
-        border: 1px solid #4086F3;
-    }
-
-    /* Rodapé */
-    footer {
-        width: 100%;
-        height: 60px;
-        background-color: transparent;
-    }
-
-    #infoButton {
-        position: fixed;
-        bottom: 10px; 
-        right: 10px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: #fff;
-        color: #FF4444;
-        font-size: 24px;
-        border: #FF4444 3px solid;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-    }
-
-    .footer-text {
-        font-size: 18px;
-    }
-
-    .title-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-
-        color: #fff;
-        background-color: #4086F3;
-    }
-
-    #logo {
-        position: absolute;
-        left: 30px;
-    }
-</style>
 
 <body>
     <div class="title-container">
@@ -116,7 +32,7 @@
     </div>
 
     <footer>
-        <button id="infoButton">?</button>
+        <button id="infoButton" onclick="abrirModal();">?</button>
     </footer>
 </body>
 
@@ -136,6 +52,30 @@
                 window.location.href = '/mapa';
             });
     }
+
+    function abrirModal() {
+        Swal.fire({
+            title: "This is the random text",
+            showClass: {
+                popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    animate__faster
+                `
+            },
+            hideClass: {
+                popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    animate__faster
+                `
+            },
+            showCloseButton: true,
+            allowOutsideClick: false,
+            showConfirmButton: false,
+        });
+    }
+
 </script>
 
 </html>
