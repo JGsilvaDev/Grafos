@@ -422,6 +422,8 @@ andar_info = {
     "Social": "0",
     "C19": "0",
     "Sala Estágio": "0",
+    "WC Cantina": "0",
+    "Sala Arquivo": "0",
     "C21": "0",
     "C22": "0",
     "C23": "0",
@@ -565,7 +567,6 @@ def mapa():
 def mapa_page():
     return render_template('mapa.html')
 
-
 @app.route('/rota', methods=['POST'])
 def rota():
     destino = request.form.get('destino')
@@ -580,7 +581,6 @@ def rota():
             if "Escada" in v or "Escada" in u:
                 G[u][v]["weight"] = 1
                 
-
     try:
         # Calculando o caminho mais curto a partir da entrada
         caminho = nx.dijkstra_path(G, source='Portaria', target=destino, weight='weight')
@@ -593,7 +593,6 @@ def rota():
         return jsonify({'rota': caminho, 'andares': andares, 'arestas': arestas})
     except nx.NetworkXNoPath:
         return jsonify({'rota': [], 'andares': [], 'arestas': []})
-
 
 @app.route('/rota', methods=['GET'])
 def rota_page():
