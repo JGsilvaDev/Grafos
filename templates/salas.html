@@ -171,7 +171,7 @@
         </div>
 
         <div id="container_predios">
-                <div id="predio_principal">
+                <div class="container-andar">
                         <h1>Prédio Principal</h1>
                         <div id="botoesDestino">
                                 <button onclick="verRota('TI')" class="botao">TI<span
@@ -227,7 +227,7 @@
                         </div>
                 </div>
 
-                <div class="mario-bonate">
+                <div class="container-andar">
                         <h1>Prédio Mario Bonate</h1>
                         <div id="botoesDestino">
                                 <button onclick="verRota('Oficina/Aero Unisal')" class="botao">Oficina/Aero
@@ -276,17 +276,39 @@
 
                 document.getElementById('searchInput').addEventListener('input', function () {
                         const searchValue = this.value.toLowerCase();
-                        const buttons = document.querySelectorAll('#botoesDestino .botao');
+                        const containers = document.querySelectorAll('.container-andar');
 
-                        buttons.forEach(button => {
-                                const buttonText = button.textContent.toLowerCase();
-                                if (buttonText.includes(searchValue)) {
-                                        button.style.display = 'flex';
+                        containers.forEach(container => {
+                                const buttons = container.querySelectorAll('.botao');
+                                let visibleButtons = 0;
+
+                                buttons.forEach(button => {
+                                        const buttonText = button.textContent.toLowerCase();
+                                        if (buttonText.includes(searchValue)) {
+                                                button.style.display = 'flex';
+                                                visibleButtons++;
+                                        } else {
+                                                button.style.display = 'none';
+                                        }
+                                });
+
+                                // Ocultar a div .container-andar se nenhum botão estiver visível
+                                if (visibleButtons === 0) {
+                                        container.style.display = 'none';
                                 } else {
-                                        button.style.display = 'none';
+                                        container.style.display = 'block';
+                                }
+
+                                // Manter o layout de botões mesmo com apenas um item visível
+                                const botoesDestino = container.querySelector('#botoesDestino');
+                                if (visibleButtons === 1) {
+                                        botoesDestino.style.justifyContent = 'flex-start';
+                                } else {
+                                        botoesDestino.style.justifyContent = 'space-between';
                                 }
                         });
                 });
+
         </script>
 </body>
 
