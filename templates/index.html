@@ -20,10 +20,7 @@
     }
 
     .title {
-        text-align: center;
-
-        color: #fff;
-        background-color: #4086F3;
+        font-size: 48px;
     }
 
     .icon {
@@ -56,47 +53,53 @@
 
     /* Rodapé */
     footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
         width: 100%;
         height: 60px;
-        background-color: #fff;
-        color: #B5B5B5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0 20px;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        /* Garante que o rodapé fique acima de outros elementos */
+        background-color: transparent;
     }
 
     #infoButton {
-        position: absolute;
-        right: 70px;
+        position: fixed;
+        bottom: 10px; 
+        right: 10px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
         background-color: #fff;
-        color: black;
+        color: #FF4444;
         font-size: 24px;
-        border: #4086F3 1px solid;
+        border: #FF4444 3px solid;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
     }
 
     .footer-text {
         font-size: 18px;
     }
+
+    .title-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        color: #fff;
+        background-color: #4086F3;
+    }
+
+    #logo {
+        position: absolute;
+        left: 30px;
+    }
 </style>
 
 <body>
-    <div class="title">
-        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo">
+    <div class="title-container">
+        <img id="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo">
         <h1 class="title">Encontre-se</h1>
     </div>
 
@@ -113,7 +116,6 @@
     </div>
 
     <footer>
-        <div class="footer-text">Desenvolvido por Pineapple Tech</div>
         <button id="infoButton">?</button>
     </footer>
 </body>
