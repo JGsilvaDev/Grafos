@@ -330,7 +330,7 @@
 
         andarDisplay.addEventListener('change', setAndar);
 
-        canvas.addEventListener('click', function (event) {
+        canvas.addEventListener('mousedown', function (event) {
             const rect = canvas.getBoundingClientRect();
             const x = (event.clientX - rect.left) / scale;
             const y = (event.clientY - rect.top) / scale;
@@ -353,7 +353,7 @@
             }
         });
 
-        canvas.addEventListener('mousemove', function (event) {
+        canvas.addEventListener('mouseup', function (event) {
             thumbnail.style.display = 'none'; // Esconde a miniatura ao mover o mouse
         });
 

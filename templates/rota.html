@@ -428,8 +428,6 @@
                 // Desenhar as arestas
                 ctx.strokeStyle = 'black';
                 ctx.lineWidth = 1;
-
-                console.log(currentFloor);
                 
                 arestas.forEach(([u, v, weight]) => {
                     if (positions[currentFloor][u] && positions[currentFloor][v]) {
