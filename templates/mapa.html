@@ -303,6 +303,8 @@
                 const centerX = x + width / 2;
                 const centerY = y + height / 2;
 
+                console.log(key);
+
                 const isNotCPlusNumber = !/^C\d/.test(key);
 
                 if (isNotCPlusNumber) {
@@ -317,8 +319,34 @@
                     ctx.fillStyle = 'black';
                     ctx.font = '12px Arial';
                     ctx.textAlign = 'center';
-                    ctx.textBaseline = 'bottom';
-                    ctx.fillText(key, centerX, y);
+
+                    const inferior = ['Portaria', 'Sala Estágio', 'Lab. Info. Geral', 'Xerox', 'TI', 'Lab.03', 'Lab.04', 'Lab.05', 'Lab.06', 'DD104', 'DD109', 'DD106', 'Entrada Prédio M.B.', 'Saida Prédio M.B.']
+                    const esquerda = ['Pastoral', 'Diretoria', 'Escada A', 'Lab. AutoCad', 'Corredor S.J.', 'Sala Prof. 1', 'Sala Prof. 2', 'WC/Vest. M', 'WC/Vest. F', 'Sala C3', 'Sala C4', 'DD102', 'Lab. Mecanica', 'Lab. Mecd./Projeto']
+                    const direita  = ['Social', 'Escada D', 'Secretaria', 'Coordenação', 'Escada C', 'Cant. Leitura', 'Obs. V.E.', 'Sala E2', 'Sala E3', 'Sala E4', 'Sala E5', 'DD107', 'Audio Visual', 'Estacionamento', 'Elevador M.B.', 'Escada M.B.']
+
+                    if (inferior.includes(key)) {
+                        // Alinha a baixo
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(key, centerX, y + 40);
+
+                    } else if (esquerda.includes(key)) {
+                        // Alinha a esquerda
+                        ctx.textBaseline = 'middle';
+                        ctx.textAlign = 'right'; // Texto à esquerda
+                        ctx.fillText(key, x - 10, centerY);
+
+                    } else if (direita.includes(key)) {
+                        // Alinha a direita
+                        ctx.textBaseline = 'middle';
+                        ctx.textAlign = 'left'; // Texto à direita
+                        ctx.fillText(key, x + width + 10, centerY);
+
+                    } else {
+                        // Alinha a cima
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(key, centerX, y - 5);
+                    }
+
                     ctx.fillStyle = 'lightgrey';
                 }
 
@@ -340,10 +368,10 @@
                 if (x >= pos[0] && x <= pos[0] + 20 && y >= pos[1] && y <= pos[1] + 20) {
                     // Exibe a miniatura
                     let left = `${event.clientX}` - 210
-                    let top  = `${event.clientY}` - 20
+                    let top = `${event.clientY}` - 20
 
                     const thumbnailImage = thumbnail.querySelector('img');
-                    thumbnailImage.src = `/static/img/${name}.jpeg`; 
+                    thumbnailImage.src = `/static/img/${name}.jpeg`;
                     thumbnail.style.left = left + 'px';
                     thumbnail.style.top = top + 'px';
                     thumbnail.style.transform = 'translate(-50%, -100%)';
