@@ -73,15 +73,7 @@ footer {
     font-size: 18px;
 }
 
-.title-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
 
-    color: #fff;
-    background-color: #4086F3;
-}
 
 #logo {
     position: absolute;

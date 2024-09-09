@@ -2,9 +2,15 @@ body {
     margin: 0;
 }
 
-h1 {
+.predio-title {
+    margin-top: 50px;
     font-size: 48px;
     color: #FF4444;
+}
+
+.andar-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .title {
@@ -13,6 +19,16 @@ h1 {
     align-items: center;
     flex-direction: column;
     color: #fff;
+}
+
+.pcd-option {
+    display: flex;
+    gap: 10px;
+    font-size: 18px
+}
+
+.pcd-check {
+    transform: scale(2);
 }
 
 .search-input {
@@ -30,7 +46,7 @@ h1 {
     width: 346px;
     height: 108px;
     border-radius: 15px;
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 600;
     padding: 0 20px;
     background-color: #4086F3;
@@ -56,10 +72,9 @@ h1 {
 }
 
 #botoesDestino {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 15px;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 #container_predios {
@@ -101,7 +116,7 @@ footer {
 }
 
 #btnVoltar {
-    position: absolute;
+    position: fixed;
     top: 20px;
     left: 10px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -109,16 +124,6 @@ footer {
     padding: 5px 10px;
     border-radius: 5px;
     z-index: 1000;
-}
-
-.title-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    color: #fff;
-    background-color: #4086F3;
 }
 
 #logo {
