@@ -5,17 +5,17 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-color: #FDFDFD;
 }
 
 #mapaContainer {
     position: relative;
 }
 
-canvas {
+/* canvas {
     border: 1px solid #000;
     background-color: #fff;
-}
+} */
 
 button {
     margin-top: 20px;
@@ -50,10 +50,11 @@ button {
     position: absolute;
     top: 10px;
     left: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
+    font-size: 20px;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 15px;
+    background-color: #184BC4;
     z-index: 1000;
 }
 
@@ -80,4 +81,53 @@ button {
 #thumbnail img {
     max-width: 100px;
     max-height: 100px;
+}
+
+#legendaContainer {
+    position: absolute;
+    bottom: 100px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.legendaItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+}
+
+.legendaCor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 2px;
+}
+
+.sala {
+    background-color: #184BC4;
+}
+
+.escada {
+    background-color: #F17C7E;
+}
+
+.centro{
+    background-color: #46C418;
+}
+
+.elevador{
+    background-color: purple;
+}
+
+#legendTitle{
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
