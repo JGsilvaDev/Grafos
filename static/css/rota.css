@@ -46,7 +46,7 @@ button {
     cursor: pointer;
 }
 
-#andarDisplay {
+/* #andarDisplay {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -55,9 +55,9 @@ button {
     padding: 5px 10px;
     border-radius: 5px;
     z-index: 1000;
-}
+} */
 
-#btnVoltar {
+/* #btnVoltar {
     position: absolute;
     top: 20px;
     left: 10px;
@@ -66,4 +66,4 @@ button {
     padding: 5px 10px;
     border-radius: 5px;
     z-index: 1000;
-}
+} */
