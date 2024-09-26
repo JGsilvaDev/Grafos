@@ -4,15 +4,15 @@ body {
 
 .container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 100%1;
 
     gap: 50px;
 }
 
 .title {
-    font-size: 48px;
+    font-size: 32px;
 }
 
 .icon {
@@ -30,11 +30,12 @@ body {
     flex-direction: column;
 
     background-color: #4086F3;
+    gap: 5px;
     color: #fff;
     border-radius: 10px;
     cursor: pointer;
-    width: 410px;
-    height: 410px;
+    width: 45vw;
+    height: 80vh;
 }
 
 .card:hover {
