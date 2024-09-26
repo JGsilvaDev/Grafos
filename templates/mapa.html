@@ -16,6 +16,7 @@
 </head>
 
 <body>
+    <button id="btnVoltar" onclick="window.location.href='/'"><span class="material-symbols-outlined">undo</span></button>
     <div id="mapaContainer">
         <select id="andarDisplay">
             <option value="Terreo" selected>Térreo</option>
@@ -54,8 +55,7 @@
         </div>        
         
     </div>
-    <button id="btnVoltar" onclick="window.location.href='/'"><span
-            class="material-symbols-outlined">undo</span></button>
+    
 </body>
 
 </html>
@@ -349,7 +349,7 @@
                     ctx.stroke();
 
                     ctx.fillStyle = 'black';
-                    ctx.font = '16px Arial';
+                    ctx.font = '12px Arial';
                     ctx.textAlign = 'center';
 
                     const inferior = ['Portaria', 'Sala Estágio', 'Lab. Info. Geral', 'Xerox', 'TI', 'Lab.03', 'Lab.04', 'Lab.05', 'Lab.06', 'DD104', 'DD109', 'DD106', 'Saida Prédio M.B.']
