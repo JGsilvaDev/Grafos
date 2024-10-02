@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/canvas.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mapa.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/canvas.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -408,7 +409,7 @@
             for (const [name, pos] of Object.entries(salas)) {
                 if (x >= pos[0] && x <= pos[0] + 20 && y >= pos[1] && y <= pos[1] + 20) {
                     // Exibe a miniatura
-                    let left = `${event.clientX}` - 210
+                    let left = `${event.clientX}` - 250
                     let top = `${event.clientY}` - 20
 
                     const thumbnailImage = thumbnail.querySelector('img');
