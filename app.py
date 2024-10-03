@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request, jsonify 
 import networkx as nx
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+
+load_dotenv()
 
 # Criação do grafo
 G = nx.Graph()
@@ -599,4 +603,5 @@ def rota_page():
     return render_template('rota.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run(host=os.getenv('HOST_ADDRESS'))

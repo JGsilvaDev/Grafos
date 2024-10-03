@@ -22,12 +22,14 @@ body {
 }
 
 .pcd-option {
+    margin-left: 10px;
     display: flex;
     gap: 10px;
     font-size: 18px
 }
 
 .pcd-check {
+    margin-left: 10px;
     transform: scale(2);
 }
 
@@ -43,16 +45,17 @@ body {
 }
 
 .botao {
-    width: 346px;
-    height: 108px;
+    width: 90%;
+    height: 70px;
     border-radius: 15px;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 600;
     padding: 0 20px;
     background-color: #4086F3;
     color: #fff;
     cursor: pointer;
     border: none;
+    margin-bottom: 10px;
 
     display: flex;
     justify-content: space-between;
@@ -73,7 +76,7 @@ body {
 
 #botoesDestino {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 15px;
 }
 
@@ -111,21 +114,6 @@ footer {
     font-size: 18px;
 }
 
-.container {
-    padding-bottom: 80px;
-}
-
-/* #btnVoltar {
-    position: fixed;
-    top: 20px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    z-index: 1000;
-} */
-
 #logo {
     position: absolute;
     left: 30px;
@@ -147,5 +135,4 @@ footer {
     align-items: center;
     width: 80%;
     margin: 0 auto;
-    /* Centraliza horizontalmente */
 }
