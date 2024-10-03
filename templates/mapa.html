@@ -16,45 +16,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="mapa-body">
     <button id="btnVoltar" onclick="window.location.href='/'"><span class="material-symbols-outlined">undo</span></button>
-    <div id="mapaContainer">
-        <select id="andarDisplay">
-            <option value="Terreo" selected>Térreo</option>
-            <option value="Primeiro">Primeiro Andar</option>
-            <option value="Segundo">Segundo Andar</option>
-            <option value="MB">MB</option>
-            <option value="MB1">MB1</option>
-            <option value="MB2">MB2</option>
-        </select>
-
-        <canvas id="mapaCanvas" width="1200" height="720"></canvas>
-
-        <div id="zoomButtons">
-            <button id="zoomInButton">+</button>
-            <button id="zoomOutButton">-</button>
+    <div class="responsive-container">
+        <div id="mapaContainer">
+            <select id="andarDisplay">
+                <option value="Terreo" selected>Térreo</option>
+                <option value="Primeiro">Primeiro Andar</option>
+                <option value="Segundo">Segundo Andar</option>
+                <option value="MB">MB</option>
+                <option value="MB1">MB1</option>
+                <option value="MB2">MB2</option>
+            </select>
+    
+            <canvas id="mapaCanvas" width="1200" height="720"></canvas>
+    
+            <div id="zoomButtons">
+                <button id="zoomInButton">+</button>
+                <button id="zoomOutButton">-</button>
+            </div>
+    
+            <div id="thumbnail">
+                <img src="" alt="Miniatura" />
+            </div>
+    
+            <div id="legendaContainer">
+                <label id="legendTitle">Legendas</label>
+                <div class="legendaItem">
+                    <div class="legendaCor sala"></div> Sala
+                </div>
+                <div class="legendaItem">
+                    <div class="legendaCor escada"></div> Escada
+                </div>
+                <div class="legendaItem">
+                    <div class="legendaCor centro"></div> Centro
+                </div>
+                <div class="legendaItem">
+                    <div class="legendaCor elevador"></div> Elevador
+                </div>
+            </div>        
+            
         </div>
-
-        <div id="thumbnail">
-            <img src="" alt="Miniatura" />
-        </div>
-
-        <div id="legendaContainer">
-            <label id="legendTitle">Legendas</label>
-            <div class="legendaItem">
-                <div class="legendaCor sala"></div> Sala
-            </div>
-            <div class="legendaItem">
-                <div class="legendaCor escada"></div> Escada
-            </div>
-            <div class="legendaItem">
-                <div class="legendaCor centro"></div> Centro
-            </div>
-            <div class="legendaItem">
-                <div class="legendaCor elevador"></div> Elevador
-            </div>
-        </div>        
-        
     </div>
     
 </body>

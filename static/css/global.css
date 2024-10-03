@@ -27,19 +27,42 @@
     border-radius: 5px;
     border: none;
     z-index: 1000;
+    height: 50px;
 }
 
 #andarDisplay {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #fff;
-    font-size: 20px;
-    padding: 5px 10px;
-    border-radius: 15px;
-    border: none;
+    position:fixed;
+    top: 40px;
+    left: 60px;
     background-color: #184BC4;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
     z-index: 1000;
+    height: 50px;
+}
+
+#legendaContainer {
+    position:fixed;
+    top: 90px;
+    left: 25px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.legendaItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Inter', sans-serif;
+    
+}
+.legendaItem * {
+    font-size: 14px;
 }
 
 #logo {

@@ -12,10 +12,7 @@ body {
     position: relative;
 }
 
-/* canvas {
-    border: 1px solid #000;
-    background-color: #fff;
-} */
+
 
 button {
     margin-top: 20px;
@@ -46,30 +43,6 @@ button {
     cursor: pointer;
 }
 
-/* #andarDisplay {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #fff;
-    font-size: 20px;
-    padding: 5px 10px;
-    border-radius: 15px;
-    border: none;
-    background-color: #184BC4;
-    z-index: 1000;
-} */
-
-/* #btnVoltar {
-    position: absolute;
-    top: 20px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    z-index: 1000;
-} */
-
 #thumbnail {
     position: absolute;
     display: none;
@@ -84,31 +57,27 @@ button {
     max-height: 200px;
 }
 
-#legendaContainer {
-    position: absolute;
-    bottom: 100px;
-    left: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
+
 
 .legendaItem {
     display: flex;
     align-items: center;
     gap: 10px;
     font-family: 'Inter', sans-serif;
-    font-size: 22px;
+    
 }
+.legendaItem * {
+    font-size: 14px;
+}
+
 
 .legendaCor {
     width: 20px;
     height: 20px;
     border: 2px solid black;
     border-radius: 2px;
+    margin-right: 5px;
+    margin-bottom: 3px;
 }
 
 .sala {
@@ -131,4 +100,14 @@ button {
     font-size: 26px;
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+@media(max-height: 500px) {
+    body {
+        padding: 180px 280px;
+    }
+
+    #mapaCanvas {
+        margin-left: 200px;
+    }
 }
