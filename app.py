@@ -603,5 +603,8 @@ def rota_page():
     return render_template('rota.html')
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    app.run(host=os.getenv('HOST_ADDRESS'))
+    try:
+        app.run(host=os.getenv('HOST_ADDRESS'))
+    except:
+        print(f"ERRO AO CARREGAR IP, INICIANDO LOCAL")
+        app.run(debug=True)
