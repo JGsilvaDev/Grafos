@@ -11,11 +11,13 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/salas.css') }}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+                rel="stylesheet">
 </head>
 
 <body>
-        <button id="btnVoltar" onclick="window.location.href='/'"><span class="material-symbols-outlined">undo</span></button>
+        <button id="btnVoltar" onclick="window.location.href='/'"><span
+                        class="material-symbols-outlined">undo</span></button>
         <div class="container">
                 <div class="title-container">
                         <img id="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo">
@@ -35,7 +37,7 @@
                 <div class="container-andar">
                         <h1 class="predio-title">Prédio Principal</h1>
                         <h2 class="andar-title">Terreo</h2>
-                        <div id="botoesDestino">
+                        <div class="botoesDestino">
                                 <button onclick="verRota('TI')" class="botao">TI<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('Xerox')" class="botao">Xerox<span
@@ -85,7 +87,7 @@
                         </div>
 
                         <h2 class="andar-title">Primeiro Andar</h2>
-                        <div id="botoesDestino">
+                        <div class="botoesDestino">
                                 <button onclick="verRota('Sala Infra')" class="botao">Sala Infra<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('Salão do Juri')" class="botao">Salão do Juri<span
@@ -137,27 +139,27 @@
                                 <button onclick="verRota('Auditoria')" class="botao">Auditoria<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                         </div>
-                </div>
+                        <!-- </div>
 
-                <div class="container-andar">
+                <div class="container-andar"> -->
                         <h1 class="predio-title">Prédio Mario Bonatti</h1>
-                        <h2 class="andar-title">Térreo</h2>
-                        <div id="botoesDestino">
-                                <button onclick="verRota('Oficina/Aero Unisal')" class="botao">Oficina/AeroUnisal
+                        <div class="botoesDestino">
+                                <h2 class="andar-title">Térreo</h2>
+                                <button onclick="verRota('Oficina/Aero Unisal')" class="botao">AeroUnisal
                                         <span class="material-symbols-outlined icon">pin_drop</span></button>
-                                <button onclick="verRota('Lab. Mec./Projeto')" class="botao">Lab. Mec./Projeto
+                                <button onclick="verRota('Lab. Mec./Projeto')" class="botao">Projeto
                                         <span class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('Lab. Mecanica')" class="botao">Lab. Mecanica
                                         <span class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('Lab. Civil')" class="botao">Lab. Civil
                                         <span class="material-symbols-outlined icon">pin_drop</span></button>
-                                <button onclick="verRota('Banheiros')" class="botao">Banheiros M.B.
+                                <button onclick="verRota('Banheiros')" class="botao">Banheiros
                                         <span class="material-symbols-outlined icon">pin_drop</span></button>
 
                         </div>
 
-                        <h2 class="andar-title">Primeiro Andar Mario Bonatti</h2>
-                        <div id="botoesDestino">
+                        <div class="botoesDestino">
+                                <h2 class="andar-title">Primeiro Andar Mario Bonatti</h2>
                                 <button onclick="verRota('LMI')" class="botao">LMI<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('MB07')" class="botao">MB07<span
@@ -170,8 +172,8 @@
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                         </div>
 
-                        <h2 class="andar-title">Segundo Andar Mario Bonatti</h2>
-                        <div id="botoesDestino">
+                        <div class="botoesDestino">
+                                <h2 class="andar-title">Segundo Andar Mario Bonatti</h2>
                                 <button onclick="verRota('MB01')" class="botao">MB01<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('MB02')" class="botao">MB02<span
@@ -221,6 +223,7 @@
                 document.getElementById('searchInput').addEventListener('input', function () {
                         const searchValue = this.value.toLowerCase();
                         const containers = document.querySelectorAll('.container-andar');
+                        const btnGroup = document.getElementsByClassName("botoesDestino");
 
                         containers.forEach(container => {
                                 const buttons = container.querySelectorAll('.botao');
@@ -229,6 +232,7 @@
                                 buttons.forEach(button => {
                                         const buttonText = button.textContent.toLowerCase();
                                         if (buttonText.includes(searchValue)) {
+                                                button.style.display = 'grid';
                                                 visibleButtons++;
                                         } else {
                                                 button.style.display = 'none';
@@ -243,7 +247,7 @@
                                 }
 
                                 // Manter o layout de botões mesmo com apenas um item visível
-                                const botoesDestino = container.querySelector('#botoesDestino');
+                                const botoesDestino = container.querySelector('.botoesDestino');
                                 if (visibleButtons === 1) {
                                         botoesDestino.style.justifyContent = 'flex-start';
                                 } else {

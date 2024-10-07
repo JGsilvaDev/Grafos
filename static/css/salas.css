@@ -57,7 +57,8 @@ body {
     border: none;
     margin-bottom: 10px;
 
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     justify-content: space-between;
     align-items: center;
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -74,7 +75,7 @@ body {
     font-size: 36px;
 }
 
-#botoesDestino {
+.botoesDestino {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 15px;
