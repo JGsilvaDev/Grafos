@@ -36,8 +36,8 @@
         <div id="container_predios">
                 <div class="container-andar">
                         <h1 class="predio-title">Prédio Principal</h1>
-                        <h2 class="andar-title">Terreo</h2>
-                        <div class="botoesDestino">
+                        <h2 class="andar-title" data-group="terreo">Terreo</h2>
+                        <div class="botoesDestino" data-group="terreo">
                                 <button onclick="verRota('TI')" class="botao">TI<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('Xerox')" class="botao">Xerox<span
@@ -86,8 +86,8 @@
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                         </div>
 
-                        <h2 class="andar-title">Primeiro Andar</h2>
-                        <div class="botoesDestino">
+                        <h2 class="andar-title" data-group="primeiro">Primeiro Andar</h2>
+                        <div class="botoesDestino" data-group="primeiro">
                                 <button onclick="verRota('Sala Infra')" class="botao">Sala Infra<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('Salão do Juri')" class="botao">Salão do Juri<span
@@ -143,8 +143,8 @@
 
                 <div class="container-andar"> -->
                         <h1 class="predio-title">Prédio Mario Bonatti</h1>
-                        <div class="botoesDestino">
-                                <h2 class="andar-title">Térreo</h2>
+                        <h2 class="andar-title" data-group="terreoBT">Térreo</h2>
+                        <div class="botoesDestino" data-group="terreoBT">
                                 <button onclick="verRota('Oficina/Aero Unisal')" class="botao">AeroUnisal
                                         <span class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('Lab. Mec./Projeto')" class="botao">Projeto
@@ -158,8 +158,8 @@
 
                         </div>
 
-                        <div class="botoesDestino">
-                                <h2 class="andar-title">Primeiro Andar Mario Bonatti</h2>
+                        <h2 class="andar-title" data-group="primeiroBT">Primeiro Andar Mario Bonatti</h2>
+                        <div class="botoesDestino" data-group="primeiroBT">
                                 <button onclick="verRota('LMI')" class="botao">LMI<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('MB07')" class="botao">MB07<span
@@ -172,8 +172,8 @@
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                         </div>
 
-                        <div class="botoesDestino">
-                                <h2 class="andar-title">Segundo Andar Mario Bonatti</h2>
+                        <h2 class="andar-title" data-group="segundoBT">Segundo Andar Mario Bonatti</h2>
+                        <div class="botoesDestino" data-group="segundoBT">
                                 <button onclick="verRota('MB01')" class="botao">MB01<span
                                                 class="material-symbols-outlined icon">pin_drop</span></button>
                                 <button onclick="verRota('MB02')" class="botao">MB02<span
@@ -222,15 +222,19 @@
 
                 document.getElementById('searchInput').addEventListener('input', function () {
                         const searchValue = this.value.toLowerCase();
-                        const containers = document.querySelectorAll('.container-andar');
-                        const btnGroup = document.getElementsByClassName("botoesDestino");
+                        const containers = document.querySelectorAll('.botoesDestino'); // Corrigido para a classe correta
+
+                        const groupVisibility = {};
 
                         containers.forEach(container => {
+                                const group = container.getAttribute('data-group');
+
                                 const buttons = container.querySelectorAll('.botao');
                                 let visibleButtons = 0;
 
                                 buttons.forEach(button => {
                                         const buttonText = button.textContent.toLowerCase();
+
                                         if (buttonText.includes(searchValue)) {
                                                 button.style.display = 'grid';
                                                 visibleButtons++;
@@ -239,22 +243,26 @@
                                         }
                                 });
 
-                                // Ocultar a div .container-andar se nenhum botão estiver visível
                                 if (visibleButtons === 0) {
-                                        container.style.display = 'none';
+                                        container.style.display = 'none'; // Oculta o container se não houver botões visíveis
+                                        groupVisibility[group] = false; // Registra que não há visibilidade para o grupo
                                 } else {
-                                        container.style.display = 'block';
+                                        container.style.display = 'grid'; // Mostra o container se houver botões visíveis
+                                        groupVisibility[group] = true; // Registra que há visibilidade para o grupo
                                 }
+                        });
 
-                                // Manter o layout de botões mesmo com apenas um item visível
-                                const botoesDestino = container.querySelector('.botoesDestino');
-                                if (visibleButtons === 1) {
-                                        botoesDestino.style.justifyContent = 'flex-start';
+                        const titles = document.querySelectorAll('.andar-title');
+                        titles.forEach(title => {
+                                const group = title.getAttribute('data-group');
+                                if (groupVisibility[group]) {
+                                        title.style.display = 'grid'; // Mostra o título se houver botões visíveis
                                 } else {
-                                        botoesDestino.style.justifyContent = 'space-between';
+                                        title.style.display = 'none'; // Oculta o título se não houver botões visíveis
                                 }
                         });
                 });
+
 
         </script>
 </body>
