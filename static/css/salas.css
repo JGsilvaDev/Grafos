@@ -84,10 +84,6 @@ body {
     gap: 15px;
 }
 
-#container_predios {
-    margin-bottom: 100px;
-}
-
 /* Rodapé */
 footer {
     width: 100%;
@@ -133,6 +129,7 @@ footer {
 }
 
 #container_predios {
+    margin-bottom: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;

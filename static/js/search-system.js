@@ -23,7 +23,6 @@ export function search(data, filter) {
 export function loadSearch(data) {
     container.innerHTML = ""
 
-
     for (let predio of data) {
         if (predio.andares.length == 0) {
             continue
