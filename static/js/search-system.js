@@ -3,7 +3,6 @@ import { DATA } from './search-data.js'
 const container = document.getElementById("container_predios")
 
 export function search(data, filter) {
-    console.log("Filtro:", filter);
 
     const salasFiltradas = data.map(predio => {
         return {
@@ -18,8 +17,6 @@ export function search(data, filter) {
             }).filter(andar => andar.salas.length > 0) // Remove andares sem salas filtradas
         };
     }).filter(predio => predio.andares.length > 0); // Remove prédios sem andares filtrados
-
-    console.log(salasFiltradas)
     return salasFiltradas;
 }
 
@@ -58,8 +55,6 @@ export function loadSearch(data) {
 }
 
 loadSearch(DATA)
-search(DATA, "xerox")
-search(DATA, "x")
 
 document.getElementById('searchInput').addEventListener('input', function () {
     const searchValue = this.value.toUpperCase();
