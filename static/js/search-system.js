@@ -10,7 +10,7 @@ export function search(data, filter) {
             name: predio.name,
             andares: predio.andares.map(andar => {
                 // Filtra as salas que têm o nome desejado
-                const salasFiltradas = andar.salas.filter(sala => sala.name.includes(filter));
+                const salasFiltradas = andar.salas.filter(sala => sala.label.includes(filter));
                 return {
                     name: andar.name,
                     salas: salasFiltradas // Mantém apenas as salas filtradas
@@ -19,6 +19,7 @@ export function search(data, filter) {
         };
     }).filter(predio => predio.andares.length > 0); // Remove prédios sem andares filtrados
 
+    console.log(salasFiltradas)
     return salasFiltradas;
 }
 
@@ -50,13 +51,15 @@ export function loadSearch(data) {
             container.appendChild(botoesDestino)
 
             for (let sala of andar.salas) {
-                botoesDestino.innerHTML += `<button onclick="verRota('${sala.label}')" class="botao">${sala.name}<span class="material-symbols-outlined icon">pin_drop</span></button>`
+                botoesDestino.innerHTML += `<button onclick="verRota('${sala.name}')" class="botao">${sala.label}<span class="material-symbols-outlined icon">pin_drop</span></button>`
             }
         }
     }
 }
 
 loadSearch(DATA)
+search(DATA, "xerox")
+search(DATA, "x")
 
 document.getElementById('searchInput').addEventListener('input', function () {
     const searchValue = this.value.toUpperCase();
