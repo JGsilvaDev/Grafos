@@ -80,6 +80,7 @@ body {
     flex-wrap: wrap;
     min-width: 50%;
     width: 50%;
+    margin: auto;
     /* grid-template-columns: 1fr 1fr 1fr; */
     gap: 15px;
 }
@@ -136,4 +137,19 @@ footer {
     align-items: center;
     width: 80%;
     margin: 0 auto;
+}
+
+@media (max-width: 800px) {
+    #container_predios {
+        width: 100%;
+    }
+
+    .botoesDestino {
+        width: 100%;
+        gap: 10px;
+    }
+
+    .botoesDestino * {
+        margin-left: 5px;
+    }
 }

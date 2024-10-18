@@ -40,10 +40,9 @@
                 <button id="infoButton">?</button>
         </footer>
 
-        <script type="module" src="{{ url_for('static', filename='js/search-system.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/search-system.js') }}"></script>
 
         <script>
-
                 function verRota(destino) {
                         const isPCD = document.getElementById('isPCD').checked;
                         const formData = new FormData();
