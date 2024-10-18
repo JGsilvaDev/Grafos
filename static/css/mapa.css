@@ -8,7 +8,7 @@ body {
     background-color: #FDFDFD;
 }
 
-#mapaContainer {
+#mapa-container {
     position: relative;
 }
 
@@ -25,14 +25,14 @@ button {
     cursor: pointer;
 }
 
-#zoomButtons {
+#zoom-buttons {
     position: absolute;
     top: 10px;
     right: 10px;
     z-index: 1000;
 }
 
-#zoomButtons button {
+#zoom-buttons button {
     margin: 5px;
     padding: 5px 10px;
     font-size: 16px;
@@ -59,19 +59,20 @@ button {
 
 
 
-.legendaItem {
+.legenda-item {
     display: flex;
     align-items: center;
     gap: 10px;
     font-family: 'Inter', sans-serif;
-    
+
 }
-.legendaItem * {
+
+.legenda-item * {
     font-size: 14px;
 }
 
 
-.legendaCor {
+.legenda-cor {
     width: 20px;
     height: 20px;
     border: 2px solid black;
@@ -88,15 +89,15 @@ button {
     background-color: #F17C7E;
 }
 
-.centro{
+.centro {
     background-color: #46C418;
 }
 
-.elevador{
+.elevador {
     background-color: purple;
 }
 
-#legendTitle{
+#legenda-title {
     font-size: 26px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -107,7 +108,7 @@ button {
         padding: 180px 280px;
     }
 
-    #mapaCanvas {
+    #mapa-canvas {
         margin-left: 200px;
     }
 }

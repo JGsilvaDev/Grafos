@@ -17,8 +17,8 @@
     margin-bottom: 10px;
 }
 
-#btnVoltar {
-    position:fixed;
+#btn-voltar {
+    position: fixed;
     top: 20px;
     left: 10px;
     background-color: #184BC4;
@@ -30,8 +30,8 @@
     height: 50px;
 }
 
-#andarDisplay {
-    position:fixed;
+#andar-display {
+    position: fixed;
     top: 40px;
     left: 60px;
     background-color: #184BC4;
@@ -43,8 +43,8 @@
     height: 50px;
 }
 
-#legendaContainer {
-    position:fixed;
+#legenda-container {
+    position: fixed;
     top: 90px;
     left: 25px;
     background-color: rgba(255, 255, 255, 0.2);
@@ -54,14 +54,16 @@
     flex-direction: column;
     gap: 5px;
 }
-.legendaItem {
+
+.legenda-item {
     display: flex;
     align-items: center;
     gap: 10px;
     font-family: 'Inter', sans-serif;
-    
+
 }
-.legendaItem * {
+
+.legenda-item * {
     font-size: 14px;
 }
 

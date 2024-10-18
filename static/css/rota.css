@@ -8,7 +8,7 @@ body {
     background-color: #f0f0f0;
 }
 
-#mapaContainer {
+#mapa-container {
     position: relative;
 }
 
@@ -28,14 +28,14 @@ button {
     cursor: pointer;
 }
 
-#zoomButtons {
+#zoom-buttons {
     position: absolute;
     top: 10px;
     right: 10px;
     z-index: 1000;
 }
 
-#zoomButtons button {
+#zoom-buttons button {
     margin: 5px;
     padding: 5px 10px;
     font-size: 16px;
@@ -46,7 +46,7 @@ button {
     cursor: pointer;
 }
 
-/* #andarDisplay {
+/* #andar-display {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -57,7 +57,7 @@ button {
     z-index: 1000;
 } */
 
-/* #btnVoltar {
+/* #btn-voltar {
     position: absolute;
     top: 20px;
     left: 10px;
