@@ -17,6 +17,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/modal.js') }}"></script>
 </head>
 
 <body>
@@ -27,7 +28,7 @@
 
     <div class="container">
         <div class="card" onclick="mapa();">
-            <p class="text-card">Visualizar a UNISAL</p>
+            <p class="text-card">Visualizar UNISAL</p>
             <span class="material-symbols-outlined icon">map</span>
         </div>
 
@@ -37,7 +38,8 @@
         </div>
     </div>
 
-    <button id="info-button" onclick="abrirModal();">?</button>
+    <button id="info-button"
+        onclick="abrirModal('VIZUALIZAR UNISAL: te permite ver o mapa do ambiente\n\nBUSCAR POR SALA: te permite procurar por uma sala específica');">?</button>
     <!-- <footer>
     </footer> -->
 </body>
@@ -59,28 +61,28 @@
             });
     }
 
-    function abrirModal() {
-        Swal.fire({
-            title: "This is the random text",
-            showClass: {
-                popup: `
-                    animate__animated
-                    animate__fadeInUp
-                    animate__faster
-                `
-            },
-            hideClass: {
-                popup: `
-                    animate__animated
-                    animate__fadeOutDown
-                    animate__faster
-                `
-            },
-            showCloseButton: true,
-            allowOutsideClick: false,
-            showConfirmButton: false,
-        });
-    }
+    // function abrirModal() {
+    //     Swal.fire({
+    //         title: "This is the random text",
+    //         showClass: {
+    //             popup: `
+    //                 animate__animated
+    //                 animate__fadeInUp
+    //                 animate__faster
+    //             `
+    //         },
+    //         hideClass: {
+    //             popup: `
+    //                 animate__animated
+    //                 animate__fadeOutDown
+    //                 animate__faster
+    //             `
+    //         },
+    //         showCloseButton: true,
+    //         allowOutsideClick: false,
+    //         showConfirmButton: false,
+    //     });
+    // }
 
 </script>
 

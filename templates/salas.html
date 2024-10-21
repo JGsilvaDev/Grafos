@@ -13,6 +13,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
                 rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{{ url_for('static', filename='js/modal.js') }}"></script>
 </head>
 
 <body>
@@ -37,7 +39,8 @@
         </div>
 
         <footer>
-                <button id="info-button">?</button>
+                <button id="info-button"
+                        onclick="abrirModal('Essa tela exibe todas as salas mapeadas, você pode buscar a sala desejada caso não consiga encontrá-la');">?</button>
         </footer>
 
         <script src="{{ url_for('static', filename='js/search-system.js') }}"></script>
