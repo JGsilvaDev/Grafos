@@ -604,7 +604,7 @@ def rota_page():
 
 if __name__ == '__main__':
     try:
-        app.run(host=os.getenv('HOST_ADDRESS'))
+        app.run(host=os.getenv('HOST_ADDRESS'), debug=True)
     except:
         print(f"ERRO AO CARREGAR IP, INICIANDO LOCAL")
         app.run(debug=True)
