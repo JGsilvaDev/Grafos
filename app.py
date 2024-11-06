@@ -292,7 +292,50 @@ G.add_edge("C57", "C54",  weight=2)
 G.add_edge("C57", "C58",  weight=17)
 
 # Segundo Andar
-G.add_edge("C28", "Sala 301", weight=1)
+G.add_edge("C60", "Escada F", weight=1)
+G.add_edge("C60", "C61", weight=6)
+G.add_edge("C60", "C62", weight=7)
+
+G.add_edge("C61", "C60", weight=6)
+G.add_edge("C61", "DD203", weight=1)
+G.add_edge("C61", "DD201", weight=1)
+G.add_edge("C61", "C63", weight=12)
+
+G.add_edge("C62", "C60", weight=7)
+G.add_edge("C62", "DD204", weight=1)
+G.add_edge("C62", "DD210", weight=1)
+G.add_edge("C62", "C64", weight=9)
+
+G.add_edge("C63", "C61", weight=12)
+G.add_edge("C63", "DD202", weight=1)
+G.add_edge("C63", "DD200", weight=1)
+G.add_edge("C63", "Mestrado", weight=1)
+
+G.add_edge("C64", "C62", weight=9)
+G.add_edge("C64", "DD205", weight=1)
+G.add_edge("C64", "C65", weight=6)
+
+G.add_edge("C66", "C65", weight=6)
+
+G.add_edge("C65", "Banheiros 3", weight=1)
+G.add_edge("C65", "C66", weight=5)
+G.add_edge("C65", "C64", weight=6)
+
+G.add_edge("C66", "C65", weight=5)
+G.add_edge("C66", "DD206", weight=1)
+G.add_edge("C66", "C67", weight=3)
+
+G.add_edge("C67", "C66", weight=3)
+G.add_edge("C67", "Escada B", weight=1)
+G.add_edge("C67", "DD209", weight=1)
+
+G.add_edge("C68", "C67", weight=9)
+G.add_edge("C68", "Coordenação 2", weight=1)
+G.add_edge("C68", "C69", weight=8)
+
+G.add_edge("C69", "C68", weight=8)
+G.add_edge("C69", "DD208", weight=1)
+G.add_edge("C69", "DD207", weight=9)
 
 # Predio M.B.
 G.add_edge("Entrada Prédio M.B.", "C101", weight=13)
@@ -502,8 +545,32 @@ andar_info = {
     "Bloco F": "1",
     
     # Segundo andar 
-    "Sala 301": "2",
-    "C28": "2",
+    "C60":"2",
+    "C61":"2",
+    "C62":"2",
+    "C63":"2",
+    "C64":"2",
+    "C6":"2",
+    "C65":"2",
+    "C66":"2",
+    "C67":"2",
+    "C68":"2",
+    "C69":"2",
+    "Mestrado":"2",
+    "DD200":"2",
+    "DD201":"2",
+    "DD202":"2",
+    "DD203":"2",
+    "DD204":"2",
+    "DD205":"2",
+    "DD206":"2",
+    "DD207":"2",
+    "DD208":"2",
+    "DD209":"2",
+    "DD210":"2",
+    "Banheiros 3":"2",
+    "Coordenação 2":"2",
+
     
     # Prédio M.B.
     "Entrada Prédio M.B.": "0",
