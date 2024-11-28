@@ -64,6 +64,26 @@ const DATA =
                                 { name: "Auditoria", label: "AUDITORIA" },
                             ]
                     },
+                    {
+                        name: "Segundo andar",
+                        salas:
+                        [
+                            { name: "Mestrado", label: "Mestrado" },
+                            { name: "DD200", label: "sala DD200" },
+                            { name: "DD201", label: "sala DD201" },
+                            { name: "DD202", label: "sala DD202" },
+                            { name: "DD203", label: "sala DD203" },
+                            { name: "DD204", label: "sala DD204" },
+                            { name: "DD205", label: "sala DD205" },
+                            { name: "DD206", label: "sala DD206" },
+                            { name: "DD207", label: "sala DD207" },
+                            { name: "DD208", label: "sala DD208" },
+                            { name: "DD209", label: "sala DD209" },
+                            { name: "DD210", label: "sala DD210" },
+                            { name: "Banheiros 3", label: "Banheiros 3" },
+                            { name: "Coordenação 2", label: "Coordenação 2" }
+                        ]
+                    }
                 ]
         },
         {
